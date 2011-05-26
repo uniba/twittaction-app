@@ -10,11 +10,13 @@ var webview1= Titanium.UI.createWebView({
 
 //create tweet button for actionWin(A1 image)
 var tweetbutton = Titanium.UI.createButton({
-	title: "Tweet",
+	backgroundImage:'rec01.png',
+    backgroundSelectedImage:'rec01.png',
+    title:'Tweet',
 	top:325,
 	left: 50,
-	width: 67,
-	height: 32
+	width: 105,
+	height: 34
 });
 
 
@@ -28,11 +30,13 @@ tweetbutton.addEventListener('click', function(e){
 
 //create tweet button for actionWin(A1 image)
 var recbutton = Titanium.UI.createButton({
-	title: "Rec",
+    backgroundImage:'rec01.png',
+    backgroundSelectedImage:'rec01.png',
+    title:'Rec',
 	top:325,
 	left: 200,
-	width: 67,
-	height: 32
+	width: 105,
+	height: 34
 });
 
 //add eventlistener for recbutton

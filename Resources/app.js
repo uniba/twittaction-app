@@ -37,13 +37,13 @@ var win5=Titanium.UI.createWindow({
 var tab1 = Titanium.UI.createTab({
     window:win1,
     title:'action',
-    icon:'picture/KS_nav_views.png',
+    icon:'picture/action.png',
 }); 
 
 var tab2 = Titanium.UI.createTab({
     window:win2,
     title:'feed',
-    icon:'picture/KS_nav_ui.png',
+    icon:'picture/feed.png',
 }); 
 var tab3 = Titanium.UI.createTab({
     window:win3,
@@ -54,13 +54,13 @@ var tab3 = Titanium.UI.createTab({
 var tab4 = Titanium.UI.createTab({
     window:win4,
     title:'search',
-    icon:'picture/KS_nav_ui.png',
+    icon:'picture/search.png',
 }); 
 
 var tab5 = Titanium.UI.createTab({
     window:win5,
     title:'setting',
-    icon:'picture/KS_nav_ui.png',
+    icon:'picture/setting.png',
 }); 
 
 
