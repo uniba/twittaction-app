@@ -1,3 +1,4 @@
+
 Titanium.UI.setBackgroundColor('#000');
 
 var tabGroup = Titanium.UI.createTabGroup();
