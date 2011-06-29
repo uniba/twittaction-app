@@ -11,7 +11,7 @@ Import project using Titanium Developer.
 
 When you finished your work, input commands as follows:
     
-        $ cd twittaction-app
-        $ git add .
-        $ git commit -a -m "...."
-        $ git push origin master
+$ cd twittaction-app
+$ git add .
+$ git commit -a -m "...."
+$ git push origin master
