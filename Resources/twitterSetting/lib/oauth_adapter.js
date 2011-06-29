@@ -371,7 +371,12 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
             Ti.API.debug('*** getAccessToken, Response: [' + client.status + '] ' + client.responseText);
             
             if ((""+client.status).match(/^20[0-9]/)) {
-                alert('loginに成功しました。');//追加
+                //alert('loginに成功しました。');//追加
+                //hebinbin 追加
+                //成功したら、action Tabに遷移
+                var tabGroup = Titanium.UI.currentWindow.tabGroup;
+                tabGroup.activeTab = tabGroup.tabs[0];
+                
               if(params.onSuccess){
                 params.onSuccess(client.responseText);
               }
@@ -558,10 +563,20 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
         client.send(parameterMap);
 
         if (client.status == 200) {
-            Ti.UI.createAlertDialog({
-                title: pTitle,
-                message: pSuccessMessage
-            }).show();
+
+        //    Ti.UI.createAlertDialog({
+        //        title: pTitle,
+        //        message: pSuccessMessage
+        //    }).show();
+        
+       //hebinbin added
+       var returnData = new Array(2);
+       returnData[0] = "successed";
+       returnData[1] = eval("("+client.responseText+")").user.screen_name;  
+       
+       return returnData;
+        
+        
         } else {
             Ti.UI.createAlertDialog({
                 title: pTitle,
