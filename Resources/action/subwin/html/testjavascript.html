@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>
+test for javasript
+</title>
+<script type="text/JavaScript" src="drawlib/jsDraw2D.js.uniba"></script>
+</head>
+<body>
+<script type="text/JavaScript">
+
+
+    //Create jsGraphics object
+    var gr = new jsGraphics(document.getElementById("canvas"));
+
+    //Create jsColor object
+    var col = new jsColor("green");
+
+    //Create jsPen object
+    var pen = new jsPen(col,1);
+
+    //Draw a Line between 2 points
+    //first we need write three line to display as time
+    var pt1 = new jsPoint(100,100);
+    var pt2 = new jsPoint(900,100);
+    var pt3 = new jsPoint(100,300);
+    var pt4 = new jsPoint(900,300);
+    var pt5 = new jsPoint(100,500);
+    var pt6 = new jsPoint(900,500);
+    gr.drawLine(pen,pt1,pt2);
+    gr.drawLine(pen,pt3,pt4);
+    gr.drawLine(pen,pt5,pt6);
+    
+    //start to draw line
+    var startPoint= 100;
+    var intervalPoint =1;
+    var count;
+    var initPoint1 = new jsPoint(100,100);
+    var initPoint2 = new jsPoint(100,300);
+    var initPoint3 = new jsPoint(100,500);
+    var count = 0;
+    var iID = setInterval(lineDraw, 50);
+
+    function lineDraw(){
+        point1 = startPoint+count*intervalPoint;
+        point2 = 100-Math.floor(Math.random()*100);
+        var line1 = new jsPoint(point1, point2);
+        point3 = 300-Math.floor(Math.random()*100);
+        var line2 = new jsPoint(point1,point3);
+        point4 = 500-Math.floor(Math.random()*100);
+        var line3 = new jsPoint(point1,point4);
+    	gr.drawLine(pen, initPoint1, line1);
+    	gr.drawLine(pen, initPoint2, line2);
+    	gr.drawLine(pen, initPoint3, line3);
+    	initPoint1 = line1;
+    	initPoint2 = line2;
+    	initPoint3 = line3;
+    	count++;
+    	if(count==800)
+    	{
+    	 clearInterval(iID);
+    	}
+    }
+   
+    
+   
+    //Draw filled circle with pt1 as center point and radius 30. 
+    //gr.fillCircle(col,pt1,30);
+
+    //You can also code with inline object instantiation like below
+    //gr.drawLine(pen,new jsPoint(40,10),new jsPoint(70,150)); 
+
+</script>
+</body>
+</html>
