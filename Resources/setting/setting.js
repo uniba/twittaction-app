@@ -1,3 +1,7 @@
+/*----------------------Table and Win Information----------------*/
+//Author: uniba.jp
+/*---------------------------------------------------------------*/
+
 //create settingTable and add settingWin
 var settingWin = Ti.UI.currentWindow;
 
