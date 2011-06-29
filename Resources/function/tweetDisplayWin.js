@@ -8,6 +8,9 @@ var displayIndex = win.displayIndex;
 var displayTitle = win.displayTitle;
 var displayText = win.displayText;
 var UA_tableViewData = win.UA_tableViewData;
+var displayTweet = win.displayTweet;
+
+
 
 
 var windowTitle = Ti.UI.createLabel({
@@ -66,23 +69,51 @@ var windowTitle = Ti.UI.createLabel({
                     
         if(displayIndex - 1 >= 0)
         {
-                            
-            displayLabel.text = UA_tableViewData[displayIndex - 1].getChildren()[2].text;
+            if(displayTweet == true)
+            {
+                  displayLabel.text = UA_tableViewData[displayIndex - 1].text;
+            windowTitle.text = UA_tableViewData[displayIndex - 1].user.screen_name;
+            win.setTitleControl(windowTitle);
+            displayIndex = displayIndex - 1;
+
+            }
+            else
+            {
+                displayLabel.text = UA_tableViewData[displayIndex - 1].getChildren()[2].text;
             windowTitle.text = UA_tableViewData[displayIndex - 1].getChildren()[1].text;
             win.setTitleControl(windowTitle);
             displayIndex = displayIndex - 1;
+            }                
+            
+            
+            
                             
         }
                     
     });
                 
     UA_old.addEventListener('click', function(e){
-                    
+    
+    
+    if(displayTweet == true)
+    {
+       displayLabel.text = UA_tableViewData[displayIndex + 1].text;
+       windowTitle.text = UA_tableViewData[displayIndex + 1].user.screen_name;
+        win.setTitleControl(windowTitle);
+        displayIndex = displayIndex + 1;
 
-        displayLabel.text = UA_tableViewData[displayIndex + 1].getChildren()[2].text;
+    }
+    else
+    {
+                displayLabel.text = UA_tableViewData[displayIndex + 1].getChildren()[2].text;
         windowTitle.text = UA_tableViewData[displayIndex + 1].getChildren()[1].text;
             win.setTitleControl(windowTitle);
         displayIndex = displayIndex + 1;
+    }
+
+                    
+
+
     });
             
     win.add(UA_TL);

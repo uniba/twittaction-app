@@ -22,7 +22,8 @@ Ti.include('../../twitterSetting/xauth.js');
 Ti.include('../../twitterSetting/lib/oauth_adapter.js');
 
 
-function tweet(message) {
+function tweet(message) 
+{
 
     var oAuthAdapter = new OAuthAdapter(
     TwitterSettings.consumerSecret, //Consumer secret
@@ -32,17 +33,62 @@ function tweet(message) {
 
     oAuthAdapter.loadAccessToken('twitter');
 
-    oAuthAdapter.sendTweet(
+    var isTweetSended = oAuthAdapter.sendTweet(
         'https://api.twitter.com/1/statuses/update.json',
         [['status', message]],
         'Twitter', //アラートのタイトル
         '投稿しました.', //成功したときのアラートメッセージ
         '投稿できませんでした' //失敗したときのアラートメッセージ
     );
+    
+    
+    //add by hebinbin 
+    if(isTweetSended[0] == "successed")
+    {  
+        
+        twitterApi.statuses_home_timeline(
+        {
+            onSuccess: function(response){
+                   var UA_tweetDisplayWin = Ti.UI.createWindow({
+                    
+                    url: '../../function/tweetDisplayWin.js',
+                    backButtonTitle: 'back',
+                    backgroundColor: '#fff',
+                    tabBarHidden: true
+                    
+                    
+            });
+        
+ 
+            
+        UA_tweetDisplayWin.displayIndex = 0;    
+        UA_tweetDisplayWin.displayText = message;
+        UA_tweetDisplayWin.displayTitle = isTweetSended[1];
+        UA_tweetDisplayWin.displayTweet = true;      
+        UA_tweetDisplayWin.UA_tableViewData = response;
+
+        
+        Ti.UI.currentTab.open(UA_tweetDisplayWin);
+        
+        
+            },
+            onError: function(error){
+                Ti.API.error(error);
+            }
+        }
+        );
+        
+        
+            }
 
     if (oAuthAdapter.isAuthorized() == false) {
                 alert('settingでログインしてください');
     };
 }
+
+
+
+
+
 
 /*------twitter投稿部分 終わり   --------------------------*/
