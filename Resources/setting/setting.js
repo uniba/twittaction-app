@@ -1,5 +1,3 @@
-//author : uniba.jp
-
 var settingsXauth = {
     username:'',
     password:''
@@ -67,13 +65,19 @@ rightbutton.addEventListener('click',function()
 {
   settingsXauth.username = textusername.value;
   settingsXauth.password = textpassword.value;
+  //Ti.API.info(twitteraccount);
+  //Ti.API.info(twitterpassword);
+  //at here we need to insert auenthecation program
  
+
 /*------xauth login部分   --------------------------*/
     twitterApi.init({
         username: settingsXauth.username,
         password: settingsXauth.password
     });
-      
+    
+    //alert("クリック");
+    //ここを変えるとuserが変わる    
 /*------xauth login部分終わり   --------------------------*/
 
 });

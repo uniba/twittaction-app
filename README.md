@@ -5,5 +5,3 @@
 	$ git clone git@github.com:uniba/twittaction-app.git
 	$ cd twittaction-app
 	$ sh ./clean.sh
-
-Import project using Titanium Developer.

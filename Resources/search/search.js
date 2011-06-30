@@ -16,8 +16,6 @@ UA_searchBar.addEventListener('return', function(e){
 
     var url = 'http://search.twitter.com/search.json?q=';
     var query = encodeURI(e.value);
-    var fromuser = encodeURI('&from=');
-    
     /*
     //we need to get fromuser 
     var fromuser = 'hebinbin';
