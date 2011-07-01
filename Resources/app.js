@@ -1,3 +1,7 @@
+/*----------------------Table and Win Information----------------*/
+//Author: uniba.jp
+/*---------------------------------------------------------------*/
+
 Titanium.UI.setBackgroundColor('#000');
 
 var tabGroup = Titanium.UI.createTabGroup();
@@ -14,20 +18,15 @@ var win2=Titanium.UI.createWindow({
     backgroundColor:'#fff'
 });
 
-var win3 = Ti.UI.createWindow({
-     url: 'hashTag/hashTag.js',
-     title:'#tag' ,
-     backgroundColor:'#fff'
-});
 
-var win4=Titanium.UI.createWindow({
+var win3=Titanium.UI.createWindow({
     url: 'search/search.js',
     title:'search',
     backgroundColor:'#fff'
 
 });
 
-var win5=Titanium.UI.createWindow({
+var win4=Titanium.UI.createWindow({
     url: 'setting/setting.js',
     title:'設定',
     backgroundColor:'#fff'
@@ -44,20 +43,25 @@ var tab2 = Titanium.UI.createTab({
     title:'feed',
     icon:'picture/feed_over.png',
 }); 
+
+
 var tab3 = Titanium.UI.createTab({
     window:win3,
+<<<<<<< HEAD
     title:'#tag',
     icon:'picture/tag.png',
 }); 
 
 var tab4 = Titanium.UI.createTab({
     window:win4,
+=======
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
     title:'search',
     icon:'picture/search.png',
 }); 
 
-var tab5 = Titanium.UI.createTab({
-    window:win5,
+var tab4 = Titanium.UI.createTab({
+    window:win4,
     title:'setting',
     icon:'picture/setting.png',
 }); 
@@ -67,5 +71,8 @@ tabGroup.addTab(tab1);
 tabGroup.addTab(tab2);
 tabGroup.addTab(tab3);
 tabGroup.addTab(tab4); 
+<<<<<<< HEAD
 tabGroup.addTab(tab5);
+=======
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 tabGroup.open();

@@ -6,10 +6,14 @@ Ti.include('twitterAct.js');
 
 
 var win = Ti.UI.currentWindow;
+<<<<<<< HEAD
 var sendTwittaction = [];
 sendTwittaction[0] = win.twittaction;
 sendTwittaction[1] = win.twittactionUrl;
 var nav = win.nav;
+=======
+
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 //define send button for navibar of tweetwin(A6 image)
 var UA_sendButton = Titanium.UI.createButton({
 	title: "送信",
@@ -23,7 +27,11 @@ var UA_sendButton = Titanium.UI.createButton({
 //add send button as rightNavButton for tweetwin(A6 image)
 win.rightNavButton = UA_sendButton;
 
+<<<<<<< HEAD
 if(sendTwittaction[0]!=true){
+=======
+
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 //create a hintTextLabel for textarea
 var UA_hintTextLabel = Titanium.UI.createLabel({
     text:"コメントを入力",
@@ -47,6 +55,7 @@ var UA_tweetComment = Titanium.UI.createTextArea({
     borderRadius:5
 
 });
+<<<<<<< HEAD
 }else{
 var UA_hintTextLabel = Titanium.UI.createLabel({
     //text:"コメントを入力",
@@ -72,6 +81,8 @@ var UA_tweetComment = Titanium.UI.createTextArea({
 
 });
 }
+=======
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 
 var UA_countNumberLabel = Titanium.UI.createLabel({
     text: 140,
@@ -127,10 +138,14 @@ UA_tweetComment.addEventListener('focus', function(e){
 UA_sendButton.addEventListener(
     'click',
     function () {
+<<<<<<< HEAD
     
         if(sendTwittaction[0]==true){
             tweetTwittaction( UA_tweetComment.value );
         }else{
+=======
+        if ( UA_tweetComment.value ) {
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
             tweet( UA_tweetComment.value );
         }
     }

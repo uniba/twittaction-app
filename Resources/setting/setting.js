@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+//author : uniba.jp
+
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 var settingsXauth = {
     username:'',
     password:''
@@ -65,19 +70,27 @@ rightbutton.addEventListener('click',function()
 {
   settingsXauth.username = textusername.value;
   settingsXauth.password = textpassword.value;
+<<<<<<< HEAD
   //Ti.API.info(twitteraccount);
   //Ti.API.info(twitterpassword);
   //at here we need to insert auenthecation program
  
 
+=======
+ 
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 /*------xauth login部分   --------------------------*/
     twitterApi.init({
         username: settingsXauth.username,
         password: settingsXauth.password
     });
+<<<<<<< HEAD
     
     //alert("クリック");
     //ここを変えるとuserが変わる    
+=======
+      
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 /*------xauth login部分終わり   --------------------------*/
 
 });

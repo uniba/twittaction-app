@@ -36,6 +36,7 @@ function tweet(message)
     var isTweetSended = oAuthAdapter.sendTweet(
         'https://api.twitter.com/1/statuses/update.json',
         [['status', message]],
+<<<<<<< HEAD
         'Twitter', //アラートのタイトル 
         '投稿しました.', //成功したときのアラートメッセージ
         '投稿できませんでした' //失敗したときのアラートメッセージ
@@ -44,6 +45,18 @@ function tweet(message)
     
     //add by hebinbin 
 
+=======
+        'Twitter', //アラートのタイトル
+        '投稿しました.', //成功したときのアラートメッセージ
+        '投稿できませんでした' //失敗したときのアラートメッセージ
+    );
+    
+    
+    //add by hebinbin 
+    if(isTweetSended[0] == "successed")
+    {  
+        
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
         twitterApi.statuses_home_timeline(
         {
             onSuccess: function(response){
@@ -77,6 +90,7 @@ function tweet(message)
         );
         
         
+<<<<<<< HEAD
             
 
     if (oAuthAdapter.isAuthorized() == false) {
@@ -142,6 +156,9 @@ function tweetTwittaction(message)
         
         
             
+=======
+            }
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 
     if (oAuthAdapter.isAuthorized() == false) {
                 alert('settingでログインしてください');
@@ -153,6 +170,9 @@ function tweetTwittaction(message)
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 /*------twitter投稿部分 終わり   --------------------------*/
