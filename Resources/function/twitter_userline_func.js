@@ -32,27 +32,18 @@ function UA_display_twitter_homeline(queryUrl, params)
                 {
                     var user = tweets[c].from_user;
                     var avatar = tweets[c].profile_image_url;
-<<<<<<< HEAD
                     var created_at=tweets[c].created_at;
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 				}
                 else if(params == 'feed')
                 {
                     var user = tweets[c].user.screen_name;
                     var avatar = tweets[c].user.profile_image_url;
-<<<<<<< HEAD
                     var created_at = tweets[c].user.created_at;
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                 }
                 else if(params == 'hashtag'){
                     var user = tweets[c].from_user;
                     var avatar = tweets[c].profile_image_url;
-<<<<<<< HEAD
                     var created_at=tweets[c].created_at;
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                 }
             
                 //var created_at = prettyDate(strtotime(tweets[c].created_at));
@@ -78,51 +69,25 @@ function UA_display_twitter_homeline(queryUrl, params)
 					width:200,
 					top:2,
 					height:30,
-<<<<<<< HEAD
 					textAlign:'left',
-=======
-				//	textAlign:'left',
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 					color:'#444444',
 					font:{fontFamily:'Trebuchet MS',fontSize:14,fontWeight:'bold'}
 				});
 				// Add the username to the row
                 row.add(user_label);
-<<<<<<< HEAD
                 
-=======
-
-				//var date_label = Ti.UI.createLabel({
-				//	text:created_at,
-                //  right:0,
-                //  top:-18,
-				//	bottom:2,
-				//	height:14,
-				//	textAlign:'right',
-				//	width:110,
-				//	color:'#444444',
-				//	font:{fontFamily:'Trebuchet MS',fontSize:12}
-			//	});
-				// Add the date to the row
-			//	row.add(date_label);
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 
 				var tweet_text = Ti.UI.createLabel({
 					text:tweet,
 					left:70,
 					top:31,
-<<<<<<< HEAD
 					height:'auto',
-=======
-					height:50,
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 					width:200,
 					//textAlign:'left',
 					font:{fontSize:14}
 				});
 				// Add the tweet to the row
                 row.add(tweet_text);
-<<<<<<< HEAD
                 
                 var time = new Date(created_at);
                     yy = time.getYear(); //日本時間に変換
@@ -154,8 +119,6 @@ function UA_display_twitter_homeline(queryUrl, params)
 				// Add the date to the row
                 row.add(date_label);
                 
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 				// Add the vertical layout view to the row
 				row.className = 'UA_item'+c;
 				UA_tableViewData[c] = row;
@@ -166,35 +129,21 @@ function UA_display_twitter_homeline(queryUrl, params)
                 var UA_tableView = Titanium.UI.createTableView({
                 data:UA_tableViewData,
                 top:43,
-<<<<<<< HEAD
                 //minRowHeight:60
-=======
-                minRowHeight:60
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                 });
             }
             else if(params == 'feed')
             {
                 var UA_tableView = Titanium.UI.createTableView({
                 data:UA_tableViewData,
-<<<<<<< HEAD
                 //top:0,
                 //minRowHeight:60
-=======
-                top:0,
-                minRowHeight:60
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                 });
             }else if(params == 'hashtag'){
                 var UA_tableView = Titanium.UI.createTableView({
                 data:UA_tableViewData,
-<<<<<<< HEAD
                 //top:0,
                 //minRowHeight:60
-=======
-                top:0,
-                minRowHeight:60
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                 });
             }
             
@@ -220,7 +169,6 @@ function UA_display_twitter_homeline(queryUrl, params)
             
                 Ti.UI.currentTab.open(UA_tweetDisplayWin);
             });
-<<<<<<< HEAD
 
 
 
@@ -373,8 +321,6 @@ var endReloading=function()
 
 
 
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
             
             win.add(UA_tableView);
 			
@@ -388,7 +334,6 @@ var endReloading=function()
 	xhr.send(); 
   
 
-<<<<<<< HEAD
 }
 
 
@@ -413,6 +358,3 @@ function formatDate()
 
 
 /*---- pull to refresh の関数部分　終 ------------------------------*/
-=======
-}
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743

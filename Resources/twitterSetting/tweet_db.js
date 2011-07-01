@@ -70,19 +70,11 @@ var TweetDB = function() {
             
             
         /* tweetの保存する件数を制限する。
-<<<<<<< HEAD
         * var over=rowsNum-100 をいじる
         *
         */
             var rowsNum = rows.getRowCount();
             var over=rowsNum-25;
-=======
-        * var over=rowsNum-10 をいじる
-        *
-        */
-            var rowsNum = rows.getRowCount();
-            var over=rowsNum-10;
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                 Titanium.API.info('ROW COUNT = ' + rowsNum);
                 if(over >= 0){
                 for(i=1;i<=over;i++){
@@ -93,14 +85,10 @@ var TweetDB = function() {
                         'DELETE FROM tweets WHERE tweet_text = ?',
                         deleteWords
                     );
-<<<<<<< HEAD
                     Titanium.API.info('DELETE  screen_name :' + rows.fieldByName('screen_name'));
                     Titanium.API.info('DELETE tweet: ' + deleteWords);
                     Titanium.API.info('DELETE  created_at: ' + rows.fieldByName('created_at'));
                     
-=======
-                    Titanium.API.info('DELETE tweet= ' + deleteWords);
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                     rows.next();
                 }
             }
@@ -116,7 +104,6 @@ var TweetDB = function() {
                 tweetObj.user.screen_name = rows.fieldByName('screen_name');
                 tweetObj.user.profile_image_url
                     = rows.fieldByName('profile_image_url');
-<<<<<<< HEAD
                 tweetObj.user.text = rows.fieldByName('tweet_text');
                 //var date = new Date(rows.fieldByName('created_at'));
                 //var time=rows.fieldByName('created_at');
@@ -128,36 +115,16 @@ var TweetDB = function() {
                             tt= time.getHours();
                             mi= time.getMinutes();
                             ss=time.getMinutes();
-=======
-                tweetObj.text = rows.fieldByName('tweet_text');
-                //var date = new Date(rows.fieldByName('created_at'));
-                //var time=rows.fieldByName('created_at');
-                
-                var d3 = new Date(rows.fieldByName('created_at'));
-                            yy = d3.getYear(); //日本時間に変換
-                            mm = d3.getMonth() + 1;
-                            dd = d3.getDate();
-                            tt= d3.getHours();
-                            mi= d3.getMinutes();
-                            ss=d3.getMinutes();
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                             if (yy < 2000) { yy += 1900; }
                             if (mm < 10) { mm = "0" + mm; }
                             if (dd < 10) { dd = "0" + dd; }
                             if (tt < 10) { tt = "0" + tt; }
                             if (mi < 10) { mi = "0" + mi; }
-<<<<<<< HEAD
                 //var pub_day=yy + "-" + mm + "-" + dd +" " + tt +":"+mi;
                 var pub_day = mm + "-" + dd +" " + tt +":"+mi;
                 //tweetObj.created_at = date.toLocaleString();
                 
                 tweetObj.user.created_at =pub_day;
-=======
-                var pub_day=yy + "-" + mm + "-" + dd +" " + tt +":"+mi;
-                //tweetObj.created_at = date.toLocaleString();
-                
-                tweetObj.created_at =pub_day;
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
                 
                 res.push(tweetObj);
                 rows.next();

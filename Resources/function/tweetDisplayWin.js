@@ -7,13 +7,10 @@ var win = Ti.UI.currentWindow;
 var displayIndex = win.displayIndex;
 var displayTitle = win.displayTitle;
 var displayText = win.displayText;
-<<<<<<< HEAD
 
 var displayNav = [];
 displayNav[0] = win.displayNav;
 
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 var UA_tableViewData = win.UA_tableViewData;
 var displayTweet = win.displayTweet;
 
@@ -32,7 +29,6 @@ var windowTitle = Ti.UI.createLabel({
             
     win.setTitleControl(windowTitle);
     win.add(displayLabel);
-<<<<<<< HEAD
     
     
         displayLabel.addEventListener('click',function(e)
@@ -113,9 +109,6 @@ var windowTitle = Ti.UI.createLabel({
     
     
     
-=======
-                    
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
     var UA_TL = Titanium.UI.createButton({
         title: 'TL',
         top:370,

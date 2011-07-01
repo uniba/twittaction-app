@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function UA_update_twitter_homeline(timeline)
 {
     var win = Ti.UI.currentWindow;
@@ -254,8 +253,6 @@ var endReloading=function()
 }
 
 /*
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 function updateTimeline (timeline) {
     var currentData = [];
     for (var i=0;i<timeline.length;i++) {
@@ -334,11 +331,7 @@ function updateTimeline (timeline) {
     }
     tableView.setData(currentData);
 } //function updateTimeline (timeline) {
-<<<<<<< HEAD
 */
-=======
-
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 
 /*---- pull to refresh の関数部分 ------------------------------*/
 function formatDate()
@@ -356,15 +349,7 @@ function formatDate()
 	return datestr;
 } //function formatDate()
 
-<<<<<<< HEAD
 
-=======
-function beginReloading()
-{
-	// just mock out the reload
-	setTimeout(endReloading,2000);
-}
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 
 
 /*---- pull to refresh の関数部分　終 ------------------------------*/

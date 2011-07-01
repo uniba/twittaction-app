@@ -1,32 +1,21 @@
 var win = Ti.UI.currentWindow;
-<<<<<<< HEAD
 win.barColor = 'black';
 //Titanium.UI.currentWindow.showNavBar();
-=======
-
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 //------------------------------------------------------------- 
 //            Infomation about  recStartWin(A3 image)
 //-------------------------------------------------------------
 
 
 var UA_webView = Titanium.UI.createWebView({
-<<<<<<< HEAD
 		url: "html/testevaljs.html",
         zindex:1
-=======
-		url: "html/testevaljs.html"
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 });
 
 
 
 //add label to display choosed type
-<<<<<<< HEAD
 
 /*
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 var UA_recStartRightLabel = Ti.UI.createLabel({
  	text: 'type-A',
  	top:10,
@@ -34,16 +23,11 @@ var UA_recStartRightLabel = Ti.UI.createLabel({
  	width:'auto',
  	height:40
 });
-<<<<<<< HEAD
 */
 
 //change to other mode: open a new windows and add toolbar
 
 /*
-=======
-
-//change to other mode: open a new windows and add toolbar
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 var UA_recCancelButton = Titanium.UI.createButton({
 title: 'back',
 left:10,
@@ -55,13 +39,8 @@ height: 40
 
 UA_recCancelButton.addEventListener('click', function(e){
 	win.close();
-<<<<<<< HEAD
 });
 */
-=======
-   
-});
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 
 //display accelerometer data x,y,z
 //actually, I should put these code into the seperated file
@@ -166,7 +145,6 @@ acceFunction = function(e){
 
 var UA_labelInterval = Ti.UI.createLabel({
 text:'10.000',  //default time is 10 seconds
-<<<<<<< HEAD
 width:'auto',
 height: 90,
 top:300,
@@ -174,17 +152,10 @@ color:'white',
 textAlign:"center",
 font:{fontSize: 70, fontFamily:'Futura-CondensedMedium'},
 zindex:2
-=======
-left:130,
-width:'auto',
-height: 20,
-top:250
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 });
 
 //add start button to count time
 var UA_startButton = Titanium.UI.createButton({
-<<<<<<< HEAD
     backgroundImage:'../pic/twittaction_rec.png',
 	//title: 'start',
 	height: 174,
@@ -199,15 +170,6 @@ var UA_startButton = Titanium.UI.createButton({
     });
 
 
-=======
-	title: 'start',
-	left: 100,
-	top: 150,
-	height: 50,
-	width: 100
-});
-
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 //add counter function
 var myButton = 0;
 var fixTime = 10000.000;
@@ -219,11 +181,7 @@ var alertDialog = Titanium.UI.createAlertDialog({
 	});
     alertDialog.addEventListener('click', function(e){
     if(e.index==0){
-<<<<<<< HEAD
     UA_startButton.backgroundImage = "../pic/twittaction_rec.png";
-=======
-    UA_startButton.title = "start";
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
     UA_labelInterval.text = "10.000";
     UA_webView.reload();
     emptyJson();
@@ -236,13 +194,8 @@ var alertDialog = Titanium.UI.createAlertDialog({
     //Ti.UI.currentTab.close(win);
     
 
-<<<<<<< HEAD
     //win._caller.close();
     //win.close();
-=======
-    win._caller.close();
-    win.close();
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
     }
     });
 
@@ -253,11 +206,7 @@ function myWatch(flug)
 	Start = new Date();
     UA_recordTime = Start;
 	myButton=1;
-<<<<<<< HEAD
 	UA_startButton.backgroundImage = "../pic/twittaction_stop.png";
-=======
-	UA_startButton.title = "stop";
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
     Titanium.Accelerometer.addEventListener('update', acceFunction);
     //if you set interval time is 1 millseconds,it is difficult to stop. 
 	myInterval = setInterval(function(){myWatch(1);}, timeFrequency);
@@ -315,15 +264,11 @@ function saveJson()
     
     xhr.onload = function(){
         //alert(json);
-<<<<<<< HEAD
         /*
-=======
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
         var dialog = Titanium.UI.createAlertDialog();
             dialog.setTitle('加速度センサーのデータ');
             dialog.setMessage(json); 
             dialog.show();
-<<<<<<< HEAD
         
         */
         var baseWin = Titanium.UI.createWindow();
@@ -390,14 +335,6 @@ function saveJson()
     
     
     xhr.open('POST','http://twittaction.com/action');
-=======
-        var text = this.responseText;
-        alert('処理した後のurlのイメージ \n'+text);
-    };
-    
-    
-    xhr.open('POST','http://10.4.0.54:3001/action');
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
     xhr.send({userId:twitterConfigJson['user_id'],message:'testメッセージ',sequence:json});
     
     
@@ -423,16 +360,9 @@ myWatch(0);
 
 //win.rightNavButton = recstartrightlabel;
 win.add(UA_webView);
-<<<<<<< HEAD
 //win.add(UA_recCancelButton);
 
 win.add(UA_labelInterval);
 win.add(UA_startButton);
 //win.add(UA_recStartRightLabel);
-=======
-win.add(UA_recCancelButton);
-win.add(UA_startButton);
-win.add(UA_labelInterval);
-win.add(UA_recStartRightLabel);
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 

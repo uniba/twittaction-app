@@ -5,11 +5,7 @@ var win = Ti.UI.currentWindow;
 
 var UA_recStartWin = Titanium.UI.createWindow({  
     url: 'recStartWin.js',
-<<<<<<< HEAD
     title:'Rec',
-=======
-    title:'type-a test',
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
     backgroundColor:'#fff',
     _caller:win
 });
@@ -36,14 +32,9 @@ UA_recButton.addEventListener('click', function(e){
   //Ti.UI.currentTab.close(UA_recWin);
   //Ti.UI.currentTab.open(UA_recStartWin);
   //
-<<<<<<< HEAD
   //UA_recStartWin.open();
   UA_recStartWin.hideTabBar();
   Titanium.UI.currentTab.open(UA_recStartWin,{animated:true});
-=======
-  UA_recStartWin.open();
-   
->>>>>>> 4c83eb356feb68c174a558922f923d2f2d676743
 });
 
 //set recbutton2 as right navi button
