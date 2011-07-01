@@ -12,7 +12,6 @@ var win2=Titanium.UI.createWindow({
     url: 'feed/feed.js',
     title:'feed',
     backgroundColor:'#fff'
-    
 });
 
 var win3 = Ti.UI.createWindow({
@@ -37,18 +36,18 @@ var win5=Titanium.UI.createWindow({
 var tab1 = Titanium.UI.createTab({
     window:win1,
     title:'action',
-    icon:'picture/action.png',
+    icon:'picture/action_over.png',
 }); 
 
 var tab2 = Titanium.UI.createTab({
     window:win2,
     title:'feed',
-    icon:'picture/feed.png',
+    icon:'picture/feed_over.png',
 }); 
 var tab3 = Titanium.UI.createTab({
     window:win3,
     title:'#tag',
-    icon:'picture/KS_nav_ui.png',
+    icon:'picture/tag.png',
 }); 
 
 var tab4 = Titanium.UI.createTab({
@@ -69,6 +68,4 @@ tabGroup.addTab(tab2);
 tabGroup.addTab(tab3);
 tabGroup.addTab(tab4); 
 tabGroup.addTab(tab5);
-
-
 tabGroup.open();

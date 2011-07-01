@@ -38,72 +38,14 @@
 * 取得例 http://search.twitter.com/search.json?q=obama&rpp=50&page=1
 *
 */
-
+Ti.include("../function/twitter_userline_func.js");
 var win = Ti.UI.currentWindow;
+function hashtag(hashTag){
+    var hashTag = hashTag; //ここに検索したい単語を入力する。
+    var encodeHashTag = encodeURIComponent(hashTag); //encodeする必要がある
+    var twitterUrl="http://search.twitter.com/search.json?q="+encodeHashTag+"&rpp=50&page=1";
 
-var hashTag = '#jishin'; //ここに検索したい単語を入力する。
-var encodeHashTag = encodeURIComponent(hashTag); //encodeする必要がある
-var twitterUrl="http://search.twitter.com/search.json?q="+encodeHashTag+"&rpp=50&page=1";
+UA_display_twitter_homeline(twitterUrl, 'hashtag');
+}// function hashtag(hashTag){ の閉じ
 
-var tableView;
-var data=[];
-
-/*
-* JSONの取得、解析 JSON.parse(this.responseText);
-*/
-
-var xhr = Titanium.Network.createHTTPClient();
-xhr.open('GET', twitterUrl);
-
-xhr.onload = function() {
-
-    var jsonData = JSON.parse(this.responseText);
-        //alert(jsonData);
-        //上の１文をコメントアウトして実行すると、json が見れる
-    
-        //alert(jsonData.results[1].text);
-        //要素の取り出し例
-
-// 検索したハッシュタグを一番上に表示させる。
-var tagRow = Titanium.UI.createTableViewRow({
-        width:'auto',
-        height:'auto'
-});
-var tagLabel =Titanium.UI.createLabel({
-        text:hashTag,
-        width:'auto',
-        height:'auto'
-});
-tagRow.add(tagLabel);        
-data.push(tagRow);
-
-//以下 for 文で tweetのコメントを 全部取得する
-    for (var i=0;i<jsonData.results.length;i++){
-        
-        var row = Titanium.UI.createTableViewRow({
-            width:'auto',
-            height:'auto'
-        });
-        
-            var tweet = jsonData.results[i];
-            var tweetText = tweet.text;
-           
-            var commentLabel =Titanium.UI.createLabel({
-                text:tweetText,
-                width:'auto',
-                height:'auto'
-            });
-        row.add(commentLabel);
-        
-        data.push(row);
-        
-    }//for{} の閉じ
-    
-    //ここで取得したコメントを表示させている
-    tableview= Titanium.UI.createTableView({
-        data:data
-    });
-    win.add(tableview);
-
-};//xhr.onload = function(){} の閉じ
-xhr.send();
+hashtag("#nowplaying");

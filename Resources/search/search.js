@@ -1,52 +1,49 @@
 //create searchTab and add seachWin
+Ti.include("../function/twitter_userline_func.js");
+var win = Titanium.UI.currentWindow;
 
-var searchWin = Titanium.UI.currentWindow;
 
 //define search bar for searchWin
-var searchbar = Ti.UI.createSearchBar({
+var UA_searchBar = Ti.UI.createSearchBar({
     barColor: '#000',
-    shwoCancel:true,
+    showCancel:true,
     height: 43,
-    top:0
+    top: 0
+});
+
+
+UA_searchBar.addEventListener('return', function(e){
+
+    var url = 'http://search.twitter.com/search.json?q=';
+    var query = encodeURI(e.value);
+    /*
+    //we need to get fromuser 
+    var fromuser = 'hebinbin';
+    var queryUrl1 = url.concat(query);
+    var queryUrl2 = queryUrl1.concat('&from=');
+    var queryUrl = queryUrl2.concat(fromuser);
+    */
+    //UA_tableView.data = UA_display_twitter_homeline(queryUrl, 'search');
+    var queryUrl=url+query;
+    UA_display_twitter_homeline(queryUrl, 'search');
+    UA_searchBar.blur();
 });
 
 //define the action for search bar
-searchbar.addEventListener('change', function(e){
-//Titanium.API.info('search bar: you type ' + e.value + ' act val ' + searchbar.value);
+UA_searchBar.addEventListener('change', function(e){
+    //
 });
-searchbar.addEventListener('cancel', function(e){
-//Titanium.API.info('search bar cancel fired');
-//searchbar.blur();
-});
-searchbar.addEventListener('return', function(e){
-//Titanium.UI.createAlertDialog({title:'Search Bar', message:'You typed ' + e.value }).show();
-    
-    //At here, we need to write some program to do search 
-    //as one idea, design tableview to get home_timeline again.
-    //and using search method intergated in Javascript
-    
-    //Ti.API.info(searcharray.length);
-    //Ti.API.info(e.value);
-    //for(var searchcount=0; searchcount<=searcharray.length;searchcount++)
-    //{
-    	//var searchindex = searcharray[searchcount].search(e.value);
-    	//if(searchindex==-1)
-    //	{
-    	//we need to do something
-    //	}
-   // 	else
-   // 	{
-    	//we need to do something
-    	//Ti.API.info(searcharray[searchcount]);
-    //	}
-   // }
-});
-searchbar.addEventListener('focus', function(e){
-//Titanium.API.info('search bar: focus received');
-});
-searchbar.addEventListener('blur', function(e){
-//Titanium.API.info('search bar:blur received');
+UA_searchBar.addEventListener('cancel', function(e){
+    UA_searchBar.blur();
 });
 
-//add serach bar in searchWin
-searchWin.add(searchbar);
+UA_searchBar.addEventListener('focus', function(e){
+    //
+});
+UA_searchBar.addEventListener('blur', function(e){
+    //
+});
+
+win.add(UA_searchBar);
+
+
