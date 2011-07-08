@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<script src="jquery.js"></script>
+
+<script>
+function imageUrl(url){
+    var i = 'url("'+ url +'")';
+    
+    $("#cube div:not(.inner)").css("background-image",i);
+
+}
+function testt(url){
+    var i = 'url("'+ url +'")';
+    
+    $("#aaa").append(i);
+
+}
+</script>
+
+<link rel="stylesheet" href="basic.css"/></script>
+</head>
+
+<body> 
+<div id="wrapper">    <div id="stage">      <div class="inner">        <div id="cube">          <div class="inner" id="cube-inner">            <div class="side-a"></div>            <div class="side-b"></div>            <div class="side-c"></div>            <div class="side-d"></div>            <div class="side-e"></div>            <div class="side-f"></div>          </div>        </div>      </div>    </div>  </div>  
+
+
+</body>
+</html>

@@ -5,32 +5,37 @@ var tabGroup = Titanium.UI.createTabGroup();
 var win1=Titanium.UI.createWindow({
     url: 'action/action.js',
     title:'action',
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    barColor:'black'
 });
 
 var win2=Titanium.UI.createWindow({
     url: 'feed/feed.js',
     title:'feed',
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    barColor:'black'
 });
 
 var win3 = Ti.UI.createWindow({
      url: 'hashTag/hashTag.js',
      title:'#tag' ,
-     backgroundColor:'#fff'
+     backgroundColor:'#fff',
+     barColor:'black'
 });
 
 var win4=Titanium.UI.createWindow({
     url: 'search/search.js',
     title:'search',
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    barColor:'black'
 
 });
 
 var win5=Titanium.UI.createWindow({
     url: 'setting/setting.js',
     title:'設定',
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    barColor:'black'
 });
 
 var tab1 = Titanium.UI.createTab({

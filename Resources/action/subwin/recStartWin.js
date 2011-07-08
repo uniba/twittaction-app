@@ -271,16 +271,20 @@ function saveJson()
             dialog.show();
         
         */
-        var baseWin = Titanium.UI.createWindow();
+        var baseWin = Titanium.UI.createWindow({
+            barColor:'black'
+        });
         baseWin.hideNavBar();
         var url = this.responseText;
         Titanium.API.info('returned url:' +url);
-        var accelWin = Titanium.UI.createWindow();
-        
+        var accelWin = Titanium.UI.createWindow({
+            barColor:'black'
+        });
         
         var webview = Ti.UI.createWebView({
             url:url
         });
+        
         var b1 = Titanium.UI.createButton({title:'close'});
         b1.addEventListener('click', function(e){
             accelWin.close();
@@ -290,16 +294,15 @@ function saveJson()
         });
         accelWin.leftNavButton = b1;
         
-        
         var nav = Titanium.UI.iPhone.createNavigationGroup({
            window: accelWin
         });
         
-        
         var UA_tweetWin = Titanium.UI.createWindow({  
             url:'tweetWin.js',
             title:'Tweet',
-            backgroundColor:'#fff'
+            backgroundColor:'#fff',
+            barColor:'black'
         });
 
         //create tweet button for actionWin(A1 image)
@@ -308,7 +311,7 @@ function saveJson()
             backgroundSelectedImage:'../pic/rec01.png',
             title:'Tweet',
             top:325,
-            left: 50,
+            left: 35,
             width: 105,
             height: 34
         });
@@ -319,7 +322,32 @@ function saveJson()
             
         });
         
+                //create tweet button for actionWin(A1 image)
+        var UA_reloadButton = Titanium.UI.createButton({
+            backgroundImage:'../pic/rec01.png',
+            backgroundSelectedImage:'../pic/rec01.png',
+            title:'Reload',
+            top:325,
+            right: 35,
+            width: 105,
+            height: 34
+        });
+        
+        UA_reloadButton.addEventListener('click', function(e){
+          //actionWin.close();
+            webview.reload();
+            
+        });
+        
+        
+        
+        
+        
+        
+        
+        
         accelWin.add(webview);
+        accelWin.add(UA_reloadButton);
         accelWin.add(UA_tweetButton);
         UA_tweetWin.twittaction = true;
         UA_tweetWin.twittactionUrl = url;

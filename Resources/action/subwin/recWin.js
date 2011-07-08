@@ -1,5 +1,3 @@
-
-
 var win = Ti.UI.currentWindow;
 
 
@@ -7,7 +5,8 @@ var UA_recStartWin = Titanium.UI.createWindow({
     url: 'recStartWin.js',
     title:'Rec',
     backgroundColor:'#fff',
-    _caller:win
+    _caller:win,
+    barColor:'black'
 });
 
 //------------------------------------------------------------- 

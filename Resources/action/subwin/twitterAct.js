@@ -52,7 +52,8 @@ function tweet(message)
                     url: '../../function/tweetDisplayWin.js',
                     backButtonTitle: 'back',
                     backgroundColor: '#fff',
-                    tabBarHidden: true
+                    tabBarHidden: true,
+                    barColor:'black'
                     
                     
             });
@@ -62,6 +63,7 @@ function tweet(message)
         UA_tweetDisplayWin.displayIndex = 0;
         UA_tweetDisplayWin.displayText = message;
         UA_tweetDisplayWin.displayTitle = isTweetSended[1];
+        UA_tweetDisplayWin.avartarUrl = isTweetSended[2];
         UA_tweetDisplayWin.displayAvatar = isTweetSended[2];
         UA_tweetDisplayWin.created_at = isTweetSended[3];
         UA_tweetDisplayWin.displayTweet = true;      
@@ -118,7 +120,8 @@ function tweetTwittaction(message)
                     url: '../../function/tweetDisplayWin.js',
                     backButtonTitle: 'back',
                     backgroundColor: '#fff',
-                    tabBarHidden: true
+                    tabBarHidden: true,
+                    barColor:'black'
                     
                     
             });
@@ -128,6 +131,7 @@ function tweetTwittaction(message)
         UA_tweetDisplayWin.displayIndex = 0;    
         UA_tweetDisplayWin.displayText = message;
         UA_tweetDisplayWin.displayTitle = isTweetSended[1];
+        UA_tweetDisplayWin.avartarUrl = isTweetSended[2];
         UA_tweetDisplayWin.displayAvatar = isTweetSended[2];
         UA_tweetDisplayWin.created_at = isTweetSended[3];
         UA_tweetDisplayWin.displayTweet = true;      

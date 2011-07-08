@@ -59,7 +59,12 @@ function UA_update_twitter_homeline(timeline)
         });
 				// Add the tweet to the row
         row.add(created_at);
-        
+          
+        var avatarAvartar = Ti.UI.createLabel({
+            text:tweet.user.profile_image_url,
+            visible:0
+        });
+        row.add(avatarAvartar);     
         
 				// Add the vertical layout view to the row
         row.className = 'UA_item'+c;
@@ -81,10 +86,9 @@ function UA_update_twitter_homeline(timeline)
             url: '../function/tweetDisplayWin.js',
             backButtonTitle: 'back',
             backgroundColor: '#fff',
-            tabBarHidden: true
-                    
-                    
-                });
+            tabBarHidden: true,
+            barColor:'black'
+        });
                 
                 //pass data to UA_tweetDisplayWin
             UA_tweetDisplayWin.displayIndex = e.index;
@@ -92,6 +96,8 @@ function UA_update_twitter_homeline(timeline)
             UA_tweetDisplayWin.displayTitle = testArray[1].text;
             UA_tweetDisplayWin.displayText = testArray[2].text;
             UA_tweetDisplayWin.created_at = testArray[3].text;
+            UA_tweetDisplayWin.avartarUrl = testArray[4].text;
+            
             UA_tweetDisplayWin.UA_tableViewData = UA_tableViewData;
             
             Ti.UI.currentTab.open(UA_tweetDisplayWin);

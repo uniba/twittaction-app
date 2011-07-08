@@ -375,7 +375,13 @@ var windowTitle = Ti.UI.createLabel({
 
 
     });
-            
+    
+    
+    UA_old.addEventListener('dblclick', function(e){
+        UA_oldImageView.url = 'images/share_icon.png';
+    });        
+    
+    
     win.add(UA_TL);
     win.add(UA_old);
     win.add(UA_new);

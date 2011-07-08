@@ -52,15 +52,16 @@ function UA_display_twitter_homeline(queryUrl, params)
 				var row = Ti.UI.createTableViewRow({hasChild:true,height:'auto',backgroundColor:bgcolor});
 
 				// Create a vertical layout view to hold all the info labels and images for each tweet
-
+                
 				var av = Ti.UI.createImageView({
-						image:avatar,
-						left:5,
-						top:10,
-						height:50,
-						width:50
-					});
+						 image:avatar,
+						 left:5,
+						 top:10,
+						 height:50,
+						 width:50
+					 });
 				// Add the avatar image to the row
+                
                 row.add(av);
 
 				var user_label = Ti.UI.createLabel({
@@ -119,6 +120,14 @@ function UA_display_twitter_homeline(queryUrl, params)
 				// Add the date to the row
                 row.add(date_label);
                 
+                
+                
+                var avatarAvartar = Ti.UI.createLabel({
+					text:avatar,
+                    visible:0
+                });
+                row.add(avatarAvartar);
+                
 				// Add the vertical layout view to the row
 				row.className = 'UA_item'+c;
 				UA_tableViewData[c] = row;
@@ -156,7 +165,8 @@ function UA_display_twitter_homeline(queryUrl, params)
                     url: '../function/tweetDisplayWin.js',
                     backButtonTitle: 'back',
                     backgroundColor: '#fff',
-                    tabBarHidden: true
+                    tabBarHidden: true,
+                    barColor:'black'
                     
                     
                 });
@@ -167,6 +177,8 @@ function UA_display_twitter_homeline(queryUrl, params)
                 UA_tweetDisplayWin.displayTitle = testArray[1].text;
                 UA_tweetDisplayWin.displayText = testArray[2].text;
                 UA_tweetDisplayWin.created_at = testArray[3].text;
+                UA_tweetDisplayWin.avartarUrl = testArray[4].text;
+                
                 
                 UA_tweetDisplayWin.UA_tableViewData = UA_tableViewData;
             

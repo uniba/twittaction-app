@@ -4,14 +4,22 @@ win.backgroundColor = 'black';
 //------------------------------------------------------------- 
 //              Infomation about  tweetDisplayWin(B3 image)
 //-------------------------------------------------------------
-var displayAvatar = win.displayAvatar;
+
+var displayNav = [];
+displayNav[0] = win.displayNav;//tweet投稿画面から
+var displayAvatarImage = win.displayAvatar;
+var picture = win.displayAvatar;
+var picpic = {'a':picture};
+//picpic[0]=picture;
+
 var displayIndex = win.displayIndex;
 var displayTitle = win.displayTitle;
 var displayText = win.displayText;
 var displaycreated_at = win.created_at;
+var displayAvartarUrl = win.avartarUrl;
+var AvartarUrl = [];
+AvartarUrl[0] = displayAvartarUrl;
 
-var displayNav = [];
-displayNav[0] = win.displayNav;//tweet投稿画面から
 
 var UA_tableViewData = win.UA_tableViewData;
 var displayTweet = win.displayTweet;//tweet投稿画面から
@@ -19,7 +27,8 @@ var displayTweet = win.displayTweet;//tweet投稿画面から
 var windowTitle = Ti.UI.createLabel({
         text: displayTitle,
         width: '200',
-        textAlign: 'center'
+        textAlign: 'center',
+        color:'white'
     });
                     
 
@@ -63,16 +72,51 @@ var windowTitle = Ti.UI.createLabel({
     
 
     var avatarParts = Ti.UI.createTableViewRow({
-        height:'auto'
-    });          
+        height:'170'
+    });
+    
     var displayAvatar = Ti.UI.createImageView({
-        image:displayAvatar,
+        image:displayAvatarImage,
         //left:160,
         //top:200,
         height:50,
         width:50
     });
-    avatarParts.add(displayAvatar);
+    //avatarParts.add(displayAvatar);
+    
+    var webview = Ti.UI.createWebView({
+        url:"cube/cube.html",
+        backgroundColor:'#616161',
+        scalesPageToFit:true
+    });
+    
+    //var changeImage1 = 'imageUrl("';
+    //var changeImage2 = changeImage1.concat(picture);
+    
+    //var changeImage3 = '")';
+   // var changeImage0 = changeImage1 + picture + changeImage2;
+    
+    //alert(changeImage2);
+    
+    
+    //alert(displayAvartarUrl);
+    
+    webview.addEventListener('load', function(e){
+     webview.evalJS('imageUrl("'+AvartarUrl[0]+'")');
+    });
+    
+    
+    /*
+    setTimeout(function(){
+        webview.evalJS('imageUrl("'+AvartarUrl[0]+'")');
+        
+    }
+    ,
+    800);
+    */
+    
+    
+    avatarParts.add(webview);
     rows.push(avatarParts);
     
     
@@ -81,6 +125,7 @@ var windowTitle = Ti.UI.createLabel({
         separatorStyle:0,
         touchEnabled:false,
         backgroundColor:'#616161',
+        
         /*
         backgroundGradient:{
             type:'linear',
@@ -89,6 +134,7 @@ var windowTitle = Ti.UI.createLabel({
             endPoint:{x:0,y:'100%'}
         },
         */
+    
     
     });
     win.add(tableview);
@@ -188,7 +234,7 @@ var windowTitle = Ti.UI.createLabel({
     UA_TL.add(UA_TLLabel);
 
     var UA_TLImageView = Ti.UI.createImageView({
-        url:'images/TL_icon.png',
+        image:'images/TL_icon.png',
         height:80,
         width:48,
         
@@ -215,14 +261,12 @@ var windowTitle = Ti.UI.createLabel({
     UA_new.add(UA_newLabel);
 
     var UA_newImageView = Ti.UI.createImageView({
-        url:'images/new_icon.png',
+        image:'images/new_icon.png',
         height:80,
         width:48,
         
     });
     UA_new.add(UA_newImageView);
-    
-    
     
                         
     
@@ -247,7 +291,7 @@ var windowTitle = Ti.UI.createLabel({
     UA_old.add(UA_oldLabel);
 
     var UA_oldImageView = Ti.UI.createImageView({
-        url:'images/old_icon.png',
+        image:'images/old_icon.png',
         height:80,
         width:48,
         
@@ -277,7 +321,7 @@ var windowTitle = Ti.UI.createLabel({
     UA_share.add(UA_shareLabel);
 
     var UA_shareImageView = Ti.UI.createImageView({
-        url:'images/share_icon.png',
+        image:'images/share_icon.png',
         height:80,
         width:48,
         
@@ -309,6 +353,15 @@ var windowTitle = Ti.UI.createLabel({
             //created_atLabel.text = created_atFunc(UA_tableViewData[displayIndex - 1].user.created_at);
             //うまく時間が取れない
             created_atLabel.text = '';
+            
+            AvartarUrl[0] = UA_tableViewData[displayIndex - 1].user.profile_image_url;
+            setTimeout(function(){
+                webview.evalJS('imageUrl("'+AvartarUrl[0]+'")');
+        
+            }
+            ,
+            0);
+            
             win.setTitleControl(windowTitle);
             displayIndex = displayIndex - 1;
             tweetParts.height='auto';
@@ -316,9 +369,20 @@ var windowTitle = Ti.UI.createLabel({
             else
             {
             displayAvatar.image = UA_tableViewData[displayIndex - 1].getChildren()[0].image;
+            windowTitle.text = UA_tableViewData[displayIndex - 1].getChildren()[1].text;
             displayLabel.text = UA_tableViewData[displayIndex - 1].getChildren()[2].text;
             created_atLabel.text = UA_tableViewData[displayIndex - 1].getChildren()[3].text;
-            windowTitle.text = UA_tableViewData[displayIndex - 1].getChildren()[1].text;
+            AvartarUrl[0] = UA_tableViewData[displayIndex - 1].getChildren()[4].text;
+            setTimeout(function(){
+                webview.evalJS('imageUrl("'+AvartarUrl[0]+'")');
+        
+            }
+            ,
+            0);
+    
+            
+            
+            
             win.setTitleControl(windowTitle);
             displayIndex = displayIndex - 1;
             tweetParts.height='auto';
@@ -341,6 +405,17 @@ var windowTitle = Ti.UI.createLabel({
         windowTitle.text = UA_tableViewData[displayIndex + 1].user.screen_name;
         //created_atLabel.text = created_atFunc(UA_tableViewData[displayIndex + 1].user.created_at);
         created_atLabel.text = '';
+        
+        
+        
+        AvartarUrl[0] = UA_tableViewData[displayIndex + 1].user.profile_image_url;
+        setTimeout(function(){
+            webview.evalJS('imageUrl("'+AvartarUrl[0]+'")');
+    
+        }
+        ,
+        0);
+        
         win.setTitleControl(windowTitle);
         displayIndex = displayIndex + 1;
         tweetParts.height='auto';
@@ -351,7 +426,18 @@ var windowTitle = Ti.UI.createLabel({
         displayLabel.text = UA_tableViewData[displayIndex + 1].getChildren()[2].text;
         windowTitle.text = UA_tableViewData[displayIndex + 1].getChildren()[1].text;
         created_atLabel.text = UA_tableViewData[displayIndex + 1].getChildren()[3].text;
+        AvartarUrl[0] = UA_tableViewData[displayIndex + 1].getChildren()[4].text;
+        setTimeout(function(){
+            webview.evalJS('imageUrl("'+AvartarUrl[0]+'")');
+    
+        }
+        ,
+        0);
+        
+        
         win.setTitleControl(windowTitle);
+        
+        
         displayIndex = displayIndex + 1;
         tweetParts.height='auto';
     }
@@ -360,7 +446,15 @@ var windowTitle = Ti.UI.createLabel({
 
 
     });
-            
+       
+    UA_old.addEventListener('touchstart', function(e){
+        UA_oldImageView.image = 'images/share_icon.png';
+    });        
+    UA_old.addEventListener('touchend', function(e){
+        UA_oldImageView.image = 'images/old_icon.png';
+    });        
+        
+    
     win.add(UA_TL);
     win.add(UA_old);
     win.add(UA_new);

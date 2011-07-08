@@ -34,13 +34,15 @@ if(newFile.exists()){
 var UA_tweetWin = Titanium.UI.createWindow({  
     url:'subwin/tweetWin.js',
     title:'Tweet',
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    barColor:'black'
 });
 
 var UA_recWin = Titanium.UI.createWindow({  
     url:'subwin/recWin.js',
     title:'type',
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    barColor:'black'
 });
 
 
@@ -57,7 +59,7 @@ var UA_tweetButton = Titanium.UI.createButton({
     backgroundSelectedImage:'pic/rec01.png',
     title:'Tweet',
 	top:325,
-	left: 50,
+	left: 35,
 	width: 105,
 	height: 34
 });
@@ -77,7 +79,7 @@ var UA_recButton = Titanium.UI.createButton({
     backgroundSelectedImage:'pic/rec01.png',
     title:'Rec',
 	top:325,
-	left: 200,
+	right: 35,
 	width: 105,
 	height: 34
 });
