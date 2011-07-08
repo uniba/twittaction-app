@@ -88,8 +88,10 @@ function UA_update_twitter_homeline(timeline)
                 
                 //pass data to UA_tweetDisplayWin
             UA_tweetDisplayWin.displayIndex = e.index;
+            UA_tweetDisplayWin.displayAvatar = testArray[0].image;
             UA_tweetDisplayWin.displayTitle = testArray[1].text;
             UA_tweetDisplayWin.displayText = testArray[2].text;
+            UA_tweetDisplayWin.created_at = testArray[3].text;
             UA_tweetDisplayWin.UA_tableViewData = UA_tableViewData;
             
             Ti.UI.currentTab.open(UA_tweetDisplayWin);
@@ -112,14 +114,6 @@ function UA_update_twitter_homeline(timeline)
     // bottom border
     tableHeader.add(border);
 
-    var arrow = Ti.UI.createView({
-        backgroundImage:"../../../../../../twitterSetting/whiteArrow.png",
-        width:23,
-        height:60,
-        bottom:10,
-        left:20
-    });
-
     var statusLabel = Ti.UI.createLabel({
         text:"Pull to reload",
         left:55,
@@ -132,6 +126,14 @@ function UA_update_twitter_homeline(timeline)
         shadowColor:"#999",
         shadowOffset:{x:0,y:1}
     });
+   var arrow = Ti.UI.createView({
+        backgroundImage:"../../../../../../twitterSetting/whiteArrow.png",
+        width:23,
+        height:60,
+        bottom:10,
+        left:20
+    });
+
 
     var lastUpdatedLabel = Ti.UI.createLabel({
         text:"Last Updated: "+formatDate(),
@@ -357,10 +359,10 @@ function formatDate()
 
 
 /*---- 画面再読み込み------------------------------*/
-function recommendLogin(){
+function recommendLogin(window){
 
     var l1 = Titanium.UI.createLabel({
-            text:'settingでログインしてください',
+            text:'settingでログインしていないか、インターネットに接続されていません。',
             width:200,
             height:150,
             top:10,
@@ -368,10 +370,10 @@ function recommendLogin(){
             textAlign:'center'
     });
 
-    Ti.UI.currentWindow.add(l1);
+    window.add(l1);
 
     var b1 = Titanium.UI.createButton({
-      title:'ログインしたら、クリックして。',
+      title:'ログインしたら、クリック。',
       height:40,
       width:300
     });
@@ -379,7 +381,7 @@ function recommendLogin(){
     b1.addEventListener('click',function(e){
                 Ti.include('../../../../../../../../../../../feed/feed.js');
     });
-    Ti.UI.currentWindow.add(b1);
+    window.add(b1);
 
 }
 /*---- 画面再読み込み 終------------------------------*/

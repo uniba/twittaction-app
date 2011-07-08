@@ -47,9 +47,14 @@ var TweetDB = function() {
                 'SELECT * FROM tweets WHERE status_id = ?',
                 tweet.id_str
             );
-            Ti.API.debug('Found: ' + rows.getRowCount() );
-            if ( rows.getRowCount() > 0 ) continue;
-
+            //alert(tweet.id_str);
+            Ti.API.info('Found: ' + rows.getRowCount() );
+            
+            if ( rows.getRowCount() > 0 ) {
+            
+                continue;
+            
+            }
             var res = this.db.execute(
                 'INSERT INTO tweets (screen_name, profile_image_url, tweet_text, status_id, created_at) VALUES(?,?,?,?,?)',
                 tweet.user.screen_name,
@@ -58,7 +63,9 @@ var TweetDB = function() {
                 tweet.id_str,
                 tweet.created_at
             );
-            Ti.API.debug('Add to DB');
+            
+            Titanium.API.info('Add to DB : ' + tweet.text);
+        
         }
         this.close();
         return true;
@@ -74,7 +81,7 @@ var TweetDB = function() {
         *
         */
             var rowsNum = rows.getRowCount();
-            var over=rowsNum-25;
+            var over=rowsNum-60;
                 Titanium.API.info('ROW COUNT = ' + rowsNum);
                 if(over >= 0){
                 for(i=1;i<=over;i++){
@@ -124,7 +131,7 @@ var TweetDB = function() {
                 var pub_day = mm + "-" + dd +" " + tt +":"+mi;
                 //tweetObj.created_at = date.toLocaleString();
                 
-                tweetObj.user.created_at =pub_day;
+                tweetObj.user.created_at = pub_day;
                 
                 res.push(tweetObj);
                 rows.next();

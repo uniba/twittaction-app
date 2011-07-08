@@ -570,9 +570,30 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
         //    }).show();
         
        //hebinbin added
-       var returnData = new Array(2);
+       var returnData = new Array();
        returnData[0] = "successed";
        returnData[1] = eval("("+client.responseText+")").user.screen_name;  
+       returnData[2] = eval("("+client.responseText+")").user.profile_image_url;
+       
+       var created_at = eval("("+client.responseText+")").created_at;
+       var time = new Date(created_at);
+                    yy = time.getYear(); //日本時間に変換
+                    mm = time.getMonth() + 1;
+                    dd = time.getDate();
+                    tt= time.getHours();
+                    mi= time.getMinutes();
+                    ss=time.getMinutes();
+                    if (yy < 2000) { yy += 1900; }
+                    if (mm < 10) { mm = "0" + mm; }
+                    if (dd < 10) { dd = "0" + dd; }
+                    if (tt < 10) { tt = "0" + tt; }
+                    if (mi < 10) { mi = "0" + mi; }
+                    //var pub_day=yy + "-" + mm + "-" + dd +" " + tt +":"+mi;
+                var createdTime = mm + "-" + dd +" " + tt +":"+mi;
+                //tweetObj.created_at = date.toLocaleString();
+
+       
+       returnData[3] = createdTime;
        
        return returnData;
         

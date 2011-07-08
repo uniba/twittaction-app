@@ -163,8 +163,11 @@ function UA_display_twitter_homeline(queryUrl, params)
                 
                 //pass data to UA_tweetDisplayWin
                 UA_tweetDisplayWin.displayIndex = e.index;
+                UA_tweetDisplayWin.displayAvatar = testArray[0].image;
                 UA_tweetDisplayWin.displayTitle = testArray[1].text;
                 UA_tweetDisplayWin.displayText = testArray[2].text;
+                UA_tweetDisplayWin.created_at = testArray[3].text;
+                
                 UA_tweetDisplayWin.UA_tableViewData = UA_tableViewData;
             
                 Ti.UI.currentTab.open(UA_tweetDisplayWin);

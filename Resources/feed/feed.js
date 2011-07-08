@@ -11,8 +11,8 @@ var loginCheck = new OAuthAdapter(
 
     loginCheck.loadAccessToken('twitter');
     
-if(loginCheck.isAuthorized() == false) {
-    recommendLogin(); //feedFunctions.js 内にある関数
+if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false )) {
+    recommendLogin(win1); //feedFunctions.js 内にある関数
 }else{
     Ti.include('feedTable.js');
 

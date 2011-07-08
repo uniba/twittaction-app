@@ -40,12 +40,55 @@
 */
 Ti.include("../function/twitter_userline_func.js");
 var win = Ti.UI.currentWindow;
+
+
 function hashtag(hashTag){
-    var hashTag = hashTag; //ここに検索したい単語を入力する。
+    var hashTag = hashTag;
     var encodeHashTag = encodeURIComponent(hashTag); //encodeする必要がある
     var twitterUrl="http://search.twitter.com/search.json?q="+encodeHashTag+"&rpp=50&page=1";
 
 UA_display_twitter_homeline(twitterUrl, 'hashtag');
 }// function hashtag(hashTag){ の閉じ
 
-hashtag("#nowplaying");
+
+if(Titanium.Network.online == false){
+    recommend(win);
+
+}else{
+    hashtag("#nowplaying"); //ここに検索したい単語を入力する。
+}
+
+
+/*---- 画面再読み込み------------------------------*/
+function recommend(window){
+
+    var l1 = Titanium.UI.createLabel({
+            text:'インターネットに接続されていません。',
+            width:200,
+            height:150,
+            top:10,
+            color:'#336699',
+            textAlign:'center'
+    });
+
+    window.add(l1);
+
+    var b1 = Titanium.UI.createButton({
+      title:'インターネットに接続したら、クリック。',
+      height:40,
+      width:300
+    });
+
+    b1.addEventListener('click',function(e){
+                Ti.include('hashTag.js');
+    });
+    window.add(b1);
+
+}
+/*---- 画面再読み込み 終------------------------------*/
+
+
+
+
+
+

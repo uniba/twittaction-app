@@ -59,9 +59,11 @@ function tweet(message)
         
  
             
-        UA_tweetDisplayWin.displayIndex = 0;    
+        UA_tweetDisplayWin.displayIndex = 0;
         UA_tweetDisplayWin.displayText = message;
         UA_tweetDisplayWin.displayTitle = isTweetSended[1];
+        UA_tweetDisplayWin.displayAvatar = isTweetSended[2];
+        UA_tweetDisplayWin.created_at = isTweetSended[3];
         UA_tweetDisplayWin.displayTweet = true;      
         UA_tweetDisplayWin.UA_tableViewData = response;
 
@@ -126,9 +128,11 @@ function tweetTwittaction(message)
         UA_tweetDisplayWin.displayIndex = 0;    
         UA_tweetDisplayWin.displayText = message;
         UA_tweetDisplayWin.displayTitle = isTweetSended[1];
+        UA_tweetDisplayWin.displayAvatar = isTweetSended[2];
+        UA_tweetDisplayWin.created_at = isTweetSended[3];
         UA_tweetDisplayWin.displayTweet = true;      
         UA_tweetDisplayWin.UA_tableViewData = response;
-        UA_tweetDisplayWin.displayNav=nav; // tweetWin.js の var nav = win.nav;
+        UA_tweetDisplayWin.displayNav = nav; // tweetWin.js の var nav = win.nav;
         
         //Ti.UI.currentTab.open(UA_tweetDisplayWin);
         nav.open(UA_tweetDisplayWin,{animated:true});
