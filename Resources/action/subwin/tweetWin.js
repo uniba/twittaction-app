@@ -23,8 +23,9 @@ var UA_sendButton = Titanium.UI.createButton({
 //add send button as rightNavButton for tweetwin(A6 image)
 win.rightNavButton = UA_sendButton;
 
-if(sendTwittaction[0]!=true){
+//if(sendTwittaction[0]!=true){
 //create a hintTextLabel for textarea
+/*
 var UA_hintTextLabel = Titanium.UI.createLabel({
     text:"コメントを入力",
     top:15,
@@ -33,6 +34,33 @@ var UA_hintTextLabel = Titanium.UI.createLabel({
     width: 'auto'
 
 });
+*/
+var dir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+dir.createDirectory();
+
+//create file
+var shortUrlFile = Titanium.Filesystem.getFile(dir.nativePath, 'shortUrl.json');
+
+var contents = shortUrlFile.read();
+
+if (contents == null) {
+    var config = {shortUrl:''};
+    
+}else{
+
+try
+    {
+        var config = JSON.parse(contents.text);
+        //alert(config);//確認
+    }
+    catch(ex)
+    {
+        return;
+    }    
+    //alert(config.shortUrl);
+
+}
+
 
 var UA_tweetComment = Titanium.UI.createTextArea({
     //hintText: "コメントを入力",
@@ -44,10 +72,12 @@ var UA_tweetComment = Titanium.UI.createTextArea({
     font:{fontSize:20},
     borderWidth:2,
     borderColor:'#bbb',
-    borderRadius:5
+    borderRadius:5,
+    value:' '+config.shortUrl+' #twitt_dev_action'
 
 });
-}else{
+//}else{
+/*  
 var UA_hintTextLabel = Titanium.UI.createLabel({
     //text:"コメントを入力",
     top:15,
@@ -71,7 +101,9 @@ var UA_tweetComment = Titanium.UI.createTextArea({
     borderRadius:5
 
 });
-}
+
+*/
+//}
 
 var UA_countNumberLabel = Titanium.UI.createLabel({
     text: 140,
@@ -103,6 +135,7 @@ UA_tweetComment.addEventListener('change',function(e){
    };
 });
 
+/*
 //once the mouse blur textArea and the content is empty, show the hintTextLabel
 UA_tweetComment.addEventListener('blur', function(e){
     if(e.value == "")
@@ -116,13 +149,15 @@ UA_tweetComment.addEventListener('blur', function(e){
 
 
 });
-
+*/
+/*
 //once the mouse focus on TextArea, hide the hintTextLabel
 UA_tweetComment.addEventListener('focus', function(e){
 
         UA_hintTextLabel.hide();
 
 });
+*/
 
 UA_sendButton.addEventListener(
     'click',
@@ -140,5 +175,5 @@ UA_sendButton.addEventListener(
 
 //add textfield for tweetWin
 win.add(UA_tweetComment);
-win.add(UA_hintTextLabel);
+//win.add(UA_hintTextLabel);
 win.add(UA_countNumberLabel);

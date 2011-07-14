@@ -55,7 +55,7 @@ if(Titanium.Network.online == false){
     recommend(win);
 
 }else{
-    hashtag("#nowplaying"); //ここに検索したい単語を入力する。
+    hashtag("#twitt_dev_action"); //ここに検索したい単語を入力する。
 }
 
 

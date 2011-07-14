@@ -37,7 +37,8 @@ var windowTitle = Ti.UI.createLabel({
     var rows = [];
     
     var tweetParts = Ti.UI.createTableViewRow({
-        height:'auto'
+        height:'auto',
+        selectionStyle : Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
     });
     
     
@@ -72,7 +73,9 @@ var windowTitle = Ti.UI.createLabel({
     
 
     var avatarParts = Ti.UI.createTableViewRow({
-        height:'170'
+        height:'170',
+        touchEnabled : false,
+        selectionStyle : Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
     });
     
     var displayAvatar = Ti.UI.createImageView({
@@ -123,7 +126,7 @@ var windowTitle = Ti.UI.createLabel({
     var tableview = Titanium.UI.createTableView({
         data: rows,
         separatorStyle:0,
-        touchEnabled:false,
+        //touchEnabled:false,
         backgroundColor:'#616161',
         
         /*
@@ -180,7 +183,10 @@ var windowTitle = Ti.UI.createLabel({
                     
                     
                     // 単純なURLのロード
-                    var win = Titanium.UI.createWindow();
+                    var webWin = Titanium.UI.createWindow({
+                        backgroundColor:'#fff',
+                        barColor:'black'
+                    });
 
 
                     var webview = Ti.UI.createWebView();
@@ -188,21 +194,21 @@ var windowTitle = Ti.UI.createLabel({
                     webview.addEventListener('load',function(e){
                          Ti.API.debug("webview loaded: "+e.url);
                          var title = webview.evalJS('document.title');
-                         win.title=title;
+                         webWin.title=title;
                     });
                     
                     webview.url = regularExpressionUrl[0];
 
-                    win.add(webview);
+                    webWin.add(webview);
                     
                     //win.open({animated:true});
                     if(displayNav[0]){
                     //alert('yes!!!');
-                       displayNav[0].open(win,{animated:true}); 
+                       displayNav[0].open(webWin,{animated:true}); 
                        
                     }else{
                     //alert('no!!!');
-                        Titanium.UI.currentTab.open(win,{animated:true});
+                        Titanium.UI.currentTab.open(webWin,{animated:true});
                     }
                 }
             });

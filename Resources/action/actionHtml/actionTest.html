@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" /><title>Twittaction</title><link rel="stylesheet" href="css/basic.css"/><script src="js/jquery.1.6.js"></script><script src="js/jsdeferred.js"></script><script src="js/move.js"></script></script></head><body>  <header>    <h1>Twittaction</h1>  </header>  <div id="wrapper">    <div id="stage">      <div class="inner">        <div id="cube">          <div class="inner" id="cube-inner">            <div class="side-a"></div>            <div class="side-b"></div>            <div class="side-c"></div>            <div class="side-d"></div>            <div class="side-e"></div>            <div class="side-f"></div>          </div>        </div>      </div>    </div>  </div>  <script>
+/*
+
+function insertData(accelData){
+(function(exports) {
+    exports.Twittaction = function(selector) {
+        if (!(this instanceof Twittaction)) {
+            return new Twittaction(selector);
+        }
+        this.element = document.getElementById(selector);
+        this.queue = [];
+        return this;
+    };
+
+    Twittaction.prototype.execute = function() {
+        var self = this;
+        loop(this.queue.length, function(i) {
+            return self.queue[i].call(self.element);
+        });
+    };
+
+    Twittaction.prototype.add = function(data, type, option) {
+        var i, len;
+        type = type || 'defaultCommand';
+        option = option || {};
+        if (data instanceof Array) {
+            for (i = 0, len = data.length; i < len; i++) {
+                this.queue.push(command[type].call(null, data[i], option));
+            }
+        } else {
+            this.queue.push(command[type].call(null, data, option));
+        }
+        return this;
+    };
+
+    var command = {
+        defaultCommand: function(data, option) {
+            var x = Math.round(data.x * 10),
+                y = Math.round(data.y * 10),
+                z = Math.round(data.z * 10);
+            return function() {
+                var dfd = new Deferred();
+                var flag = true;
+                Move(this)
+                    .translate(x, y)
+                    .duration('0.1s')
+                    .then()
+                        .translate(-x, -y)
+                        .duration('0.1s')
+                        .then(function() { dfd.call(); })
+                        .pop()
+                    .end();
+                return dfd;
+            };
+        },
+
+        rotate: function(data, option) {
+
+        }
+    };
+
+    Deferred.define();
+
+})(this);
+var tmp = accelData;
+tmp = accelData; 
+var data = [];   
+for (var i = 0, len = tmp["X"].length; i < len; i++) {        data.push({            x: tmp["X"][i] * 5,            y: tmp["Y"][i] * 5,            z: tmp["Z"][i] * 5        });    };    Twittaction("cube-inner").add(data).execute();  }*/
+function test(){
+    $('#test').after('NO!');
+}
+</script><div id='test'>Yes!</div></body></html>

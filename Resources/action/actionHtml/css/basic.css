@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+header h1 {
+  padding: 10px 0;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#wrapper {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+#stage {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  -webkit-perspective: 10000px;
+  -webkit-perspective-origin: 50% -4000px;
+}
+
+#stage > .inner {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#cube {
+  margin: 0 auto;
+  position: relative;
+  top: 50%;  
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform: rotateY(30deg);
+}
+
+#cube > .inner {
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  top: -50px;
+  position: relative;
+  opacity: 0.9;
+  -webkit-transform-style: preserve-3d;
+}
+
+#cube div:not(.inner) {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  background-image: url("../images/twitter_icon01.png");
+  background-size: 100px 100px;
+}
+
+.side-a {
+  background-color: #F1BFFF;
+  -webkit-transform: translateZ(50px);
+}
+
+.side-b {
+  left: 50px;
+  background-color: #BFCFFF;
+  -webkit-transform: rotateY(-90deg);
+}
+
+.side-c {
+  background-color: #BFFFEF;
+  -webkit-transform: rotateX(90deg);
+  -webkit-transform: translateZ(-50px);
+}
+
+.side-d {
+  left: -50px;
+  background-color: #EFFFBF;
+  -webkit-transform: rotateY(90deg);
+}
+
+.side-e {
+  top: -50px;
+  background-color: #FFBFBF;
+  -webkit-transform: rotateX(90deg);
+}
+
+.side-f {
+  top: 50px;
+  background-color: #F5D5FF;
+  -webkit-transform: rotateX(90deg);
+}

@@ -121,6 +121,7 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
         try
         {
             var config = JSON.parse(contents.text);
+            //alert(config);//確認
         }
         catch(ex)
         {
