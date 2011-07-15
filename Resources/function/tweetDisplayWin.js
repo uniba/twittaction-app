@@ -149,9 +149,9 @@ var windowTitle = Ti.UI.createLabel({
     
         //alert(e.source.text);
         //regular expression : 正規表現
-        var q= /(http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?)/gi;
+        var q = /(http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?)/gi;
         var str = e.source.text;
-        var result =str.match(q);
+        var result = str.match(q);
         if(result==null){
             regularExpressionUrl=0;
         }else{
@@ -241,9 +241,9 @@ var windowTitle = Ti.UI.createLabel({
 
     var UA_TLImageView = Ti.UI.createImageView({
         image:'images/TL_icon.png',
-        height:80,
-        width:48,
-        
+        height:100,
+        width:60,
+        bottom:-20
     });
     UA_TL.add(UA_TLImageView);
     
@@ -268,8 +268,9 @@ var windowTitle = Ti.UI.createLabel({
 
     var UA_newImageView = Ti.UI.createImageView({
         image:'images/new_icon.png',
-        height:80,
-        width:48,
+        height:100,
+        width:60,
+        bottom:-20
         
     });
     UA_new.add(UA_newImageView);
@@ -298,8 +299,9 @@ var windowTitle = Ti.UI.createLabel({
 
     var UA_oldImageView = Ti.UI.createImageView({
         image:'images/old_icon.png',
-        height:80,
-        width:48,
+        height:100,
+        width:60,
+        bottom:-20
         
     });
     UA_old.add(UA_oldImageView);
@@ -328,9 +330,9 @@ var windowTitle = Ti.UI.createLabel({
 
     var UA_shareImageView = Ti.UI.createImageView({
         image:'images/share_icon.png',
-        height:80,
-        width:48,
-        
+        height:100,
+        width:60,
+        bottom:-20
     });
     UA_share.add(UA_shareImageView);
 
@@ -452,14 +454,14 @@ var windowTitle = Ti.UI.createLabel({
 
 
     });
-       
+    /*
     UA_old.addEventListener('touchstart', function(e){
         UA_oldImageView.image = 'images/share_icon.png';
     });        
     UA_old.addEventListener('touchend', function(e){
         UA_oldImageView.image = 'images/old_icon.png';
     });        
-        
+      */  
     
     win.add(UA_TL);
     win.add(UA_old);

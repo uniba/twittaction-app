@@ -378,6 +378,9 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
                 var tabGroup = Titanium.UI.currentWindow.tabGroup;
                 tabGroup.activeTab = tabGroup.tabs[0];
                 
+                
+                
+                
               if(params.onSuccess){
                 params.onSuccess(client.responseText);
               }
@@ -401,9 +404,29 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
         screen_name = responseParams['screen_name'];//追加
         user_id = responseParams['user_id'];//追加
         
-
+        
+        var xhr = Titanium.Network.createHTTPClient();
+        var twitterUrl = 'http://api.twitter.com/1/users/show.json?user_id='+user_id;
+        xhr.open('GET',twitterUrl);
+            // レスポンスを受け取るイベント
+        xhr.onload = function(){
+            //alert(this.responseText);
+            var json = JSON.parse(this.responseText);
+            //alert(json);
+            //alert(json.profile_image_url_https);
+            
+            var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+                newDir.createDirectory();
+            
+            var profileImageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
+            var profileImageFile = newFile.read();
+             
+            
+        };
+        xhr.send();
+        
         Ti.API.debug('*** get access token, Response: ' + client.responseText);
-
+        Ti.API.debug('*** get access token, Response: ' + client.responseText);
         processQueue();
 
         return client.responseText;

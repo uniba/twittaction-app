@@ -165,15 +165,33 @@ UA_sendButton.addEventListener(
     
         if(sendTwittaction[0]==true){
             tweetTwittaction( UA_tweetComment.value );
+            updateTwittaction(UA_tweetComment.value);
         }else{
             tweet( UA_tweetComment.value );
+            updateTwittaction(UA_tweetComment.value);
         }
     }
 );
-
 
 
 //add textfield for tweetWin
 win.add(UA_tweetComment);
 //win.add(UA_hintTextLabel);
 win.add(UA_countNumberLabel);
+
+function updateTwittaction(tweet){
+    var q = /(http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?)/gi;
+    var str = tweet ;
+    var result = str.match(q);
+    //alert(typeof result.toString());
+    //alert(result);
+    var key = result.toString().substring(21,28);
+    //alert(key);
+    
+    var xhr = Titanium.Network.createHTTPClient();
+
+    xhr.open('POST','http://twittaction.com/update');
+    xhr.send({ key:key , message:tweet });
+
+}
+

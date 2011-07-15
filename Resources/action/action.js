@@ -128,6 +128,17 @@ SaveWebView.addEventListener('load', function(e){
         var json = JSON.parse(this.responseText);
         //alert(json);
         //alert(json.profile_image_url_https);
+        
+        var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+            newDir.createDirectory();
+            
+        var profileImageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
+            //var contents = newFile.read();
+        var profile_image_url_https = new Object();;
+            profile_image_url_https['profile_image_url_https'] = json.profile_image_url_https; 
+        var profile_image_url_httpsJson = JSON.stringify(profile_image_url_https);
+            profileImageFile.write(profile_image_url_httpsJson);
+        
         SaveWebView.evalJS('imageUrl("'+json.profile_image_url_https+'")');
     };
     xhr.send();

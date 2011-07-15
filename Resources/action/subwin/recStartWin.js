@@ -437,9 +437,36 @@ function saveJson(saveWebview,win,newFile)
         //alert('処理した後のurlのイメージ \n'+url);
     };
     
+    var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+        newDir.createDirectory();
     
+    var profileImageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
+    var profileImageFileContents = profileImageFile.read();
+     //alert(profileImageFileContents.text);
+    //var profileImageJson = eval(profileImageFileContents.text);
+    //alert(profileImageJson);
+    //alert(profileImageJson[profile_image_url_https]);
+    
+    
+    if (profileImageFileContents == null) {
+        var profileImageFileContents = {profile_image_url_https:''};
+        
+    }else{
+
+    try
+        {
+            var profileImageJson = JSON.parse(profileImageFileContents.text);
+            //alert(profileImageJson);//確認
+        }
+        catch(ex)
+        {
+            return;
+        }    
+        //alert(profileImageJson.profile_image_url_https);
+
+    }
     xhr.open('POST','http://twittaction.com/action');
-    xhr.send({userId:twitterConfigJson['user_id'],message:'testメッセージ',sequence:json});
+    xhr.send({userId:twitterConfigJson['user_id'], message:'', sequence:json,  profile_image_url_https:profileImageJson.profile_image_url_https});
 }
 
 //when click cancel button, we need to empty array 
