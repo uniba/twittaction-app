@@ -1,36 +1,5 @@
 var win = Ti.UI.currentWindow;
 
-
-/* newDir フォルダの確認用ボタン
-var testCheck= Titanium.UI.createButton({
-    title:'testCheckAccel',
-	top:100,
-	left: 50,
-	width: 105,
-	height: 34
-});
-
-testCheck.addEventListener('click', function(e){
-  //actionWin.close();
-	var tijson = null;
-*/
-
-/*
-var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
-newDir.createDirectory();
-
-//create file
-var newFile = Titanium.Filesystem.getFile(newDir.nativePath, 'acce.json');
-if(newFile.exists()){
-    //this.tijson = Titanium.JSON.parse(newFile.read());
-    alert(newFile.read());
-} else {
-    alert("file no exists");
-}
-});
-
-*/
-
 var UA_tweetWin = Titanium.UI.createWindow({  
     url:'subwin/tweetWin.js',
     title:'Tweet',
@@ -44,13 +13,15 @@ var UA_recWin = Titanium.UI.createWindow({
     backgroundColor:'#fff',
     barColor:'black'
 });
-
-
-
+var coverWin = Titanium.UI.createWindow({  
+    backgroundColor:'Transparent'
+});
+coverWin.open();
 
 //create webview for actionWin(A1 image)
 var SaveWebView = Titanium.UI.createWebView({
-		url: "actionHtml/action.html"
+		url: "actionHtml/action.html",
+        //touchEnabled:false
 });
 
 UA_recWin.SaveWebView = SaveWebView;
@@ -163,8 +134,40 @@ var UA_tweetButton = Titanium.UI.createButton({
 //close actionWin and open tweetwin means changing from A1 to A6
 UA_tweetButton.addEventListener('click', function(e){
   //actionWin.close();
-	Ti.UI.currentTab.open(UA_tweetWin);
     
+            
+    
+    var xhr = Titanium.Network.createHTTPClient();
+    xhr.onload = function(){
+
+        var url = this.responseText;
+        Titanium.API.info('returned url:' +url);
+        //alert(url);
+        //create directory 
+        var dir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+        dir.createDirectory();        
+        //create file
+        var shortUrlFile = Titanium.Filesystem.getFile(dir.nativePath, 'shortUrl.json');
+        var shortUrl = new Object();
+        shortUrl['shortUrl'] = url; 
+        var shortUrlJson = JSON.stringify(shortUrl);
+        shortUrlFile.write(shortUrlJson);
+        Ti.UI.currentTab.open(UA_tweetWin);
+    };    
+        //alert(profileImageJson.profile_image_url_https);
+    
+    xhr.open('POST','http://twittaction.com/action');
+    
+    var dir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+        dir.createDirectory();  
+    var postInformationFile = Titanium.Filesystem.getFile(dir.nativePath, 'postInfomation.json');
+    var config = postInformationFile.read();
+    //alert(JSON.parse(config.text));
+    var postInformationJson=JSON.parse(config.text);
+    
+    xhr.send({userId:postInformationJson.userId, message:'', sequence:postInformationJson.sequence,  profile_image_url_https:postInformationJson.profile_image_url_https});
+    
+
 });
 
 //create tweet button for actionWin(A1 image)
@@ -188,6 +191,7 @@ UA_recButton.addEventListener('click', function(e){
 
 //add webview, tweetbutton and recbutton to actionWin
 win.add(SaveWebView);
+win.add(coverWin);
 //win.add(testCheck);
 win.add(UA_tweetButton);
 win.add(UA_recButton);

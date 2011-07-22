@@ -14,6 +14,7 @@
                 //alert(db.getSavedTweets());
             },
             onError: function(error){
+                alert(error);
                 Ti.API.error(error);
             }
         }

@@ -12,7 +12,8 @@ win.barColor = 'black';
 
 var UA_webView = Titanium.UI.createWebView({
 		url: "html/testevaljs.html",
-        zindex:1
+        zindex:1,
+        touchEnabled:false
 });
 
 
@@ -148,14 +149,14 @@ acceFunction = function(e){
 
 
 var UA_labelInterval = Ti.UI.createLabel({
-text:'10.000',  //default time is 10 seconds
-width:'auto',
-height: 90,
-top:300,
-color:'white',
-textAlign:"center",
-font:{fontSize: 70, fontFamily:'Futura-CondensedMedium'},
-zindex:2
+    text:'10.000',  //default time is 10 seconds
+    width:'auto',
+    height: 90,
+    top:300,
+    color:'white',
+    textAlign:"center",
+    font:{fontSize: 70, fontFamily:'Futura-CondensedMedium'},
+    zindex:1001
 });
 
 //add start button to count time
@@ -164,7 +165,7 @@ var UA_startButton = Titanium.UI.createButton({
 	//title: 'start',
 	height: 174,
 	width: 171,
-    zindex:2
+    zindex:1000
 });
 
     var t = Titanium.UI.create2DMatrix();
@@ -196,7 +197,6 @@ var alertDialog = Titanium.UI.createAlertDialog({
     if(e.index==1){
     UA_labelInterval.text = "10.000";
     //at here, we need to save acce data into two filesystem
-    
     
     saveJson(saveWebview,win,newFile);
     
@@ -258,7 +258,7 @@ function myWatch(flug)
 }
 
 //add event detect for start button
-UA_startButton.addEventListener('click',function(e){
+UA_startButton.addEventListener('touchend',function(e){
 // we need to add some program here
 myWatch(0);
 
@@ -266,11 +266,11 @@ myWatch(0);
 
 
 //win.rightNavButton = recstartrightlabel;
-win.add(UA_webView);
-//win.add(UA_recCancelButton);
 
-win.add(UA_labelInterval);
+//win.add(UA_recCancelButton);
+win.add(UA_webView);
 win.add(UA_startButton);
+win.add(UA_labelInterval);
 //win.add(UA_recStartRightLabel);
 
 
@@ -306,137 +306,7 @@ function saveJson(saveWebview,win,newFile)
         return;
     }
 
-    var xhr = Titanium.Network.createHTTPClient();
-    var jsonEncodeUri = encodeURI(json);
-    
-    xhr.onload = function(){
-        //alert(json);
-        /*
-        var dialog = Titanium.UI.createAlertDialog();
-            dialog.setTitle('加速度センサーのデータ');
-            dialog.setMessage(json); 
-            dialog.show();
-        
-        */
-        //var baseWin = Titanium.UI.createWindow({
-          //  barColor:'black'
-       // });
-       // baseWin.hideNavBar();
-        
-        var url = this.responseText;
-        Titanium.API.info('returned url:' +url);
-        //alert(url);
-        //create directory 
-        var dir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
-        dir.createDirectory();
-        
-        //create file
-        var shortUrlFile = Titanium.Filesystem.getFile(dir.nativePath, 'shortUrl.json');
-        var shortUrl = new Object();;
-        shortUrl['shortUrl'] = url; 
-        var shortUrlJson = JSON.stringify(shortUrl);
-        shortUrlFile.write(shortUrlJson);
-        
-        
-        var contents = shortUrlFile.read();
-        if (contents == null) return;
-            try
-        {
-            var config = JSON.parse(contents.text);
-            //alert(config);//確認
-        }
-        catch(ex)
-        {
-            return;
-        }    
-        //alert(config.shortUrl);
-        saveWebview.reload();
-        win.close(); 
 
-        
-        
-       // var accelWin = Titanium.UI.createWindow({
-         //   barColor:'black'
-       // });
-       
-        /*
-        var webview = Ti.UI.createWebView({
-            url:url
-        });
-        */
-        
-        //var b1 = Titanium.UI.createButton({title:'close'});
-        //b1.addEventListener('click', function(e){
-          //  accelWin.close();
-            //baseWin.close();
-            //win._caller.close();
-           // win.close();
-       // });
-       // accelWin.leftNavButton = b1;
-        
-       // var nav = Titanium.UI.iPhone.createNavigationGroup({
-         //  window: accelWin
-       // });
-        
-       // var UA_tweetWin = Titanium.UI.createWindow({  
-         //   url:'tweetWin.js',
-           // title:'Tweet',
-           // backgroundColor:'#fff',
-           // barColor:'black'
-       // });
-
-        //create tweet button for actionWin(A1 image)
-       // var UA_tweetButton = Titanium.UI.createButton({
-         //   backgroundImage:'../pic/rec01.png',
-           // backgroundSelectedImage:'../pic/rec01.png',
-           // title:'Tweet',
-           // top:325,
-           // left: 35,
-           // width: 105,
-           // height: 34
-        //});
-        
-        //UA_tweetButton.addEventListener('click', function(e){
-          //actionWin.close();
-          //  nav.open(UA_tweetWin,{animated:true});
-            
-       // });
-        
-                //create tweet button for actionWin(A1 image)
-        /*
-        var UA_reloadButton = Titanium.UI.createButton({
-            backgroundImage:'../pic/rec01.png',
-            backgroundSelectedImage:'../pic/rec01.png',
-            title:'Reload',
-            top:325,
-            right: 35,
-            width: 105,
-            height: 34
-        });
-        */
-        /*
-        UA_reloadButton.addEventListener('click', function(e){
-          //actionWin.close();
-            webview.reload();
-            
-        });
-        */
-        
-       // accelWin.add(webview);
-       // accelWin.add(UA_reloadButton);
-       // accelWin.add(UA_tweetButton);
-       // UA_tweetWin.twittaction = true;
-       // UA_tweetWin.twittactionUrl = url;
-       // UA_tweetWin.nav = nav;
-       // baseWin.add(nav);
-
-       // baseWin.open({modal:true});
-        //accelWin.open({modal:true});
-         // 現在のTabに所属させるのなら次のとおり。
-       // Titanium.UI.currentTab.open(accelWin,{animated:true});
-        //alert('処理した後のurlのイメージ \n'+url);
-    };
-    
     var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
         newDir.createDirectory();
     
@@ -461,12 +331,20 @@ function saveJson(saveWebview,win,newFile)
         catch(ex)
         {
             return;
-        }    
-        //alert(profileImageJson.profile_image_url_https);
-
+        }      
     }
-    xhr.open('POST','http://twittaction.com/action');
-    xhr.send({userId:twitterConfigJson['user_id'], message:'', sequence:json,  profile_image_url_https:profileImageJson.profile_image_url_https});
+    
+     var postInfomationFile = Titanium.Filesystem.getFile(newDir.nativePath, 'postInfomation.json');
+     var postInfomation = new Object();
+         postInfomation['userId'] = twitterConfigJson['user_id'];
+         postInfomation['message'] = '';
+         postInfomation['sequence'] = json;
+         postInfomation['profile_image_url_https'] = profileImageJson.profile_image_url_https;
+           
+     var postInfomationJson = JSON.stringify(postInfomation);
+         postInfomationFile.write(postInfomationJson);
+    saveWebview.reload();
+    win.close(); 
 }
 
 //when click cancel button, we need to empty array 

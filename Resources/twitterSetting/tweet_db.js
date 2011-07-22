@@ -48,8 +48,27 @@ var TweetDB = function() {
                 tweet.id_str
             );
             //alert(tweet.id_str);
-            Ti.API.info('Found: ' + rows.getRowCount() );
+            Ti.API.info('Found!: ' + rows.getRowCount() );
+            Ti.API.info('tweet.user.screen_name: ' + tweet.user.screen_name);
+            Ti.API.info('tweet.text: ' + tweet.text);
+            Ti.API.info('tweet.created_at twitterからの生の時間: ' + tweet.created_at);
             
+
+            var time = new Date(tweet.created_at);
+              var yy = time.getYear(); //日本時間に変換
+              var  mm = time.getMonth() + 1;
+              var  dd = time.getDate();
+              var  tt= time.getHours();
+              var  mi= time.getMinutes();
+              var  ss=time.getMinutes();
+                if (yy < 2000) { yy += 1900; }
+                if (mm < 10) { mm = "0" + mm; }
+                if (dd < 10) { dd = "0" + dd; }
+                if (tt < 10) { tt = "0" + tt; }
+                if (mi < 10) { mi = "0" + mi; }
+            //var pub_day=yy + "-" + mm + "-" + dd +" " + tt +":"+mi;
+            var pub_day = mm + "-" + dd + " " + tt + ":" + mi ;
+
             if ( rows.getRowCount() > 0 ) {
             
                 continue;
@@ -61,11 +80,11 @@ var TweetDB = function() {
                 tweet.user.profile_image_url,
                 tweet.text,
                 tweet.id_str,
-                tweet.created_at
+                pub_day
             );
             
             Titanium.API.info('Add to DB : ' + tweet.text);
-        
+            Titanium.API.info('データベースにいれた時間: ' + pub_day);
         }
         this.close();
         return true;
@@ -81,7 +100,7 @@ var TweetDB = function() {
         *
         */
             var rowsNum = rows.getRowCount();
-            var over=rowsNum-60;
+            var over=rowsNum-100;
                 Titanium.API.info('ROW COUNT = ' + rowsNum);
                 if(over >= 0){
                 for(i=1;i<=over;i++){
@@ -105,6 +124,7 @@ var TweetDB = function() {
         var res = [];
         if ( rows.getRowCount() > 0 ) {
             Ti.API.debug('Found: ' + rows.getRowCount() );
+            Titanium.API.info('保存された生の時間。SELECT * FROM tweets ORDER BY created_at DESC　で取り出し ');
             while ( rows.isValidRow() ) {
                 var tweetObj = {};
                 tweetObj.user = {};
@@ -114,7 +134,8 @@ var TweetDB = function() {
                 tweetObj.user.text = rows.fieldByName('tweet_text');
                 //var date = new Date(rows.fieldByName('created_at'));
                 //var time=rows.fieldByName('created_at');
-                
+                Titanium.API.info('保存された生の時間: ' +  rows.fieldByName('created_at'));
+                /*
                 var time = new Date(rows.fieldByName('created_at'));
                             yy = time.getYear(); //日本時間に変換
                             mm = time.getMonth() + 1;
@@ -130,9 +151,9 @@ var TweetDB = function() {
                 //var pub_day=yy + "-" + mm + "-" + dd +" " + tt +":"+mi;
                 var pub_day = mm + "-" + dd +" " + tt +":"+mi;
                 //tweetObj.created_at = date.toLocaleString();
-                
-                tweetObj.user.created_at = pub_day;
-                
+                */
+                tweetObj.user.created_at = rows.fieldByName('created_at');
+                //Titanium.API.info('加工した時間,pub_day :' +  pub_day);
                 res.push(tweetObj);
                 rows.next();
             }
