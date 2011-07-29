@@ -7,8 +7,8 @@ Ti.include('twitterAct.js');
 
 var win = Ti.UI.currentWindow;
 var sendTwittaction = [];
-sendTwittaction[0] = win.twittaction;
-sendTwittaction[1] = win.twittactionUrl;
+
+//sendTwittaction[1] = win.twittactionUrl;
 var nav = win.nav;
 //define send button for navibar of tweetwin(A6 image)
 var UA_sendButton = Titanium.UI.createButton({
@@ -16,7 +16,6 @@ var UA_sendButton = Titanium.UI.createButton({
 	width:67,
 	height:32,
     enabled:false
-	
 });
 
 
@@ -159,17 +158,11 @@ UA_tweetComment.addEventListener('focus', function(e){
 });
 */
 
-UA_sendButton.addEventListener(
-    'click',
+UA_sendButton.addEventListener('click',
     function () {
-    
-        if(sendTwittaction[0]==true){
-            tweetTwittaction( UA_tweetComment.value );
-            updateTwittaction(UA_tweetComment.value);
-        }else{
-            tweet( UA_tweetComment.value );
-            updateTwittaction(UA_tweetComment.value);
-        }
+        UA_sendButton.enabled = false;
+        tweet( UA_tweetComment.value );
+        updateTwittaction(UA_tweetComment.value);
     }
 );
 
@@ -187,11 +180,18 @@ function updateTwittaction(tweet){
     //alert(result);
     var key = result.toString().substring(21,28);
     //alert(key);
-    
-    var xhr = Titanium.Network.createHTTPClient();
-
-    xhr.open('POST','http://twittaction.com/update');
-    xhr.send({ key:key , message:tweet });
+    try{
+        var xhr = Titanium.Network.createHTTPClient();
+        xhr.setTimeout(30000);
+        xhr.onerror = function(){        
+            return;
+        };
+        xhr.open('POST','http://twittaction.com/update');
+        xhr.send({ key:key , message:tweet });
+    }
+    catch(error){
+        return;
+    }
 
 }
 

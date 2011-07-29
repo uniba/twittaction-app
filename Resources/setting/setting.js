@@ -79,6 +79,73 @@ rightbutton.addEventListener('click',function()
     //alert("クリック");
     //ここを変えるとuserが変わる    
 /*------xauth login部分終わり   --------------------------*/
+            // オフラインなら処理しないようにしたほうがいいですよね！
+    if(Titanium.Network.online == false){
+        // エラー表示
+        return;
+    }
+    
+    try{
+        // オブジェクトを生成します。
+        var xhr = Titanium.Network.createHTTPClient();
+        xhr.setTimeout(30000);
+        
+        var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,  'twitter.config');
+        if (file.exists == false) return;
+
+        var contents = file.read();
+        if (contents == null) return;
+
+        try
+        {
+            var config = JSON.parse(contents.text);
+            //alert(config);//確認
+        }
+        catch(ex)
+        {
+            return;
+        }
+        
+        if (config.user_id){ 
+            user_id = config.user_id;
+            //alert(user_id);
+        }
+        
+        var twitterUrl = 'http://api.twitter.com/1/users/show.json?user_id='+user_id;
+        xhr.open('GET',twitterUrl);
+        
+        // レスポンスを受け取るイベント
+        xhr.onload = function(){
+            //alert(this.responseText);
+            var json = JSON.parse(this.responseText);
+            //alert(json);
+            //alert(json.profile_image_url_https);
+            
+            var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+                newDir.createDirectory();
+                
+            var profileImageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
+                //var contents = newFile.read();
+            var profile_image_url_https = new Object();;
+                profile_image_url_https['profile_image_url_https'] = json.profile_image_url_https; 
+            var profile_image_url_httpsJson = JSON.stringify(profile_image_url_https);
+                profileImageFile.write(profile_image_url_httpsJson);
+            
+            //alert(profile_image_url_httpsJson);
+            //SaveWebView.evalJS('imageUrl("'+json.profile_image_url_https+'")');
+        };
+        
+        xhr.onerror = function(){
+            return;
+        };
+        
+        xhr.send();
+        
+    } // try{
+    
+    catch(error){
+        alert('エラーが発生しました');
+    }
 
 });
 
@@ -120,8 +187,11 @@ logoutLabel.addEventListener('click', function(e){
         
         db.close();
         
+        var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+        //newDir.createDirectory();
+        newDir.deleteDirectory();
         
-        
+        Ti.API.info('derete mydir');
         // TabGroupの取得 http://code.google.com/p/titanium-mobile-doc-ja/wiki/TabGroup
         //var tabGroup =settingWin.tabGroup;
         //var feedTab = Titanium.UI.currentWindow.tabGroup;

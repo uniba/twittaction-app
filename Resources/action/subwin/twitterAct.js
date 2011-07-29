@@ -44,22 +44,20 @@ function tweet(message)
     
     //add by hebinbin 
 
-        twitterApi.statuses_home_timeline(
-        {
-            onSuccess: function(response){
-                   var UA_tweetDisplayWin = Ti.UI.createWindow({
-                    
-                    url: '../../function/tweetDisplayWin.js',
-                    backButtonTitle: 'back',
-                    backgroundColor: '#fff',
-                    tabBarHidden: true,
-                    barColor:'black'
-                    
-                    
-            });
+    twitterApi.statuses_home_timeline(
+    {
+        onSuccess: function(response){
+               var UA_tweetDisplayWin = Ti.UI.createWindow({
+                
+                url: '../../function/tweetDisplayWin.js',
+                backButtonTitle: 'back',
+                backgroundColor: '#fff',
+                tabBarHidden: true,
+                barColor:'black'
+                
+                
+        });
         
- 
-            
         UA_tweetDisplayWin.displayIndex = 0;
         UA_tweetDisplayWin.displayText = message;
         UA_tweetDisplayWin.displayTitle = isTweetSended[1];
@@ -73,23 +71,19 @@ function tweet(message)
         Ti.UI.currentTab.open(UA_tweetDisplayWin);
         
         
-            },
-            onError: function(error){
-                Ti.API.error(error);
-            }
+        },
+        onError: function(error){
+            Ti.API.error(error);
         }
-        );
-        
-        
-            
+    });
 
     if (oAuthAdapter.isAuthorized() == false) {
-                alert('settingでログインしてください');
+        alert('settingでログインしてください');
     };
 }
 
 
-
+/*
 function tweetTwittaction(message) 
 {
 
@@ -156,7 +150,7 @@ function tweetTwittaction(message)
     };
 }
 
-
+*/
 
 
 

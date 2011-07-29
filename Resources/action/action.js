@@ -20,7 +20,8 @@ coverWin.open();
 
 //create webview for actionWin(A1 image)
 var SaveWebView = Titanium.UI.createWebView({
-		url: "actionHtml/action.html",
+		//url: "http://twittaction.preview.dev.uniba.jp/test/actionHtml/action.html",
+        url: "actionHtml/action.html",
         //touchEnabled:false
 });
 
@@ -60,59 +61,12 @@ SaveWebView.addEventListener('load', function(e){
     //alert(insertData);
     SaveWebView.evalJS(insertData);
     
-    
-            // オフラインなら処理しないようにしたほうがいいですよね！
-    if(Titanium.Network.online == false){
-        // エラー表示
-        return;
-    }
-
-    // オブジェクトを生成します。
-    var xhr = Titanium.Network.createHTTPClient();
-    var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,  'twitter.config');
-    if (file.exists == false) return;
-
-    var contents = file.read();
-    if (contents == null) return;
-
-    try
-    {
-        var config = JSON.parse(contents.text);
-        //alert(config);//確認
-    }
-    catch(ex)
-    {
-        return;
-    }
-    
-    if (config.user_id){ 
-        user_id = config.user_id;
-        //alert(user_id);
-    }
-    
-    var twitterUrl = 'http://api.twitter.com/1/users/show.json?user_id='+user_id;
-    xhr.open('GET',twitterUrl);
-    
-    // レスポンスを受け取るイベント
-    xhr.onload = function(){
-        //alert(this.responseText);
-        var json = JSON.parse(this.responseText);
-        //alert(json);
-        //alert(json.profile_image_url_https);
-        
-        var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
-            newDir.createDirectory();
-            
-        var profileImageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
-            //var contents = newFile.read();
-        var profile_image_url_https = new Object();;
-            profile_image_url_https['profile_image_url_https'] = json.profile_image_url_https; 
-        var profile_image_url_httpsJson = JSON.stringify(profile_image_url_https);
-            profileImageFile.write(profile_image_url_httpsJson);
-        
-        SaveWebView.evalJS('imageUrl("'+json.profile_image_url_https+'")');
-    };
-    xhr.send();
+    var imageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
+    var imageFileContents = imageFile.read();
+    var imageFileJson = JSON.parse(imageFileContents.text);
+    //alert(imageFileContents.text);
+    //alert(imageFileJson);
+    SaveWebView.evalJS('imageUrl("'+imageFileJson.profile_image_url_https+'")');
     
 
 });
@@ -134,10 +88,28 @@ var UA_tweetButton = Titanium.UI.createButton({
 //close actionWin and open tweetwin means changing from A1 to A6
 UA_tweetButton.addEventListener('click', function(e){
   //actionWin.close();
+    var coverWin = Titanium.UI.createWindow({
+        opacity:0.2,
+        backgroundColor:'blue',
+        
+    });
+    var actInd = Titanium.UI.createActivityIndicator({
+        style:Titanium.UI.iPhone.ActivityIndicatorStyle.BIG,
+        font: {fontFamily:'Helvetica Neue', fontSize:15,fontWeight:'bold'},
+        message: '短縮URLを作成中です',
+        color:'black',
+        opacity:1.0,
+    });
+    actInd.show();
+    coverWin.open();
+    win.add(coverWin);
+    win.add(actInd);
     
-            
+    try{
     
     var xhr = Titanium.Network.createHTTPClient();
+    xhr.setTimeout(30000);
+    
     xhr.onload = function(){
 
         var url = this.responseText;
@@ -152,6 +124,11 @@ UA_tweetButton.addEventListener('click', function(e){
         shortUrl['shortUrl'] = url; 
         var shortUrlJson = JSON.stringify(shortUrl);
         shortUrlFile.write(shortUrlJson);
+        
+        coverWin.close();
+        win.remove(actInd);
+        win.remove(coverWin);
+        
         Ti.UI.currentTab.open(UA_tweetWin);
     };    
         //alert(profileImageJson.profile_image_url_https);
@@ -165,8 +142,27 @@ UA_tweetButton.addEventListener('click', function(e){
     //alert(JSON.parse(config.text));
     var postInformationJson=JSON.parse(config.text);
     
+    //xhr.setTimeout(100);
+    xhr.onerror = function(){
+        coverWin.close();
+        win.remove(actInd);
+        win.remove(coverWin);
+        
+        alert('エラーが発生しました');
+    };
+    
     xhr.send({userId:postInformationJson.userId, message:'', sequence:postInformationJson.sequence,  profile_image_url_https:postInformationJson.profile_image_url_https});
     
+    }
+    catch(error){
+                
+        coverWin.close();
+        win.remove(actInd);
+        win.remove(coverWin);
+        
+        
+        alert('エラーが発生しました。');
+    }
 
 });
 

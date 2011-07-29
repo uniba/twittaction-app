@@ -14,8 +14,10 @@
                 //alert(db.getSavedTweets());
             },
             onError: function(error){
-                alert(error);
+                //alert(error);
                 Ti.API.error(error);
+                alert('エラーが発生しました');
+                return;
             }
         }
     );

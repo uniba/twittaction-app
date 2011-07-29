@@ -53,7 +53,6 @@ UA_display_twitter_homeline(twitterUrl, 'hashtag');
 
 if(Titanium.Network.online == false){
     recommend(win);
-
 }else{
     hashtag("#twitt_dev_action"); //ここに検索したい単語を入力する。
 }
@@ -82,13 +81,9 @@ function recommend(window){
     b1.addEventListener('click',function(e){
                 Ti.include('hashTag.js');
     });
+    window.remove(b1);
+    window.remove(l1);
     window.add(b1);
 
 }
 /*---- 画面再読み込み 終------------------------------*/
-
-
-
-
-
-

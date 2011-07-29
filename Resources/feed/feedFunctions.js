@@ -1,5 +1,4 @@
-function UA_update_twitter_homeline(timeline)
-{
+function UA_update_twitter_homeline(timeline){
     var win = Ti.UI.currentWindow;
     //var UA_tableview;
     var UA_tableViewData = [];
@@ -8,11 +7,9 @@ function UA_update_twitter_homeline(timeline)
     for (var c=0;c<timeline.length;c++)
     {
         var tweet = timeline[c];
-
         var bgcolor = (c % 2) == 0 ? '#fff' : '#eee';
-        
         var row = Ti.UI.createTableViewRow({hasChild:true,height:'auto',backgroundColor:bgcolor});
-        
+
         var av = Ti.UI.createImageView({
             image:tweet.user.profile_image_url,
             left:5,
@@ -37,14 +34,14 @@ function UA_update_twitter_homeline(timeline)
         row.add(user_label);
         
         var tweet_text = Ti.UI.createLabel({
-					text:tweet.user.text,
-					left:70,
-					top:31,
-					height:'auto',
-					width:200,
-					//textAlign:'left',
-					font:{fontSize:14}
-				});
+            text:tweet.user.text,
+            left:70,
+            top:31,
+            height:'auto',
+            width:200,
+            //textAlign:'left',
+            font:{fontSize:14}
+        });
 				// Add the tweet to the row
         row.add(tweet_text);
                 
@@ -64,25 +61,23 @@ function UA_update_twitter_homeline(timeline)
             text:tweet.user.profile_image_url,
             visible:0
         });
-        row.add(avatarAvartar);     
-        
+        row.add(avatarAvartar);             
 				// Add the vertical layout view to the row
         row.className = 'UA_item'+c;
         UA_tableViewData[c] = row;
 
-
     }
     
     var UA_tableView = Titanium.UI.createTableView({
-                data:UA_tableViewData
+        data:UA_tableViewData
     });
-    
+        
+    win.add(UA_tableView);
     
      UA_tableView.addEventListener('click',function(e){
         var testArray = e.rowData.getChildren();
         var displayIndex = e.index;
         var UA_tweetDisplayWin = Ti.UI.createWindow({
-                    
             url: '../function/tweetDisplayWin.js',
             backButtonTitle: 'back',
             backgroundColor: '#fff',
@@ -90,18 +85,18 @@ function UA_update_twitter_homeline(timeline)
             barColor:'black'
         });
                 
-                //pass data to UA_tweetDisplayWin
-            UA_tweetDisplayWin.displayIndex = e.index;
-            UA_tweetDisplayWin.displayAvatar = testArray[0].image;
-            UA_tweetDisplayWin.displayTitle = testArray[1].text;
-            UA_tweetDisplayWin.displayText = testArray[2].text;
-            UA_tweetDisplayWin.created_at = testArray[3].text;
-            UA_tweetDisplayWin.avartarUrl = testArray[4].text;
-            
-            UA_tweetDisplayWin.UA_tableViewData = UA_tableViewData;
-            
-            Ti.UI.currentTab.open(UA_tweetDisplayWin);
-        });
+            //pass data to UA_tweetDisplayWin
+        UA_tweetDisplayWin.displayIndex = e.index;
+        UA_tweetDisplayWin.displayAvatar = testArray[0].image;
+        UA_tweetDisplayWin.displayTitle = testArray[1].text;
+        UA_tweetDisplayWin.displayText = testArray[2].text;
+        UA_tweetDisplayWin.created_at = testArray[3].text;
+        UA_tweetDisplayWin.avartarUrl = testArray[4].text;
+        
+        UA_tweetDisplayWin.UA_tableViewData = UA_tableViewData;
+        
+        Ti.UI.currentTab.open(UA_tweetDisplayWin);
+    });
             
 /*-- pull to reflesh 部分 始まり--------------------------------------------*/
 
@@ -132,6 +127,7 @@ function UA_update_twitter_homeline(timeline)
         shadowColor:"#999",
         shadowOffset:{x:0,y:1}
     });
+    /*
    var arrow = Ti.UI.createView({
         backgroundImage:"../../../../../../twitterSetting/whiteArrow.png",
         width:23,
@@ -139,7 +135,7 @@ function UA_update_twitter_homeline(timeline)
         bottom:10,
         left:20
     });
-
+    */
 
     var lastUpdatedLabel = Ti.UI.createLabel({
         text:"Last Updated: "+formatDate(),
@@ -161,7 +157,7 @@ function UA_update_twitter_homeline(timeline)
         height:30
     });
 
-    tableHeader.add(arrow);
+   // tableHeader.add(arrow);
     tableHeader.add(statusLabel);
     tableHeader.add(lastUpdatedLabel);
     tableHeader.add(actInd);
@@ -171,52 +167,49 @@ function UA_update_twitter_homeline(timeline)
 
     var pulling = false;
     var reloading = false;
-    
-function beginReloading()
-{
-	// just mock out the reload
-	setTimeout(endReloading,2000);
-}
-
-
-    // twitter 追加部分
-var endReloading=function()
+        
+    function beginReloading()
     {
-     /*-twitter timeline 取得-------------------------------------*/
-        var loginCheck = new OAuthAdapter(
-        TwitterSettings.consumerSecret, //Consumer secret
-        TwitterSettings.consumerKey, //Consumer key
-        'HMAC-SHA1'
-        );
+        // just mock out the reload
+        setTimeout(endReloading,2000);
+    }
 
-        loginCheck.loadAccessToken('twitter');
-        
-       if(loginCheck.isAuthorized() == false){
-            alert('loginしていないようです。\n settingでloginして下さい。');
-       }else{
-       
-        twitterApi.statuses_home_timeline(
-        {
-            onSuccess: function(response){
-                db.addTweets(response);
-                UA_update_twitter_homeline(db.getSavedTweets());
-            },
-            onError: function(error){
-                Ti.API.error(error);
-            }
-        }
-        );
-        } //else{締め
-        //win1.add(UA_tableview);
-      /*-twitter timeline 終わり-------------------------------------*/    
-        
-        // when you're done, just reset
-     UA_tableView.setContentInsets({top:0},{animated:true});
-        reloading = false;
-        lastUpdatedLabel.text = "Last Updated: "+formatDate();
-        statusLabel.text = "Pull down to refresh...";
-        actInd.hide();
-        arrow.show();
+
+        // twitter 追加部分
+    var endReloading=function(){
+         /*-twitter timeline 取得-------------------------------------*/
+            var loginCheck = new OAuthAdapter(
+            TwitterSettings.consumerSecret, //Consumer secret
+            TwitterSettings.consumerKey, //Consumer key
+            'HMAC-SHA1'
+            );
+
+            loginCheck.loadAccessToken('twitter');
+            
+           if(loginCheck.isAuthorized() == false){
+                alert('loginしていないようです。\n settingでloginして下さい。');
+           }else{
+           
+            twitterApi.statuses_home_timeline({
+                onSuccess: function(response){
+                    db.addTweets(response);
+                    UA_update_twitter_homeline(db.getSavedTweets());
+                },
+                onError: function(error){
+                    Ti.API.error(error);
+                }
+            });
+           } //else{締め
+            //win1.add(UA_tableview);
+          /*-twitter timeline 終わり-------------------------------------*/    
+            
+            // when you're done, just reset
+         UA_tableView.setContentInsets({top:0},{animated:true});
+            reloading = false;
+            lastUpdatedLabel.text = "Last Updated: "+formatDate();
+            statusLabel.text = "Pull down to refresh...";
+            actInd.hide();
+            //arrow.show();
     } //function endReloading(){   の終わり
 
     UA_tableView.addEventListener('scroll',function(e)
@@ -227,14 +220,14 @@ var endReloading=function()
             var t = Ti.UI.create2DMatrix();
             t = t.rotate(-180);
             pulling = true;
-            arrow.animate({transform:t,duration:180});
+            //arrow.animate({transform:t,duration:180});
             statusLabel.text = "Release to refresh...";
         }
         else if (pulling && offset > -65.0 && offset < 0)
         {
             pulling = false;
             var t = Ti.UI.create2DMatrix();
-            arrow.animate({transform:t,duration:180});
+            //arrow.animate({transform:t,duration:180});
             statusLabel.text = "Pull down to refresh...";
         }
     });
@@ -246,18 +239,18 @@ var endReloading=function()
         {
             reloading = true;
             pulling = false;
-            arrow.hide();
+            //arrow.hide();
             actInd.show();
             statusLabel.text = "Reloading...";
             UA_tableView.setContentInsets({top:60},{animated:true});
-            arrow.transform=Ti.UI.create2DMatrix();
+            //arrow.transform=Ti.UI.create2DMatrix();
             beginReloading();
         }
     });
 
 /*-- pull to reflesh 部分 終わり--------------------------------------------*/    
     
-    win.add(UA_tableView);
+
 }
 
 /*
@@ -385,7 +378,9 @@ function recommendLogin(window){
     });
 
     b1.addEventListener('click',function(e){
-                Ti.include('../../../../../../../../../../../feed/feed.js');
+        window.remove(b1);
+        window.remove(l1);
+        Ti.include('../../../../../../../../../../../feed/feed.js');
     });
     window.add(b1);
 

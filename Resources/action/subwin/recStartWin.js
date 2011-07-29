@@ -12,6 +12,7 @@ win.barColor = 'black';
 
 var UA_webView = Titanium.UI.createWebView({
 		url: "html/testevaljs.html",
+        //url: "http://twittaction.preview.dev.uniba.jp/test/rec/testevaljs.html",
         zindex:1,
         touchEnabled:false
 });

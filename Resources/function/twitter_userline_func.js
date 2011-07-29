@@ -21,8 +21,8 @@ function UA_display_twitter_homeline(queryUrl, params)
             }
             else if(params == 'hashtag'){
                 var tweets = UA_tweetsContent['results'];
+                //alert(tweets);
             }
-            
             
             
             for (var c=0;c<tweets.length;c++)
@@ -320,23 +320,7 @@ var endReloading=function()
     });
 
 /*-- pull to reflesh 部分 終わり--------------------------------------------*/    
-    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
             win.add(UA_tableView);
 			
 		}
@@ -347,7 +331,6 @@ var endReloading=function()
 	 
 	};
 	xhr.send(); 
-  
 
 }
 
