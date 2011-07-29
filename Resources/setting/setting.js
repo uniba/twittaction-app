@@ -52,17 +52,26 @@ var rightbutton = Titanium.UI.createButton({title:'ログイン'});
     Ti.include("../twitterSetting/twitter_settings.js");
 
 
+/*------xauth読み込み部分 終  --------------------------*/    
+
+//add the action for rightbutton(login)
+rightbutton.addEventListener('click',function()
+{
+    
+            // オフラインなら処理しないようにしたほうがいいですよね！
+    if(Titanium.Network.online == false){
+        //alert('in');// エラー表示
+        alert('インターネットに接続されていません');
+        return;
+    }
+    
     Ti.App.twitterApi = new TwitterApi({
         consumerKey:TwitterSettings.consumerKey,
         consumerSecret:TwitterSettings.consumerSecret
     });
 
     var twitterApi = Ti.App.twitterApi;
-/*------xauth読み込み部分 終  --------------------------*/    
-
-//add the action for rightbutton(login)
-rightbutton.addEventListener('click',function()
-{
+    //alert('out');
   settingsXauth.username = textusername.value;
   settingsXauth.password = textpassword.value;
   //Ti.API.info(twitteraccount);
@@ -76,42 +85,72 @@ rightbutton.addEventListener('click',function()
         password: settingsXauth.password
     });
     
+    var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,  'twitter.config');
+    if (file.exists == false) return;
+
+    var contents = file.read();
+    if (contents == null) return;
+    try{
+        var config = JSON.parse(contents.text);
+        //alert(config);//確認
+    }
+    catch(ex){
+        return;
+    }
+    
+    if (config.user_id){ 
+       var user_id = config.user_id;
+        //alert(user_id);
+    }
+    
+    
+    try{
+    // https://dev.twitter.com/docs/api/1/get/friends/ids 
+    twitterApi.friends_ids({
+        url:'http://api.twitter.com/1/friends/ids.json?user_id='+user_id,
+        onSuccess:function(responce){
+            //alert(responce)
+            var xhrUserid = Titanium.Network.createHTTPClient();
+            xhrUserid.setTimeout(30000);
+            
+            /*
+            xhrUserid.onload = function(){
+                //alert('onload')
+            };
+            */
+            xhrUserid.open('POST','http://twittaction.com/socialGraph');
+            
+            xhrUserid.onerror = function(error){
+            //var error = JSON.parse(err);
+                alert(error);
+            };
+            
+            //alert(user_id);
+            //alert(responce);
+            xhrUserid.send({userId:user_id,friends:responce});
+        },
+        onError:function(error){
+            Titanium.API.info('friends_ids post error:'+error)
+        }
+    });
+
+
+    }
+    catch(error){
+        alert('エラーが発生しました。2');
+    }
     //alert("クリック");
     //ここを変えるとuserが変わる    
 /*------xauth login部分終わり   --------------------------*/
-            // オフラインなら処理しないようにしたほうがいいですよね！
-    if(Titanium.Network.online == false){
-        // エラー表示
-        return;
-    }
+
     
     try{
         // オブジェクトを生成します。
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
         
-        var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,  'twitter.config');
-        if (file.exists == false) return;
-
-        var contents = file.read();
-        if (contents == null) return;
-
-        try
-        {
-            var config = JSON.parse(contents.text);
-            //alert(config);//確認
-        }
-        catch(ex)
-        {
-            return;
-        }
-        
-        if (config.user_id){ 
-            user_id = config.user_id;
-            //alert(user_id);
-        }
-        
         var twitterUrl = 'http://api.twitter.com/1/users/show.json?user_id='+user_id;
+        
         xhr.open('GET',twitterUrl);
         
         // レスポンスを受け取るイベント
@@ -144,7 +183,7 @@ rightbutton.addEventListener('click',function()
     } // try{
     
     catch(error){
-        alert('エラーが発生しました');
+        alert('エラーが発生しました3');
     }
 
 });
@@ -156,6 +195,9 @@ settingWin.rightNavButton = rightbutton;
 
 leftbutton.addEventListener('click', function(e){
         Titanium.API.info('leftbutton click');
+        
+        //twitterApi.statuses_public_timeline({onSuccess:function(responce){alert(responce)},onError:function(error){alert(error)}});
+    //alert(typeof fol);
         //Titanium.UI.currentWindow.remove(searchBar)
         //Titanium.UI.currentWindow.titleControl(searchBar)
         textusername.blur();
@@ -169,11 +211,19 @@ var logoutLabel = Ti.UI.createLabel({
 
 logoutLabel.addEventListener('click', function(e){
         Titanium.API.info('logoutLabel click');
-        
+        Ti.App.twitterApi = new TwitterApi({
+            consumerKey:TwitterSettings.consumerKey,
+            consumerSecret:TwitterSettings.consumerSecret
+        });
+
+        var twitterApi = Ti.App.twitterApi;
         twitterApi.deleteAccessToken();
         
         textusername.value='';
         textpassword.value='';
+        textusername.blur();
+        textpassword.blur();
+        /*
         Ti.include("../twitterSetting/tweet_db.js"); 
         //var TweetDB = new TweetDB();
         var dbName = 'tweetdb';
@@ -186,12 +236,14 @@ logoutLabel.addEventListener('click', function(e){
         Titanium.API.info('DELETE FROM tweets');
         
         db.close();
-        
+        */
+        /*
         var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
         //newDir.createDirectory();
         newDir.deleteDirectory();
         
         Ti.API.info('derete mydir');
+        */
         // TabGroupの取得 http://code.google.com/p/titanium-mobile-doc-ja/wiki/TabGroup
         //var tabGroup =settingWin.tabGroup;
         //var feedTab = Titanium.UI.currentWindow.tabGroup;
@@ -217,8 +269,7 @@ logoutLabel.addEventListener('click', function(e){
 		});
 		tabGroup.addTab(newtab);
         */
-        textusername.blur();
-        textpassword.blur();
+
         
 });
 

@@ -516,4 +516,11 @@ var TwitterApi = function(params){
     params.method = 'GET';
     return self.callApi(params);
   };
+  //追加
+  this.friends_ids = function(params){
+    // url は呼び出し側で対応
+    //params.url = 'http://api.twitter.com/1/friends/ids.json?user_id='+;
+    params.method = 'GET';
+    return self.callApi(params);
+  };
 };

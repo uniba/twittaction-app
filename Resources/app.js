@@ -70,7 +70,7 @@ var tab5 = Titanium.UI.createTab({
 
 tabGroup.addTab(tab1); 
 tabGroup.addTab(tab2);
-tabGroup.addTab(tab3);
-tabGroup.addTab(tab4); 
+//tabGroup.addTab(tab3);
+//tabGroup.addTab(tab4); 
 tabGroup.addTab(tab5);
 tabGroup.open();
