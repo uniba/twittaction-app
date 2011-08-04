@@ -4,6 +4,7 @@ var tabGroup = Titanium.UI.createTabGroup();
 
 var win1=Titanium.UI.createWindow({
     url: 'action/action.js',
+    //url: 'action/actionKikuchi.js',
     title:'action',
     backgroundColor:'#fff',
     barColor:'black'

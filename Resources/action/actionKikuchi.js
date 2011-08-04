@@ -8,7 +8,8 @@ var UA_tweetWin = Titanium.UI.createWindow({
 });
 
 var UA_recWin = Titanium.UI.createWindow({  
-    url:'subwin/recStartWin.js',
+    //url:'subwin/recStartWin.js',
+    url:'kikuchi/rec.js',
     title:'Rec',
     backgroundColor:'#fff',
     barColor:'black'
@@ -20,8 +21,8 @@ coverWin.open();
 
 //create webview for actionWin(A1 image)
 var SaveWebView = Titanium.UI.createWebView({
-		//url: "http://twittaction.preview.dev.uniba.jp/test/actionHtml/action.html",
-        url: "actionHtml/action.html",
+		url: "http://twittaction.preview.dev.uniba.jp/test/rec/testevaljs.html",
+        //url: "actionHtml/action.html",
         //touchEnabled:false
 });
 
@@ -54,24 +55,38 @@ SaveWebView.addEventListener('load', function(e){
     //create file
     var newFile = Titanium.Filesystem.getFile(newDir.nativePath, 'acce.json');
     var contents = newFile.read();
-    //alert (contents.text);
+    var sequence = JSON.parse(contents.text);
+    //alert(contents.text)
+    //alert (sequence.X);
     
-    //SaveWebView.evalJS('test()')
-    var insertData = "insertData("+contents.text+")";
+    //SaveWebView.evalJS('test()');
+    
+    
+    for(i=0;i<sequence.X.length;i++){
+        var x = sequence.X[i];
+        var y = sequence.Y[i];
+        var z = sequence.Z[i];
+        
+        //var insertData = "onAlert("+x+","+y+","+z+")"
+        //alert(insertData);
+        //var eval = "SaveWebView.evalJS('"+insertData+"')";
+        //alert(eval);
+        setTimeout (SaveWebView.evalJS('onAlert(' + x + ',' + y + ',' + z + ')'),i)
+    }
+    
+    //var insertData = "onAlert("+contents.text+")";
     //alert(insertData);
-    SaveWebView.evalJS(insertData);
+    //SaveWebView.evalJS(insertData);
     
     var imageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
     var imageFileContents = imageFile.read();
     var imageFileJson = JSON.parse(imageFileContents.text);
     //alert(imageFileContents.text);
     //alert(imageFileJson);
-    SaveWebView.evalJS('imageUrl("'+imageFileJson.profile_image_url_https+'")');
-    
-
+    //SaveWebView.evalJS('imageUrl("'+imageFileJson.profile_image_url_https+'")');
 });
 
-
+ 
 //create tweet button for actionWin(A1 image)
 var UA_tweetButton = Titanium.UI.createButton({
 	backgroundImage:'pic/rec01.png',
@@ -147,18 +162,11 @@ UA_tweetButton.addEventListener('click', function(e){
         coverWin.close();
         win.remove(actInd);
         win.remove(coverWin);
+        
         alert('エラーが発生しました');
     };
-    var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
-    if(twitterConfig.exists()){
-        var  twitterConfigJson = JSON.parse(twitterConfig.read());
-        //alert(twitterConfigJson.screen_name);
-    } else {
-        alert("ログイン情報がありません");
-    }
-    var formatTime = formatModified();
     
-    xhr.send({userId:postInformationJson.userId, message:'', sequence:postInformationJson.sequence,  profile_image_url_https:postInformationJson.profile_image_url_https , formatTime:formatTime , screen_name:twitterConfigJson.screen_name});
+    xhr.send({userId:postInformationJson.userId, message:'', sequence:postInformationJson.sequence,  profile_image_url_https:postInformationJson.profile_image_url_https});
     
     }
     catch(error){
@@ -198,22 +206,3 @@ win.add(coverWin);
 //win.add(testCheck);
 win.add(UA_tweetButton);
 win.add(UA_recButton);
-
-
-var formatModified = function(){
-    var time = new Date();
-              var yy = time.getYear(); //日本時間に変換
-              var  mm = time.getMonth() + 1;
-              var  dd = time.getDate();
-              var  tt= time.getHours();
-              var  mi= time.getMinutes();
-              var  ss=time.getMinutes();
-                if (yy < 2000) { yy += 1900; }
-                if (mm < 10) { mm = "0" + mm; }
-                if (dd < 10) { dd = "0" + dd; }
-                if (tt < 10) { tt = "0" + tt; }
-                if (mi < 10) { mi = "0" + mi; }
-            //var pub_day=yy + "-" + mm + "-" + dd +" " + tt +":"+mi;
-            var pub_day = mm + "-" + dd + " " + tt + ":" + mi ;
-            return pub_day;
-}
