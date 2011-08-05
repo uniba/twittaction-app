@@ -24,13 +24,73 @@ tabbar1.addEventListener('click', function(e){
     if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false )) {
         recommendLogin(win1); //feedFunctions.js 内にある関数
     }else{
-        Ti.include('feedTable.js');
-
+        followData();
     }
         
    }else if(e.index == 1){
     //alert('1!!');
+    allTwittaction();
+   }
+});
+
+var loginCheck = new OAuthAdapter(
+    TwitterSettings.consumerSecret, //Consumer secret
+    TwitterSettings.consumerKey, //Consumer key
+    'HMAC-SHA1'
+);
+
+    loginCheck.loadAccessToken('twitter');
     
+if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false )) {
+    recommendLogin(win1); //feedFunctions.js 内にある関数
+}else{
+     //alert('1!!');
+    socialGraph(); // feedFunctions.js
+    followData();
+
+}
+
+
+
+
+function followData(){
+ try{
+        var xhr = Titanium.Network.createHTTPClient();
+        xhr.setTimeout(30000);
+        xhr.onload = function(){
+          //alert(this.responseText);
+          var allJson = JSON.parse(this.responseText);
+          //alert(allJson[0].key);
+          //alert(this.responseText);
+          twittactionAllUser(allJson);
+          
+        };
+        
+        var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
+        if(twitterConfig.exists()){
+            var  twitterConfigJson = JSON.parse(twitterConfig.read());
+           // alert(twitterConfigJson.user_id);
+        } else {
+            alert("ログイン情報がありません");
+        }
+        
+        xhr.open('POST','http://twittaction.com/follow');
+        xhr.onerror = function(){
+            alert('エラーが発生しました');
+        };
+        xhr.send({userId:twitterConfigJson.user_id});
+        
+        }
+        
+    catch(error){
+        coverWin.close();
+        win.remove(actInd);
+        win.remove(coverWin);
+        alert('エラーが発生しました。');
+    }
+}
+
+function allTwittaction(){
     try{
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
@@ -55,22 +115,5 @@ tabbar1.addEventListener('click', function(e){
         win.remove(coverWin);
         alert('エラーが発生しました。');
     }
-
-    
-   }
-});
-
-var loginCheck = new OAuthAdapter(
-    TwitterSettings.consumerSecret, //Consumer secret
-    TwitterSettings.consumerKey, //Consumer key
-    'HMAC-SHA1'
-);
-
-    loginCheck.loadAccessToken('twitter');
-    
-if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false )) {
-    recommendLogin(win1); //feedFunctions.js 内にある関数
-}else{
-    Ti.include('feedTable.js');
 
 }

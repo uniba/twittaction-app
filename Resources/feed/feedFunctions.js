@@ -685,3 +685,60 @@ function recommendLogin(window){
 }
 /*---- 画面再読み込み 終------------------------------*/
 
+
+function socialGraph(){
+    var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,  'twitter.config');
+    if (file.exists == false) return;
+
+    var contents = file.read();
+    if (contents == null) return;
+    try{
+        var config = JSON.parse(contents.text);
+        //alert(config);//確認
+    }
+    catch(ex){
+        return;
+    }
+    
+    if (config.user_id){ 
+       var user_id = config.user_id;
+        //alert(user_id);
+    }
+    
+    
+    try{
+    // https://dev.twitter.com/docs/api/1/get/friends/ids 
+    twitterApi.friends_ids({
+        url:'http://api.twitter.com/1/friends/ids.json?user_id='+user_id,
+        onSuccess:function(responce){
+            //alert(responce)
+            var xhrUserid = Titanium.Network.createHTTPClient();
+            xhrUserid.setTimeout(30000);
+            
+            /*
+            xhrUserid.onload = function(){
+                //alert('onload')
+            };
+            */
+            xhrUserid.open('POST','http://twittaction.com/socialGraph');
+            
+            xhrUserid.onerror = function(error){
+            //var error = JSON.parse(err);
+                alert(error);
+            };
+            
+            //alert(user_id);
+            //alert(responce);
+            xhrUserid.send({userId:user_id,friends:responce});
+        },
+        onError:function(error){
+            Titanium.API.info('friends_ids post error:'+error)
+        }
+    });
+
+
+    }
+    catch(error){
+        alert('エラーが発生しました。2');
+    }
+}
