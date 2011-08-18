@@ -588,12 +588,13 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
 
         if (client.status == 200) {
 
-        //    Ti.UI.createAlertDialog({
-        //        title: pTitle,
-        //        message: pSuccessMessage
-        //    }).show();
+            Ti.UI.createAlertDialog({
+                title: pTitle,
+                message: pSuccessMessage
+            }).show();
         
        //hebinbin added
+       /*
        var returnData = new Array();
        returnData[0] = "successed";
        returnData[1] = eval("("+client.responseText+")").user.screen_name;  
@@ -620,7 +621,7 @@ var OAuthAdapter = function(pConsumerSecret, pConsumerKey, pSignatureMethod)
        returnData[3] = createdTime;
        
        return returnData;
-        
+        */
         
         } else {
             Ti.UI.createAlertDialog({

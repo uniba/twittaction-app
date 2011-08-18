@@ -41,9 +41,9 @@ function tweet(message)
         '投稿できませんでした' //失敗したときのアラートメッセージ
     );
     //oauth_adapter.jsの oAuthAdapter.sendTweet を書き換えている
-    
+    // 8/18 oAuthAdapter.sendTweet を戻した。
     //add by hebinbin 
-
+    /*
     twitterApi.statuses_home_timeline(
     {
         onSuccess: function(response){
@@ -76,7 +76,7 @@ function tweet(message)
             Ti.API.error(error);
         }
     });
-
+    */
     if (oAuthAdapter.isAuthorized() == false) {
         alert('settingでログインしてください');
     };

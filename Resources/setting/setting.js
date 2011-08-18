@@ -205,11 +205,14 @@ leftbutton.addEventListener('click', function(e){
 });
 
 /*------ログイン情報の削除   --------------------------*/
-var logoutLabel = Ti.UI.createLabel({
-    text: 'ログアウト'
+var logoutButton = Ti.UI.createButton({
+    title: 'ログアウト',
+    height:50,
+    width:200,
+    bottom:20
 });
 
-logoutLabel.addEventListener('click', function(e){
+logoutButton.addEventListener('click', function(e){
         Titanium.API.info('logoutLabel click');
         Ti.App.twitterApi = new TwitterApi({
             consumerKey:TwitterSettings.consumerKey,
@@ -275,19 +278,21 @@ logoutLabel.addEventListener('click', function(e){
 
 
 
-var logout = Ti.UI.createTableViewRow({title:''});
-logout.add(logoutLabel);
+//var logout = Ti.UI.createTableViewRow({title:''});
+//logout.add(logoutLabel);
 
 
-data[0].add(logout);	
+//data[0].add(logout);	
 
 /*------ログイン情報の削除　終   --------------------------*/
 
 // create table view
 var tableview = Titanium.UI.createTableView({
 	data:data,
-	style: Titanium.UI.iPhone.TableViewStyle.GROUPED
+	style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
+    scrollable:false
 });
 
 //add tableview
 settingWin.add(tableview);
+settingWin.add(logoutButton);

@@ -219,7 +219,7 @@ var windowTitle = Ti.UI.createLabel({
         
     });
     
-    
+    /*
    var UA_TL = Titanium.UI.createButton({
         bottom:0,
         left:0,
@@ -465,7 +465,7 @@ var windowTitle = Ti.UI.createLabel({
 
 
     });
-    /*
+    
     UA_old.addEventListener('touchstart', function(e){
         UA_oldImageView.image = 'images/share_icon.png';
     });        
@@ -473,12 +473,13 @@ var windowTitle = Ti.UI.createLabel({
         UA_oldImageView.image = 'images/old_icon.png';
     });        
       */  
-    
+   
+    /* 
     win.add(UA_TL);
     win.add(UA_old);
     win.add(UA_new);
     win.add(UA_share);
-    
+  */  
     
 function created_atFunc(tweetTime){
 var time = new Date(tweetTime);

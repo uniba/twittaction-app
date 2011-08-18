@@ -3,7 +3,7 @@ Titanium.UI.setBackgroundColor('#000');
 var tabGroup = Titanium.UI.createTabGroup();
 
 var win1=Titanium.UI.createWindow({
-    url: 'action/action.js',
+    url: 'action/subwin/recStartWin.js',
     //url: 'action/actionKikuchi.js',
     title:'action',
     backgroundColor:'#fff',
@@ -74,4 +74,5 @@ tabGroup.addTab(tab2);
 //tabGroup.addTab(tab3);
 //tabGroup.addTab(tab4); 
 tabGroup.addTab(tab5);
+tabGroup.setActiveTab(1);
 tabGroup.open();

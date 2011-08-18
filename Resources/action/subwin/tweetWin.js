@@ -163,6 +163,10 @@ UA_sendButton.addEventListener('click',
         UA_sendButton.enabled = false;
         tweet( UA_tweetComment.value );
         updateTwittaction(UA_tweetComment.value);
+        //win.close();
+        //win.playWin.close();
+        win.baseWin.close({animated:false});
+
     }
 );
 
@@ -184,6 +188,9 @@ function updateTwittaction(tweet){
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
         xhr.onerror = function(){        
+            return;
+        };
+        xhr.onload == function(){
             return;
         };
         xhr.open('POST','http://twittaction.com/update');

@@ -1,6 +1,9 @@
 // twitter から取得だったのを twittactionのサーバーからデータを収録するようにした。
-function twittactionAllUser(json){
-    var win = Ti.UI.currentWindow;
+var twittactionAllUser = function (followORall){
+
+            
+    this.addTable = function(json){
+            var win = Ti.UI.currentWindow;
     //var UA_tableview;
     var UA_tableViewData = [];
     //var tweets = eval('('+response+')');
@@ -73,14 +76,14 @@ function twittactionAllUser(json){
         data:UA_tableViewData
     });
         
-    win.add(UA_tableView);
+    
     
      UA_tableView.addEventListener('click',function(e){
         var testArray = e.rowData.getChildren();
         var displayIndex = e.index;
         var check = e.rowData.getChildren()[2].text;
         //alert(check);
-        
+       
          //alert(e.source.text);
         //regular expression : 正規表現
         var q = /(http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?)/gi;
@@ -112,29 +115,15 @@ function twittactionAllUser(json){
         webWin.add(webview);
         Titanium.UI.currentTab.open(webWin,{animated:true});
         }
+        
     });
+        this.win.add(this.UA_tableView);
+    };
+    this.removeTable = function(){
+        this.win.remove(this.UA_tableView);
+    };
+
 }
-
-/*---- pull to refresh の関数部分 ------------------------------*/
-function formatDate()
-{
-	var date = new Date;
-	var datestr = date.getMonth()+'/'+date.getDate()+'/'+date.getFullYear();
-	if (date.getHours()>=12)
-	{
-		datestr+=' '+(date.getHours()==12 ? date.getHours() : date.getHours()-12)+':'+date.getMinutes()+' PM';
-	}
-	else
-	{
-		datestr+=' '+date.getHours()+':'+date.getMinutes()+' AM';
-	}
-	return datestr;
-} //function formatDate()
-
-
-
-
-/*---- pull to refresh の関数部分　終 ------------------------------*/
 
 var formatModified = function(){
     var time = new Date();

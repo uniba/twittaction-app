@@ -11,31 +11,27 @@ win1.rightNavButton = tabbar1;
 tabbar1.addEventListener('click', function(e){
    // e.indexにクリックされたボタンのindexがセットされます
    if(e.index == 0){
-        //alert('0!!');
-            
-        var loginCheck = new OAuthAdapter(
-            TwitterSettings.consumerSecret, //Consumer secret
-            TwitterSettings.consumerKey, //Consumer key
-            'HMAC-SHA1'
-        );
+    //alert('0!!');
+        
+    var loginCheck = new OAuthAdapter(
+        TwitterSettings.consumerSecret, //Consumer secret
+        TwitterSettings.consumerKey, //Consumer key
+        'HMAC-SHA1'
+    );
 
-            loginCheck.loadAccessToken('twitter');
-            
-        if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false )) {
-            recommendLogin(win1); //feedFunctions.js 内にある関数
-        }else{
-            followData();
-        }
-            
+        loginCheck.loadAccessToken('twitter');
+        
+    if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false )) {
+        recommendLogin(win1); //feedFunctions.js 内にある関数
+    }else{
+        followData();
+    }
+        
    }else if(e.index == 1){
     //alert('1!!');
     allTwittaction();
    }
 });
-
-
-
-
 
 var loginCheck = new OAuthAdapter(
     TwitterSettings.consumerSecret, //Consumer secret
@@ -54,10 +50,10 @@ if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false ))
 
 }
 
+var twittactionAll = new twittactionAllUser('all');
+var twittactionFollow = new twittactionAllUser('follow');
 
-
-
-function followData(){
+function followData(twittactionFollow){
  try{
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
@@ -66,8 +62,8 @@ function followData(){
           var allJson = JSON.parse(this.responseText);
           //alert(allJson[0].key);
           //alert(this.responseText);
-          twittactionAllUser(allJson);
-          
+          //twittactionAllUser(allJson,'follow');
+          twittactionFollow.addTable(allJson);
         };
         
         var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
@@ -94,7 +90,7 @@ function followData(){
     }
 }
 
-function allTwittaction(){
+function allTwittaction(twittactionAll){
     try{
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
@@ -102,8 +98,8 @@ function allTwittaction(){
           //alert(this.responseText);
           var allJson = JSON.parse(this.responseText);
           //alert(allJson[0].key);
-          twittactionAllUser(allJson);
           
+          twittactionAll.addTable(allJson);
         };
         xhr.open('POST','http://twittaction.com/all');
         xhr.onerror = function(){
