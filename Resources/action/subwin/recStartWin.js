@@ -1,6 +1,5 @@
 var win = Ti.UI.currentWindow;
 
-       
 //var saveWebview = win.SaveWebView;
 
 win.barColor = 'black';
@@ -59,38 +58,40 @@ acceFunction = function(e){
 
 //add start button to count time
 var UA_startButton = Titanium.UI.createButton({
-	title: 'start'
+	title : 'start',
+    color : 'white',
+    bottom : 0 , 
+    width : 100 ,
+    height : 60 ,
+    backgroundColor : 'black',
+    opacity : 0.7,
+    style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
 });
 
 //add counter function
 var myButton = 0;
 var fixTime = 5000.000;
-var timeFrequency = 50;
-/*
-var alertDialog = Titanium.UI.createAlertDialog({
-	message:'再生しますか？',
-	buttonNames:['Cancel', 'OK'],
-	cancel:1
-	});
-    
-    alertDialog.addEventListener('click', function(e){
-    if(e.index==0){
-        UA_startButton.title = 'start';
-        UA_webView.reload();
-        emptyJson();
-    }
-    if(e.index==1){
-        UA_startButton.title = 'start';
-        UA_webView.reload();
-        saveJson(win,newFile);
-        playMove(win);
-        //createShortUrl(win);
-        
-    }
-    });
-*/
+var timeFrequency = 1000;
+
+//add event detect for start button
+UA_startButton.addEventListener('click',function(e){
+    // we need to add some program here
+    //UA_startButton.title = 'stop';
+    myWatch(0);
+
+});
+
+//win.rightNavButton = recstartrightlabel;
+//win.add(UA_recCancelButton);
+win.add(UA_webView);
+//Titanium.UI.currentWindow.setRightNavButton(UA_startButton);
+win.add(UA_startButton);
+
+
+
 function myWatch(flug)
-{
+{   
+    //alert('huga');
 	if(myButton==0)
     {
         Start = new Date();
@@ -107,11 +108,12 @@ function myWatch(flug)
             Titanium.Accelerometer.removeEventListener('update', acceFunction);
             //alertDialog.show();
             UA_startButton.title = 'start';
-            UA_webView.reload();
             
             saveJson(win,newFile);
-            playMove(win);
-            endWindow();
+            //playMove(win);
+            //endWindow();
+            endAlert(win);
+            UA_webView.reload();
         }
         Stop = new Date();
         T=Stop.getTime()-Start.getTime();
@@ -126,26 +128,12 @@ function myWatch(flug)
            timeDisplay=0;
            
            saveJson(win,newFile);
-           endWindow();
-           playMove(win);
+           endAlert(win);
+           //endWindow();
+           //playMove(win);
         }
     }
 }
-
-//add event detect for start button
-UA_startButton.addEventListener('click',function(e){
-// we need to add some program here
-//UA_startButton.title = 'stop';
-myWatch(0);
-
-});
-
-
-//win.rightNavButton = recstartrightlabel;
-
-//win.add(UA_recCancelButton);
-win.add(UA_webView);
-Titanium.UI.currentWindow.setRightNavButton(UA_startButton);
 
 //when click OK button, we need to save Json data to local file
 function saveJson(win,newFile)
@@ -258,4 +246,20 @@ function endWindow(){
        setTimeout(function (){
         endWin.close();
     },1400);
+}
+
+function endAlert(win){
+    var alertDialog = Titanium.UI.createAlertDialog({
+        title: '録画完了',
+        message: 'OKを押すと再生',
+        buttonNames: ['OK'],
+    });
+    alertDialog.addEventListener('click',function(event){
+        // 選択されたボタンのindexも返る
+        if(event.index == 0){
+            // "OK"時の処理
+            playMove(win);
+        }
+    });
+    alertDialog.show();
 }

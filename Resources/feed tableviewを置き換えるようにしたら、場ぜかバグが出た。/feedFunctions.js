@@ -1,5 +1,5 @@
 // twitter から取得だったのを twittactionのサーバーからデータを収録するようにした。
-function twittactionAllUser(json,followORall){
+function twittactionAllUser(json,followORall,tableView){
 
     var win = Ti.UI.currentWindow;
     win.backgroundColor = 'red';
@@ -22,8 +22,7 @@ function twittactionAllUser(json,followORall){
 
     UA_tableViewData.push(row);
     
-    for (var c=0;c<json.length;c++)
-    {
+    for (var c=0;c<json.length;c++){
         var tweet = json[c];
         var bgcolor = (c % 2) == 0 ? '#fff' : '#eee';
         var row = Ti.UI.createTableViewRow({hasChild:false,height:'auto',backgroundImage:'../picture/fukidashi2.png',});
@@ -100,41 +99,48 @@ function twittactionAllUser(json,followORall){
             // Add the tweet to the row
     row.add(oldFeed);      
     UA_tableViewData.push(row);
+    /*
     var UA_tableView = Titanium.UI.createTableView({
         data:UA_tableViewData,
         backgroundColor:'transparent',
-        
+        separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
     });
-        
-    win.add(UA_tableView);
+    */    
+    //win.add(tableView);
     
-     UA_tableView.addEventListener('click',function(e){
-     
+    tableView.setData(UA_tableViewData,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.UP});
+    
+    tableView.addEventListener('click',function(e){
+     alert(e.index);
         if(e.index==0){
-
+        alert(11);
             if(followORall=='follow'){
                 reference[0] = reference[0] - 1 ;
                 if( reference[0] < 0 ){
                     reference[0] = 0 ;
                 }
-                followData(reference[0]);
+                alert(1);
+                followData(reference[0],tableView);
             }else{
                 reference[1] = reference[1] - 1 ;
                 if( reference[1] < 0 ){
                     reference[1] = 0 ;
                 }
-                allTwittaction(reference[1]);
+                alert(2);
+                allTwittaction(reference[1],tableView);
             }
         }else if(e.index == UA_tableViewData.length -1 ){
                 if(followORall=='follow'){
                     reference[0] = reference[0] + 1 ;
-                    followData(reference[0]);
+                    alert(3);
+                    followData(reference[0],tableView);
                 }else{
                     reference[1] = reference[1] + 1 ;
                     if( reference[1] < 0 ){
                         reference[1] = 0 ;
                     }
-                    allTwittaction(reference[1]);
+                    alert(4);
+                    allTwittaction(reference[1],tableView);
                 }                
         }else{
             //alert(e.x+'.'+e.y);
@@ -172,6 +178,7 @@ function twittactionAllUser(json,followORall){
                 });
                 webview.url = regularExpressionUrl[0];
                 webWin.add(webview);
+                alert(9);
                 Titanium.UI.currentTab.open(webWin,{animated:true});
             }
         }
@@ -307,7 +314,7 @@ function socialGraph(){
 
 
 
-function followData(page){
+function followData(page,tableView){
  try{
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
@@ -320,7 +327,7 @@ function followData(page){
             var allJson = JSON.parse(this.responseText);
               //alert(allJson[0].key);
               //alert(this.responseText);
-            twittactionAllUser(allJson,'follow');
+            twittactionAllUser(allJson,'follow',tableView);
           }
         };
         
@@ -348,7 +355,7 @@ function followData(page){
     }
 }
 
-function allTwittaction(page){
+function allTwittaction(page,tableView){
     try{
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
@@ -360,7 +367,7 @@ function allTwittaction(page){
         }else{
           var allJson = JSON.parse(this.responseText);
           //alert(allJson[0].key);
-          twittactionAllUser(allJson,'all');
+          twittactionAllUser(allJson,'all',tableView);
          } 
         };
         xhr.open('POST','http://twittaction.com/all');

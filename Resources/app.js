@@ -16,7 +16,7 @@ var win2=Titanium.UI.createWindow({
     backgroundColor:'#fff',
     barColor:'black'
 });
-
+/*
 var win3 = Ti.UI.createWindow({
      url: 'hashTag/hashTag.js',
      title:'#tag' ,
@@ -31,7 +31,7 @@ var win4=Titanium.UI.createWindow({
     barColor:'black'
 
 });
-
+*/
 var win5=Titanium.UI.createWindow({
     url: 'setting/setting.js',
     title:'設定',
@@ -50,6 +50,7 @@ var tab2 = Titanium.UI.createTab({
     title:'feed',
     icon:'picture/feed_over.png',
 }); 
+/*
 var tab3 = Titanium.UI.createTab({
     window:win3,
     title:'#tag',
@@ -61,7 +62,7 @@ var tab4 = Titanium.UI.createTab({
     title:'search',
     icon:'picture/search.png',
 }); 
-
+*/
 var tab5 = Titanium.UI.createTab({
     window:win5,
     title:'setting',
@@ -69,8 +70,8 @@ var tab5 = Titanium.UI.createTab({
 }); 
 
 
-tabGroup.addTab(tab1); 
 tabGroup.addTab(tab2);
+tabGroup.addTab(tab1); 
 //tabGroup.addTab(tab3);
 //tabGroup.addTab(tab4); 
 tabGroup.addTab(tab5);

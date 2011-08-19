@@ -8,9 +8,17 @@ var tabbar1 = Titanium.UI.createTabbedBar({
 });
 win1.rightNavButton = tabbar1;
 
+var tableView = Titanium.UI.createTableView({
+    backgroundColor:'transparent',
+    //separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
+});
+
+win1.add(tableView);
+
 var reference = [];
 reference[0]=0;
 reference[1]=0;
+
 tabbar1.addEventListener('click', function(e){
    // e.indexにクリックされたボタンのindexがセットされます
    if(e.index == 0){
@@ -27,16 +35,15 @@ tabbar1.addEventListener('click', function(e){
         if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false )) {
             recommendLogin(win1); //feedFunctions.js 内にある関数
         }else{
-            followData(reference[0]);
-            //reference(i[0]);
-            //i[0] = i[0] - 1;
+        alert(7);
+            followData(reference[0],tableView);
+
         }
             
    }else if(e.index == 1){
-    //alert('1!!');
-    allTwittaction(reference[1]);
-    //reference(i[0]);
-    //i[0] = i[0] + 1;
+    alert(6);
+    allTwittaction(reference[1],tableView);
+
    }
 });
 
@@ -53,10 +60,7 @@ if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false ))
 }else{
      //alert('1!!');
     socialGraph(); // feedFunctions.js
-    followData(reference[0]);
+    alert(5);
+    followData(reference[0],tableView);
 
-}
-
-function reference(i){
-    alert(i);
 }
