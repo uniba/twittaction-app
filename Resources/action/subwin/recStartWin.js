@@ -58,16 +58,36 @@ acceFunction = function(e){
 
 //add start button to count time
 var UA_startButton = Titanium.UI.createButton({
-	title : 'start',
-    color : 'white',
-    bottom : 0 , 
-    width : 100 ,
-    height : 60 ,
-    backgroundColor : 'black',
-    opacity : 0.7,
+	//title : 'start',
+    //color : 'white'z,
+   backgroundImage : '../pic/rec_start.png',
+   backgroundSelectedImage : '../pic/rec_start.png',
+	 //backgroundColor:'red',
+	 //backgroundSelectedColor:'blue',
+    bottom : 20 , 
+    width : 254 ,
+    height : 35 ,
+    //backgroundColor : 'black',
+    //opacity : 0.7,
     style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
 });
 
+var coverView = Titanium.UI.createView({
+   borderRadius:10,
+   backgroundColor:'black',
+	 opacity:0.12,
+   width:254,
+   height:35,
+	 bottom:20
+});
+UA_startButton.addEventListener('touchstart',function(e){
+//UA_startButton.backgroundColor='blue';
+win.add(coverView);
+});
+UA_startButton.addEventListener('touchend',function(e){
+//UA_startButton.backgroundColor='red';
+win.remove(coverView);
+});
 //add counter function
 var myButton = 0;
 var fixTime = 5000.000;
@@ -97,7 +117,9 @@ function myWatch(flug)
         Start = new Date();
         UA_recordTime = Start;
         myButton=1;
-        UA_startButton.title = 'stop';
+        
+        UA_startButton.backgroundImage = '../pic/rec_stop.png';
+        UA_startButton.backgroundSelectedImage = '../pic/rec_stop.png';
         Titanium.Accelerometer.addEventListener('update', acceFunction);
         myInterval = setInterval(function(){myWatch(1);}, timeFrequency);
 	}else{
@@ -107,8 +129,10 @@ function myWatch(flug)
             clearInterval(myInterval);
             Titanium.Accelerometer.removeEventListener('update', acceFunction);
             //alertDialog.show();
-            UA_startButton.title = 'start';
             
+            UA_startButton.backgroundImage = '../pic/rec_start.png';
+            UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
+						UA_startButton.backgroundSelectedColor = "red";
             saveJson(win,newFile);
             //playMove(win);
             //endWindow();
@@ -120,7 +144,9 @@ function myWatch(flug)
         timeDisplay = fixTime - T;
         if(timeDisplay <= timeFrequency)
         {   
-           UA_startButton.title = 'start';
+           //UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
+           UA_startButton.backgroundImage = '../pic/rec_start.png';
+           UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
            myButton=0;
            clearInterval(myInterval);
            Titanium.Accelerometer.removeEventListener('update', acceFunction);   

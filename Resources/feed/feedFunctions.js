@@ -1,32 +1,54 @@
 // twitter から取得だったのを twittactionのサーバーからデータを収録するようにした。
-function twittactionAllUser(json,followORall){
+var cleckReference = [];
+cleckReference[0] = 0 ;
+function twittactionAllUser(json,followORall,tableView){
 
     var win = Ti.UI.currentWindow;
-    win.backgroundColor = 'red';
+    //win.backgroundColor = 'red';
     //var UA_tableview;
     var UA_tableViewData = [];
     //var tweets = eval('('+response+')');
    // alert(tweets);
-    var row = Ti.UI.createTableViewRow({hasChild:false,height:'auto',backgroundColor:bgcolor});
-    var newFeed = Ti.UI.createLabel({
-        text:'NEW',
-        left:70,
-        top:31,
-        height:'auto',
-        width:200,
-        //textAlign:'left',
-        font:{fontSize:14}
+    var row = Ti.UI.createTableViewRow({hasChild:false,height:45,backgroundImage : 'feed_button.png',selectedBackgroundImage:'feed_button2.png'});
+    
+    var newFeed = Titanium.UI.createLabel({
+       backgroundImage : 'feed_new.png',
+       //backgroundSelectedImage : 'twittaction_feed_new2.png',
+       style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+       width:63,
+       height:12.5
     });
+
             // Add the tweet to the row
     row.add(newFeed);      
-
     UA_tableViewData.push(row);
-    
-    for (var c=0;c<json.length;c++)
-    {
+        
+
+       /*
+    var linerow = Ti.UI.createTableViewRow({hasChild:false,backgroundImage:'feed_button.png',height:3});
+    var line = Ti.UI.createImageView({
+        image:'feed_line.png',
+        width:380
+    });
+    */
+    var row = Ti.UI.createTableViewRow({height:3,hasChild:false,backgroundImage : 'feed_button.png'});
+    var line = Titanium.UI.createLabel({
+       backgroundImage : 'feed_line.png',
+       width:380
+       //backgroundSelectedImage : 'twittaction_feed_new2.png',
+       //style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+       //width:63,
+       //height:12.5
+    });
+
+            // Add the avatar image to the row
+    row.add(line);
+    UA_tableViewData.push(row);
+
+    for (var c=0;c<json.length;c++){
         var tweet = json[c];
-        var bgcolor = (c % 2) == 0 ? '#fff' : '#eee';
-        var row = Ti.UI.createTableViewRow({hasChild:false,height:'auto',backgroundImage:'../picture/fukidashi2.png',});
+        //var bgcolor = (c % 2) == 0 ? '#fff' : '#eee';
+        var row = Ti.UI.createTableViewRow({hasChild:false,height:'auto',selectedBackgroundImage:'feed_button2.png'});
 
         var av = Ti.UI.createImageView({
             image:tweet.profile_image_url_https,
@@ -37,12 +59,25 @@ function twittactionAllUser(json,followORall){
         });
 				// Add the avatar image to the row
         row.add(av);
-
+        
+        var hukidasi = Ti.UI.createView({
+            borderColor:'#62bea9',
+            borderWidth:3,
+            borderRadius:8,
+            backgroundColor:'white',
+            top:5,        
+            left:65,
+            right:12,
+            bottom:5
+        });
+				// Add the avatar image to the row
+        row.add(hukidasi);
+        
         var user_label = Ti.UI.createLabel({
             text:tweet.screen_name,
-            left:70,
+            left:75,
             width:200,
-            top:2,
+            top:6,
             height:30,
             textAlign:'left',
             color:'#444444',
@@ -53,12 +88,13 @@ function twittactionAllUser(json,followORall){
         
         var tweet_text = Ti.UI.createLabel({
             text:tweet.message,
-            left:70,
+            left:75,
             top:31,
+            bottom:12,
             height:'auto',
             width:200,
             //textAlign:'left',
-            font:{fontSize:14},
+            font:{fontSize:14}
             //backgroundImage:'../picture/fukidashi2.png',
 
         });
@@ -67,8 +103,9 @@ function twittactionAllUser(json,followORall){
         //var modified = formatModified(tweet.modified);
         var created_at = Ti.UI.createLabel({
             text:tweet.formatTime,
-            right:0,
-            top:2,
+						color:'#999999',
+            right:20,
+            top:6,
             height:30,
             width:150,
             textAlign:'right',
@@ -85,62 +122,109 @@ function twittactionAllUser(json,followORall){
 				// Add the vertical layout view to the row
         //row.className = 'UA_item'+c;
         UA_tableViewData.push(row);
+        
 
     }
-    var row = Ti.UI.createTableViewRow({hasChild:false,height:'auto',backgroundColor:bgcolor});
-    var oldFeed = Ti.UI.createLabel({
-        text:'Old',
-        left:70,
-        top:31,
-        height:'auto',
-        width:200,
-        //textAlign:'left',
-        font:{fontSize:14}
+    /*
+    var row = Ti.UI.createTableViewRow({hasChild:false,height:'auto'});
+    var oldFeed = Titanium.UI.createButton({
+       backgroundImage : 'twittaction_feed_old.png',
+       backgroundSelectedImage : 'twittaction_feed_old2.png',
+       style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+       width:320,
+       height:32.5
     });
-            // Add the tweet to the row
+
     row.add(oldFeed);      
     UA_tableViewData.push(row);
+    */
+    /*
     var UA_tableView = Titanium.UI.createTableView({
         data:UA_tableViewData,
         backgroundColor:'transparent',
-        
+        separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
     });
-        
-    win.add(UA_tableView);
-    
-     UA_tableView.addEventListener('click',function(e){
-     
-        if(e.index==0){
+    */    
+    //win.add(tableView);
+    var row = Ti.UI.createTableViewRow({height:3,hasChild:false,backgroundImage : 'feed_button.png'});
+    var line = Titanium.UI.createLabel({
+       backgroundImage : 'feed_line.png',
+       width:380
+    });
 
+            // Add the avatar image to the row
+    row.add(line);
+    UA_tableViewData.push(row);
+    var row = Ti.UI.createTableViewRow({hasChild:false,height:45,backgroundImage : 'feed_button.png',selectedBackgroundImage:'feed_button2.png'});
+    
+    var newFeed = Titanium.UI.createLabel({
+       backgroundImage : 'feed_old.png',
+       //backgroundSelectedImage : 'twittaction_feed_new2.png',
+       style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+       width:63,
+       height:12.5
+    });
+
+            // Add the tweet to the row
+    row.add(newFeed);      
+    UA_tableViewData.push(row);
+        
+
+
+    tableView.setData(UA_tableViewData,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.UP});
+    //tableView.removeEventListener('click',tableViewClick);
+    //tableViewClickEvient(tableView,followORall,UA_tableViewData);
+    var tableViewClick = function(e){ tableViewClickEvient(e,tableView,followORall,UA_tableViewData);};
+    tableView.addEventListener('click',tableViewClick);
+    if(cleckReference[0]!=0){
+        tableView.removeEventListener('click',tableViewClick);
+    }
+    cleckReference[0] = cleckReference[0] + 1 ;
+
+}
+
+function test(hoge){
+    alert(hoge);
+}
+
+function tableViewClickEvient(e,tableView,followORall,UA_tableViewData){
+
+     //alert('クリック行'+e.index);
+        if(e.index==0){
+        //alert(11);
             if(followORall=='follow'){
                 reference[0] = reference[0] - 1 ;
                 if( reference[0] < 0 ){
                     reference[0] = 0 ;
                 }
-                followData(reference[0]);
+                //alert(1);
+                followData(reference[0],tableView);
             }else{
                 reference[1] = reference[1] - 1 ;
                 if( reference[1] < 0 ){
                     reference[1] = 0 ;
                 }
-                allTwittaction(reference[1]);
+                //alert(2);
+                allTwittaction(reference[1],tableView);
             }
         }else if(e.index == UA_tableViewData.length -1 ){
                 if(followORall=='follow'){
                     reference[0] = reference[0] + 1 ;
-                    followData(reference[0]);
+                    //alert(3);
+                    followData(reference[0],tableView);
                 }else{
                     reference[1] = reference[1] + 1 ;
                     if( reference[1] < 0 ){
                         reference[1] = 0 ;
                     }
-                    allTwittaction(reference[1]);
+                    //alert(4);
+                    allTwittaction(reference[1],tableView);
                 }                
         }else{
-            //alert(e.x+'.'+e.y);
+            ////alert(e.x+'.'+e.y);
             var testArray = e.rowData.getChildren();
             var displayIndex = e.index;
-            var check = e.rowData.getChildren()[2].text;
+            var check = e.rowData.getChildren()[3].text;
             //alert(check);
             
              //alert(e.source.text);
@@ -172,10 +256,10 @@ function twittactionAllUser(json,followORall){
                 });
                 webview.url = regularExpressionUrl[0];
                 webWin.add(webview);
+                //alert(9);
                 Titanium.UI.currentTab.open(webWin,{animated:true});
             }
         }
-    }); //UA_tableView.addEventListener('click',function(e){
 }
 
 /*---- pull to refresh の関数部分 ------------------------------*/
@@ -226,7 +310,8 @@ function recommendLogin(window){
             height:150,
             top:10,
             color:'#336699',
-            textAlign:'center'
+            textAlign:'center',
+            backgroundColor:'white'
     });
 
     window.add(l1);
@@ -240,6 +325,7 @@ function recommendLogin(window){
     b1.addEventListener('click',function(e){
         window.remove(b1);
         window.remove(l1);
+        //window.remove(tableView);
         Ti.include('../../../../../../../../../../../feed/feed.js');
     });
     window.add(b1);
@@ -286,7 +372,7 @@ function socialGraph(){
             
             xhrUserid.onerror = function(error){
             //var error = JSON.parse(err);
-                alert(error);
+                alert('エラーが発生しました');
             };
             
             //alert(user_id);
@@ -307,7 +393,7 @@ function socialGraph(){
 
 
 
-function followData(page){
+function followData(page,tableView){
  try{
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
@@ -320,7 +406,7 @@ function followData(page){
             var allJson = JSON.parse(this.responseText);
               //alert(allJson[0].key);
               //alert(this.responseText);
-            twittactionAllUser(allJson,'follow');
+            twittactionAllUser(allJson,'follow',tableView);
           }
         };
         
@@ -348,7 +434,7 @@ function followData(page){
     }
 }
 
-function allTwittaction(page){
+function allTwittaction(page,tableView){
     try{
         var xhr = Titanium.Network.createHTTPClient();
         xhr.setTimeout(30000);
@@ -360,7 +446,7 @@ function allTwittaction(page){
         }else{
           var allJson = JSON.parse(this.responseText);
           //alert(allJson[0].key);
-          twittactionAllUser(allJson,'all');
+          twittactionAllUser(allJson,'all',tableView);
          } 
         };
         xhr.open('POST','http://twittaction.com/all');
