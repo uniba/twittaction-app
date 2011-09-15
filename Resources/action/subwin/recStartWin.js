@@ -200,7 +200,7 @@ function saveJson(win,newFile)
 		//newFile.write('');
     newFile.write(json);
 		Ti.API.info('acce.json:'+json);
-		//emptyJson();
+		emptyJson();
     var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
     if(twitterConfig.exists()){
         var  twitterConfigJson = JSON.parse(twitterConfig.read());
