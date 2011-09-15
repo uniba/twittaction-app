@@ -245,7 +245,7 @@ function tableViewClickEvient(e,tableView,followORall,UA_tableViewData){
             
                 var webWin = Titanium.UI.createWindow({
                     backgroundColor:'#fff',
-                    barColor:'black'
+                    //barColor:'black'
                 });
                 var webview = Ti.UI.createWebView({touchEnabled:false});
                 // webviewで表示したサイトのタイトルの取得

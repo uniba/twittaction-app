@@ -2,7 +2,7 @@ var win = Ti.UI.currentWindow;
 
 //var saveWebview = win.SaveWebView;
 
-win.barColor = 'black';
+//win.barColor = 'black';
 
 //Titanium.UI.currentWindow.showNavBar();
 //------------------------------------------------------------- 
@@ -55,6 +55,20 @@ acceFunction = function(e){
     UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+')');
 
 };
+acceMoveFunction = function(e){
+    //x.text = 'x:' + e.x;
+    UA_tempDataX = e.x;
+   
+    //y.text = 'y:' + e.y;
+    UA_tempDataY = e.y;
+   
+    //z.text = 'z:' + e.z;
+    UA_tempDataZ = e.z;
+
+    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+')');
+
+};
+
 
 //add start button to count time
 var UA_startButton = Titanium.UI.createButton({
@@ -90,13 +104,14 @@ win.remove(coverView);
 });
 //add counter function
 var myButton = 0;
-var fixTime = 5000.000;
+var fixTime = 7000.000;
 var timeFrequency = 1000;
-
+Titanium.Accelerometer.addEventListener('update', acceMoveFunction);
 //add event detect for start button
 UA_startButton.addEventListener('click',function(e){
     // we need to add some program here
     //UA_startButton.title = 'stop';
+
     myWatch(0);
 
 });
@@ -117,17 +132,24 @@ function myWatch(flug)
         Start = new Date();
         UA_recordTime = Start;
         myButton=1;
-        
+        //alert(newFile.read());
         UA_startButton.backgroundImage = '../pic/rec_stop.png';
         UA_startButton.backgroundSelectedImage = '../pic/rec_stop.png';
+				
+				Titanium.Accelerometer.removeEventListener('update', acceMoveFunction);
         Titanium.Accelerometer.addEventListener('update', acceFunction);
+				
         myInterval = setInterval(function(){myWatch(1);}, timeFrequency);
 	}else{
         
         if(flug==0){
             myButton = 0;
             clearInterval(myInterval);
+						
+						
             Titanium.Accelerometer.removeEventListener('update', acceFunction);
+						Titanium.Accelerometer.addEventListener('update', acceMoveFunction); 
+						
             //alertDialog.show();
             
             UA_startButton.backgroundImage = '../pic/rec_start.png';
@@ -149,7 +171,10 @@ function myWatch(flug)
            UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
            myButton=0;
            clearInterval(myInterval);
-           Titanium.Accelerometer.removeEventListener('update', acceFunction);   
+					 
+           Titanium.Accelerometer.removeEventListener('update', acceFunction);
+					 Titanium.Accelerometer.addEventListener('update', acceMoveFunction);  
+					 
            //alert('hogehoge');
            timeDisplay=0;
            
@@ -172,8 +197,10 @@ function saveJson(win,newFile)
     UA_lastObject['Z'] =  UA_myArrayZ;
     var json = JSON.stringify(UA_lastObject);
     //alert(json);
+		//newFile.write('');
     newFile.write(json);
-        
+		Ti.API.info('acce.json:'+json);
+		//emptyJson();
     var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
     if(twitterConfig.exists()){
         var  twitterConfigJson = JSON.parse(twitterConfig.read());
@@ -238,7 +265,7 @@ function playMove(win){
         url:'../action_2.js',
         title:'play',
         backgroundColor:'#fff',
-        barColor:'black'
+        //barColor:'black'
     });
     playWin.win = win ;
     Ti.UI.currentTab.open(playWin);

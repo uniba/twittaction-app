@@ -7,14 +7,14 @@ var win1=Titanium.UI.createWindow({
     //url: 'action/actionKikuchi.js',
     title:'action',
     backgroundColor:'#fff',
-    barColor:'black'
+    //barColor:'black'
 });
 
 var win2=Titanium.UI.createWindow({
     url: 'feed/feed.js',
     title:'feed',
     backgroundColor:'#fff',
-    barColor:'black'
+    //barColor:'black'
 });
 /*
 var win3 = Ti.UI.createWindow({
@@ -36,19 +36,19 @@ var win5=Titanium.UI.createWindow({
     url: 'setting/setting.js',
     title:'設定',
     backgroundColor:'#fff',
-    barColor:'black'
+    //barColor:'black'
 });
 
 var tab1 = Titanium.UI.createTab({
     window:win1,
     title:'action',
-    icon:'picture/action_over.png',
+    icon:'picture/action.png',
 }); 
 
 var tab2 = Titanium.UI.createTab({
     window:win2,
     title:'feed',
-    icon:'picture/feed_over.png',
+    icon:'picture/feed.png',
 }); 
 /*
 var tab3 = Titanium.UI.createTab({

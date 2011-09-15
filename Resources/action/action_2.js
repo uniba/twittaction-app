@@ -1,7 +1,8 @@
 var win = Ti.UI.currentWindow;
 var recStartWin = win.win;
 var playWin = Ti.UI.createWindow({title:'play',backgroundColor:'#fff',
-              barColor:'black'});
+              //barColor:'black'
+							});
               
 /*
 var UA_recWin = Titanium.UI.createWindow({  
@@ -21,8 +22,8 @@ var coverWin = Titanium.UI.createWindow({
 
 //create webview for actionWin(A1 image)
 var SaveWebView = Titanium.UI.createWebView({
-		//url: "http://twittaction.preview.dev.uniba.jp/test/actionHtml/action.html",
-        url: "actionHtml/action.html",
+		url: "http://twittaction.preview.dev.uniba.jp/test/actionHtml/action.html",
+        //url: "actionHtml/action.html",
         //touchEnabled:false
 });
 
@@ -51,7 +52,7 @@ SaveWebView.addEventListener('load', function(e){
     //alert(imageFileContents.text);
     //alert(imageFileJson);
     SaveWebView.evalJS('imageUrl("'+imageFileJson.profile_image_url_https+'")');
-    
+    //setTimeout(function(){SaveWebView.reload();},10000);
 
 });
 

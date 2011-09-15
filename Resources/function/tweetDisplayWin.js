@@ -1,5 +1,5 @@
 var win = Ti.UI.currentWindow;
-win.backgroundColor = 'black';
+//win.backgroundColor = 'black';
 
 //------------------------------------------------------------- 
 //              Infomation about  tweetDisplayWin(B3 image)
@@ -185,7 +185,7 @@ var windowTitle = Ti.UI.createLabel({
                     // 単純なURLのロード
                     var webWin = Titanium.UI.createWindow({
                         backgroundColor:'#fff',
-                        barColor:'black'
+                        //barColor:'black'
                     });
 
 

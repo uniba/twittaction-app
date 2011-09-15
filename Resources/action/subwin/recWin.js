@@ -6,7 +6,7 @@ var UA_recStartWin = Titanium.UI.createWindow({
     title:'Rec',
     backgroundColor:'#fff',
     _caller:win,
-    barColor:'black'
+   // barColor:'black'
 });
 
 //------------------------------------------------------------- 

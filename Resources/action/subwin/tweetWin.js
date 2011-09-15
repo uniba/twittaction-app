@@ -14,8 +14,8 @@ var nav = win.nav;
 var UA_sendButton = Titanium.UI.createButton({
 	title: "送信",
 	width:67,
-	height:32,
-    enabled:false
+	height:32//,
+    //enabled:false
 });
 
 
@@ -72,6 +72,7 @@ var UA_tweetComment = Titanium.UI.createTextArea({
     borderWidth:2,
     borderColor:'#bbb',
     borderRadius:5,
+		suppressReturn: false,
     value:' '+config.shortUrl+' #twitt_dev_action'
 
 });
@@ -117,7 +118,8 @@ var UA_countNumberLabel = Titanium.UI.createLabel({
 //not be used
 UA_tweetComment.addEventListener('change',function(e){
   if(e.value == "")
-  {UA_sendButton.enabled = false;
+  {
+	//UA_sendButton.enabled = false;
   UA_countNumberLabel.text = 140;
   }
   else

@@ -4,7 +4,7 @@ var UA_tweetWin = Titanium.UI.createWindow({
     url:'subwin/tweetWin.js',
     title:'Tweet',
     backgroundColor:'#fff',
-    barColor:'black'
+    //barColor:'black'
 });
 
 var UA_recWin = Titanium.UI.createWindow({  

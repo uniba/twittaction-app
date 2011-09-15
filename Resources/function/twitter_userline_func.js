@@ -166,7 +166,7 @@ function UA_display_twitter_homeline(queryUrl, params)
                     backButtonTitle: 'back',
                     backgroundColor: '#fff',
                     tabBarHidden: true,
-                    barColor:'black'
+                    //barColor:'black'
                     
                     
                 });
