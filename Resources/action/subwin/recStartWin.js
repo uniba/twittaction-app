@@ -27,34 +27,91 @@ var newFile = Titanium.Filesystem.getFile(newDir.nativePath, 'acce.json');
 var UA_myArrayX = new Array();
 var UA_myArrayY = new Array();
 var UA_myArrayZ = new Array();
+var UA_timestamp = new Array();
+var UA_trueHeading = new Array();
+//var tempHeading = [];// tempHeading[0] に参照値を入れる
+
+
 var UA_lastObject = new Object();
 
 var UA_tempDataX;
 var UA_tempDataY;
 var UA_tempDataZ;
+var UA_tempDatatimestamp;
+var trueHeading ;
 
 var UA_recordTime;
 
-var UA_acceScale = 50;
+var trueHeadingLabel = Titanium.UI.createLabel({
+		text:'trueHeading',
+		font:{fontSize:12},
+		color:'#111',
+		//bottom:0,
+		//left:10,
+		height:15,
+		width:300
+});
+win.rightNavButton = trueHeadingLabel;
 
+var UA_acceScale = 50;
+if((Titanium.Geolocation.locationServicesEnabled === false)||((Titanium.Platform.name != 'android') && (Titanium.Geolocation.locationServicesAuthorization==Titanium.Geolocation.AUTHORIZATION_RESTRICTED))){
 acceFunction = function(e){
     //x.text = 'x:' + e.x;
     UA_tempDataX = e.x;
-   
     //y.text = 'y:' + e.y;
     UA_tempDataY = e.y;
-   
     //z.text = 'z:' + e.z;
     UA_tempDataZ = e.z;
+		UA_tempDatatimestamp = e.timestamp;
     
     //at here, we need to save data into array with the format of json
     UA_myArrayX.push(UA_tempDataX);
     UA_myArrayY.push(UA_tempDataY);
     UA_myArrayZ.push(UA_tempDataZ);
-    
-    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+')');
+    UA_timestamp.push(UA_tempDatatimestamp);
+		UA_trueHeading.push('');
+
+    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
+};
+}else{
+
+Titanium.Geolocation.addEventListener("heading", function(e){
+	trueHeading = e.heading.trueHeading;
+	trueHeadingLabel.text = 'Heading:'+trueHeading ;
+});
+
+
+acceFunction = function(e){
+    //x.text = 'x:' + e.x;
+    UA_tempDataX = e.x;
+    //y.text = 'y:' + e.y;
+    UA_tempDataY = e.y;
+    //z.text = 'z:' + e.z;
+    UA_tempDataZ = e.z;
+		UA_tempDatatimestamp = e.timestamp;
+		/*
+		Ti.Geolocation.getCurrentHeading(function(ev){
+				trueHeading = ev.heading.trueHeading;
+				trueHeadingLabel.text = 'Heading:'+trueHeading ;
+		});
+		*/
+		
+    //at here, we need to save data into array with the format of json
+    UA_myArrayX.push(UA_tempDataX);
+    UA_myArrayY.push(UA_tempDataY);
+    UA_myArrayZ.push(UA_tempDataZ);
+    UA_timestamp.push(UA_tempDatatimestamp);
+		UA_trueHeading.push(trueHeading);
+		
+    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
 
 };
+}
+
+
+if((Titanium.Geolocation.locationServicesEnabled === false)||((Titanium.Platform.name != 'android') && (Titanium.Geolocation.locationServicesAuthorization==Titanium.Geolocation.AUTHORIZATION_RESTRICTED))){
+acceFunction = function(e){
+
 acceMoveFunction = function(e){
     //x.text = 'x:' + e.x;
     UA_tempDataX = e.x;
@@ -64,11 +121,29 @@ acceMoveFunction = function(e){
    
     //z.text = 'z:' + e.z;
     UA_tempDataZ = e.z;
-
-    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+')');
+		//trueHeading(); 
+    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
 
 };
+}else{
+Titanium.Geolocation.addEventListener("heading", function(e){
+	trueHeading = e.heading.trueHeading;
+	trueHeadingLabel.text = 'Heading:'+trueHeading ;
+});
 
+acceMoveFunction = function(e){
+    //x.text = 'x:' + e.x;
+    UA_tempDataX = e.x;
+   
+    //y.text = 'y:' + e.y;
+    UA_tempDataY = e.y;
+   
+    //z.text = 'z:' + e.z;
+    UA_tempDataZ = e.z;
+		UA_trueHeading.push(trueHeading);
+    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
+};
+}
 
 //add start button to count time
 var UA_startButton = Titanium.UI.createButton({
@@ -122,8 +197,6 @@ win.add(UA_webView);
 //Titanium.UI.currentWindow.setRightNavButton(UA_startButton);
 win.add(UA_startButton);
 
-
-
 function myWatch(flug)
 {   
     //alert('huga');
@@ -145,7 +218,7 @@ function myWatch(flug)
         if(flug==0){
             myButton = 0;
             clearInterval(myInterval);
-						
+
 						
             Titanium.Accelerometer.removeEventListener('update', acceFunction);
 						Titanium.Accelerometer.addEventListener('update', acceMoveFunction); 
@@ -191,10 +264,14 @@ function saveJson(win,newFile)
 {
     var win = win;
     var newFile = newFile;
+		
     UA_lastObject['RecTime'] = UA_recordTime;    
     UA_lastObject['X'] =  UA_myArrayX;
     UA_lastObject['Y'] =  UA_myArrayY;
     UA_lastObject['Z'] =  UA_myArrayZ;
+		UA_lastObject['timestamp'] = UA_timestamp;
+		UA_lastObject['trueHeading'] = UA_trueHeading;
+		
     var json = JSON.stringify(UA_lastObject);
     //alert(json);
 		//newFile.write('');
@@ -246,8 +323,7 @@ function saveJson(win,newFile)
            
      var postInfomationJson = JSON.stringify(postInfomation);
          postInfomationFile.write(postInfomationJson);
-    
-    win.close(); 
+    win.close();
 }
 
 //when click cancel button, we need to empty array 
@@ -256,9 +332,9 @@ function emptyJson()
     UA_myArrayX = [];
     UA_myArrayY = [];
     UA_myArrayZ = [];
+		UA_timestamp = [];
+		UA_trueHeading = [];
 }
-
-
 
 function playMove(win){
     var playWin = Titanium.UI.createWindow({  

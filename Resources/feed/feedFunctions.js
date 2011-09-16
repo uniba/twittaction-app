@@ -244,7 +244,7 @@ function tableViewClickEvient(e,tableView,followORall,UA_tableViewData){
             }else{
             
                 var webWin = Titanium.UI.createWindow({
-                    backgroundColor:'#fff',
+                    backgroundColor:'#fff'
                     //barColor:'black'
                 });
                 var webview = Ti.UI.createWebView({touchEnabled:false});
