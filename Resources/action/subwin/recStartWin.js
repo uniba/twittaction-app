@@ -16,7 +16,15 @@ var UA_webView = Titanium.UI.createWebView({
         zindex:1,
         touchEnabled:false
 });
-
+UA_webView.addEventListener('load', function(e){
+	 // ロード完了後に実行される
+	var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+	newDir.createDirectory();
+	var imageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
+	var imageFileContents = imageFile.read();
+	var imageFileJson = JSON.parse(imageFileContents.text);
+	SaveWebView.evalJS('changeIcon("'+imageFileJson.profile_image_url_https+'")');
+});
 //create directory 
 var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
 newDir.createDirectory();
@@ -29,6 +37,7 @@ var UA_myArrayY = new Array();
 var UA_myArrayZ = new Array();
 var UA_timestamp = new Array();
 var UA_trueHeading = new Array();
+var UA_timeFromStart = new Array();
 //var tempHeading = [];// tempHeading[0] に参照値を入れる
 
 
@@ -38,111 +47,94 @@ var UA_tempDataX;
 var UA_tempDataY;
 var UA_tempDataZ;
 var UA_tempDatatimestamp;
-var trueHeading ;
+var UA_tempDataTimeFromStart;
+
+var trueHeading;
 
 var UA_recordTime;
 
-var trueHeadingLabel = Titanium.UI.createLabel({
-		text:'trueHeading',
-		font:{fontSize:12},
-		color:'#111',
-		//bottom:0,
-		//left:10,
-		height:15,
-		width:300
-});
-win.rightNavButton = trueHeadingLabel;
-
 var UA_acceScale = 50;
+//add counter function
+var myButton = 0;
+var fixTime = 7000.000; //録画時間
+var timeFrequency = 50;
+
+
+
+// acceMoveFunctionは通常時（ボタンを押していないとき）の動き。
+// acceFunctionはボタンを押したときの動き。
 if((Titanium.Geolocation.locationServicesEnabled === false)||((Titanium.Platform.name != 'android') && (Titanium.Geolocation.locationServicesAuthorization==Titanium.Geolocation.AUTHORIZATION_RESTRICTED))){
-acceFunction = function(e){
-    //x.text = 'x:' + e.x;
-    UA_tempDataX = e.x;
-    //y.text = 'y:' + e.y;
-    UA_tempDataY = e.y;
-    //z.text = 'z:' + e.z;
-    UA_tempDataZ = e.z;
-		UA_tempDatatimestamp = e.timestamp;
-    
-    //at here, we need to save data into array with the format of json
-    UA_myArrayX.push(UA_tempDataX);
-    UA_myArrayY.push(UA_tempDataY);
-    UA_myArrayZ.push(UA_tempDataZ);
-    UA_timestamp.push(UA_tempDatatimestamp);
-		UA_trueHeading.push('');
 
-    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
-};
+	//方位磁石が使えない場合。trueHeadingは　''で送る
+	acceMoveFunction = function(e){
+			//x.text = 'x:' + e.x;
+			UA_tempDataX = e.x;
+			//y.text = 'y:' + e.y;
+			UA_tempDataY = e.y;
+			//z.text = 'z:' + e.z;
+			UA_tempDataZ = e.z;
+			trueHeading = -1;
+			UA_tempDatatimestamp = -1;
+			UA_tempDataTimeFromStart = -1;
+			//trueHeading(); 
+			UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +','+UA_tempDatatimestamp+','+UA_tempDataTimeFromStart+')');
+	};
+
+	acceFunction = function(e){
+			UA_tempDataX = e.x;
+			UA_tempDataY = e.y;
+			UA_tempDataZ = e.z;
+			trueHeading = '';
+			//UA_tempDatatimestamp = e.timestamp;
+			UA_tempDatatimestamp = S+"."+Ms;
+			UA_tempDatatimestamp = new Number(UA_tempDatatimestamp);
+			UA_tempDataTimeFromStart = 7.000 - UA_tempDatatimestamp;
+			//at here, we need to save data into array with the format of json
+			UA_myArrayX.push(UA_tempDataX);
+			UA_myArrayY.push(UA_tempDataY);
+			UA_myArrayZ.push(UA_tempDataZ);
+			UA_timestamp.push(UA_tempDatatimestamp);
+			UA_timeFromStart.push(UA_tempDataTimeFromStart);
+			UA_trueHeading.push(-1);
+			
+			UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +','+UA_tempDatatimestamp+''+UA_tempDataTimeFromStart+')');
+	};
 }else{
+	//方位磁石が使える場合。 trueHeadingを送る。
+	Titanium.Geolocation.addEventListener("heading", function(e){
+		trueHeading = e.heading.trueHeading;
+	});
 
-Titanium.Geolocation.addEventListener("heading", function(e){
-	trueHeading = e.heading.trueHeading;
-	trueHeadingLabel.text = 'Heading:'+trueHeading ;
-});
+	acceMoveFunction = function(e){
+			UA_tempDataX = e.x;
+			UA_tempDataY = e.y;
+			UA_tempDataZ = e.z;
+			//UA_trueHeading.push(trueHeading);
+			UA_tempDatatimestamp = -1;
+			UA_tempDataTimeFromStart = -1;
+			UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +','+UA_tempDatatimestamp+','+UA_tempDataTimeFromStart+')');
+	};
 
+	acceFunction = function(e){
+			UA_tempDataX = e.x;
+			UA_tempDataY = e.y;
+			UA_tempDataZ = e.z;
+			//UA_tempDatatimestamp = e.timestamp;
+			//at here, we need to save data into array with the format of json
+			UA_tempDatatimestamp = S+"."+Ms;
+			UA_tempDatatimestamp = new Number(UA_tempDatatimestamp);
+			
+			UA_tempDataTimeFromStart = 7.000 - UA_tempDatatimestamp;
+			
+			UA_myArrayX.push(UA_tempDataX);
+			UA_myArrayY.push(UA_tempDataY);
+			UA_myArrayZ.push(UA_tempDataZ);
+			UA_timestamp.push(UA_tempDatatimestamp);
+			UA_timeFromStart.push(UA_tempDataTimeFromStart);
+			UA_trueHeading.push(trueHeading);
 
-acceFunction = function(e){
-    //x.text = 'x:' + e.x;
-    UA_tempDataX = e.x;
-    //y.text = 'y:' + e.y;
-    UA_tempDataY = e.y;
-    //z.text = 'z:' + e.z;
-    UA_tempDataZ = e.z;
-		UA_tempDatatimestamp = e.timestamp;
-		/*
-		Ti.Geolocation.getCurrentHeading(function(ev){
-				trueHeading = ev.heading.trueHeading;
-				trueHeadingLabel.text = 'Heading:'+trueHeading ;
-		});
-		*/
-		
-    //at here, we need to save data into array with the format of json
-    UA_myArrayX.push(UA_tempDataX);
-    UA_myArrayY.push(UA_tempDataY);
-    UA_myArrayZ.push(UA_tempDataZ);
-    UA_timestamp.push(UA_tempDatatimestamp);
-		UA_trueHeading.push(trueHeading);
-		
-    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
-
-};
-}
-
-
-if((Titanium.Geolocation.locationServicesEnabled === false)||((Titanium.Platform.name != 'android') && (Titanium.Geolocation.locationServicesAuthorization==Titanium.Geolocation.AUTHORIZATION_RESTRICTED))){
-acceFunction = function(e){
-
-acceMoveFunction = function(e){
-    //x.text = 'x:' + e.x;
-    UA_tempDataX = e.x;
-   
-    //y.text = 'y:' + e.y;
-    UA_tempDataY = e.y;
-   
-    //z.text = 'z:' + e.z;
-    UA_tempDataZ = e.z;
-		//trueHeading(); 
-    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
-
-};
-}else{
-Titanium.Geolocation.addEventListener("heading", function(e){
-	trueHeading = e.heading.trueHeading;
-	trueHeadingLabel.text = 'Heading:'+trueHeading ;
-});
-
-acceMoveFunction = function(e){
-    //x.text = 'x:' + e.x;
-    UA_tempDataX = e.x;
-   
-    //y.text = 'y:' + e.y;
-    UA_tempDataY = e.y;
-   
-    //z.text = 'z:' + e.z;
-    UA_tempDataZ = e.z;
-		UA_trueHeading.push(trueHeading);
-    UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +')');
-};
+			UA_webView.evalJS('onAlert('+UA_tempDataX+','+UA_tempDataY+','+UA_tempDataZ+','+trueHeading +','+UA_tempDatatimestamp+','+UA_tempDataTimeFromStart+')');
+	};
 }
 
 //add start button to count time
@@ -169,24 +161,20 @@ var coverView = Titanium.UI.createView({
    height:35,
 	 bottom:20
 });
+
 UA_startButton.addEventListener('touchstart',function(e){
-//UA_startButton.backgroundColor='blue';
-win.add(coverView);
+	win.add(coverView);
 });
 UA_startButton.addEventListener('touchend',function(e){
-//UA_startButton.backgroundColor='red';
-win.remove(coverView);
+	win.remove(coverView);
 });
-//add counter function
-var myButton = 0;
-var fixTime = 7000.000;
-var timeFrequency = 1000;
-Titanium.Accelerometer.addEventListener('update', acceMoveFunction);
+
+
+Titanium.Accelerometer.addEventListener('update', acceMoveFunction); //通常時アイコンを動かす関数を呼び出している
 //add event detect for start button
 UA_startButton.addEventListener('click',function(e){
     // we need to add some program here
     //UA_startButton.title = 'stop';
-
     myWatch(0);
 
 });
@@ -196,6 +184,14 @@ UA_startButton.addEventListener('click',function(e){
 win.add(UA_webView);
 //Titanium.UI.currentWindow.setRightNavButton(UA_startButton);
 win.add(UA_startButton);
+/*
+var UA_labelInterval = Ti.UI.createLabel({
+    text:'7.000',  //default time is 10 seconds
+    width:'auto',
+    textAlign:"center",
+});
+win.rightNavButton = UA_labelInterval;
+*/
 
 function myWatch(flug)
 {   
@@ -212,25 +208,22 @@ function myWatch(flug)
 				Titanium.Accelerometer.removeEventListener('update', acceMoveFunction);
         Titanium.Accelerometer.addEventListener('update', acceFunction);
 				
-        myInterval = setInterval(function(){myWatch(1);}, timeFrequency);
+        myInterval = setInterval(function(){myWatch(1)}, timeFrequency);
 	}else{
         
         if(flug==0){
             myButton = 0;
             clearInterval(myInterval);
-
-						
             Titanium.Accelerometer.removeEventListener('update', acceFunction);
 						Titanium.Accelerometer.addEventListener('update', acceMoveFunction); 
-						
             //alertDialog.show();
-            
             UA_startButton.backgroundImage = '../pic/rec_start.png';
             UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
 						UA_startButton.backgroundSelectedColor = "red";
             saveJson(win,newFile);
             //playMove(win);
             //endWindow();
+						//UA_labelInterval.text = "7.000";
             endAlert(win);
             UA_webView.reload();
         }
@@ -247,15 +240,25 @@ function myWatch(flug)
 					 
            Titanium.Accelerometer.removeEventListener('update', acceFunction);
 					 Titanium.Accelerometer.addEventListener('update', acceMoveFunction);  
-					 
+
            //alert('hogehoge');
            timeDisplay=0;
            
            saveJson(win,newFile);
+					 //UA_labelInterval.text = "7.000";
            endAlert(win);
            //endWindow();
            //playMove(win);
         }
+				S = Math.floor(timeDisplay/1000);
+				Ms = timeDisplay%1000;
+				
+				if(String(Ms).length==2){
+						Ms='0'.concat(Ms);
+				}else if(String(Ms).length==1){
+						Ms='00'.concat(Ms);
+				}
+				//UA_labelInterval.text = S+"."+Ms;
     }
 }
 
@@ -270,6 +273,7 @@ function saveJson(win,newFile)
     UA_lastObject['Y'] =  UA_myArrayY;
     UA_lastObject['Z'] =  UA_myArrayZ;
 		UA_lastObject['timestamp'] = UA_timestamp;
+		UA_lastObject['timeFromStart'] = UA_timeFromStart;
 		UA_lastObject['trueHeading'] = UA_trueHeading;
 		
     var json = JSON.stringify(UA_lastObject);
@@ -334,6 +338,7 @@ function emptyJson()
     UA_myArrayZ = [];
 		UA_timestamp = [];
 		UA_trueHeading = [];
+		UA_timeFromStart = [];
 }
 
 function playMove(win){
@@ -369,7 +374,6 @@ function endWindow(){
         var endWin = Titanium.UI.createWindow({backgroundColor:'blue',opacity:0.7,width:270,height:120});
         var endLabel = Titanium.UI.createLabel({text:'録画終了',textAlign:'center',font:{fontSize:20},backgroundColor:'white',height:30,width:120});
         endWin.add(endLabel);
-        
         endWin.open();
        // endWin.close();
        setTimeout(function (){
@@ -387,7 +391,18 @@ function endAlert(win){
         // 選択されたボタンのindexも返る
         if(event.index == 0){
             // "OK"時の処理
-            playMove(win);
+						
+						S = "7";
+						Ms = "000";
+						//var hoge = S+"."+Ms;
+						/*
+						var num = hoge - 2.342;
+						UA_labelInterval.text = "7.000";
+						alert(num);
+						UA_labelInterval.text = "7.000";
+            */
+						
+						playMove(win);
         }
     });
     alertDialog.show();
