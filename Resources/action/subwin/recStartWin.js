@@ -1,5 +1,35 @@
 var win = Ti.UI.currentWindow;
 
+var button = Titanium.UI.createButton({
+    systemButton:Titanium.UI.iPhone.SystemButton.INFO_LIGHT
+});
+
+Titanium.UI.currentWindow.leftNavButton = button;
+
+button.addEventListener('click', function(e){
+		var infoWin = Titanium.UI.createWindow({  
+        //url:'html/webview2.html',
+        title:'information',
+				backgroundColor:'purple'
+    });
+		var closeButton = Ti.UI.createButton({
+			title:'Close'		
+		});
+		infoWin.leftNavButton = closeButton ;
+		closeButton.addEventListener('click', function(e){
+		infoWin.close();
+		
+		});
+		
+		
+		infoWin.open({
+			modal:true,
+			modalTransitionStyle: Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL
+		})
+});
+
+
+
 //var saveWebview = win.SaveWebView;
 
 //win.barColor = 'black';
@@ -219,6 +249,8 @@ function myWatch(flug)
             //alertDialog.show();
             UA_startButton.backgroundImage = '../pic/rec_start.png';
             UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
+						Titanium.Media.vibrate();
+						
 						UA_startButton.backgroundSelectedColor = "red";
             saveJson(win,newFile);
             //playMove(win);
@@ -235,6 +267,8 @@ function myWatch(flug)
            //UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
            UA_startButton.backgroundImage = '../pic/rec_start.png';
            UA_startButton.backgroundSelectedImage = '../pic/rec_start.png';
+					 Titanium.Media.vibrate();
+					 
            myButton=0;
            clearInterval(myInterval);
 					 
