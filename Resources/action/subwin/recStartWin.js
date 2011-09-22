@@ -272,9 +272,10 @@ function saveJson(win,newFile)
     UA_lastObject['X'] =  UA_myArrayX;
     UA_lastObject['Y'] =  UA_myArrayY;
     UA_lastObject['Z'] =  UA_myArrayZ;
+		UA_lastObject['trueHeading'] = UA_trueHeading;
 		UA_lastObject['timestamp'] = UA_timestamp;
 		UA_lastObject['timeFromStart'] = UA_timeFromStart;
-		UA_lastObject['trueHeading'] = UA_trueHeading;
+		
 		
     var json = JSON.stringify(UA_lastObject);
     //alert(json);
