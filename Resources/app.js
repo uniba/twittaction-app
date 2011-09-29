@@ -5,7 +5,7 @@ var tabGroup = Titanium.UI.createTabGroup();
 var win1=Titanium.UI.createWindow({
     url: 'action/subwin/recStartWin.js',
     //url: 'action/actionKikuchi.js',
-    title:'action',
+    title:'New Action !',
     backgroundColor:'#fff',
     //barColor:'black'
 });
@@ -76,4 +76,15 @@ tabGroup.addTab(tab1);
 //tabGroup.addTab(tab4); 
 tabGroup.addTab(tab5);
 tabGroup.setActiveTab(1);
+var tabs = tabGroup.tabs;
+/*
+tabs[1].addEventListener('focus', function(e){
+	win1.fireEvent('reloadWebView','');
+    // e.index
+    // e.tab
+    // e.previousIndex
+    // e.previousTab
+		//alert('hoge!');
+});
+*/
 tabGroup.open();

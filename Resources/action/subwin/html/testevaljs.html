@@ -1,109 +1,97 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-<style>
-body {
-background-color: black
-}
-</style>
-<script type="text/JavaScript" src="drawlib/jsDraw2D.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+	<title>Twittaction</title>
+	<link rel="stylesheet" href="css/basic.css"/>
+	<script src="js/jquery.1.6.js"></script>
+	<script src="js/jsdeferred.js"></script>
+	<script src="js/move.js"></script>
+	<script src="js/twittaction.js"></script>
 </head>
 <body>
-<script type="text/javascript">
-//Create jsGraphics object
-    var gr = new jsGraphics(document.getElementById("canvas"));
+<div id="wrapper">
+	<div id="stage">
+		<div id="progressbar"></div>
+		<div class="inner">
+			<div id="cube">
+				<div class="inner" id="cube-inner">
+					<div class="side-a"></div>
+					<div class="side-b"></div>
+					<div class="side-c"></div>
+					<div class="side-d"></div>
+					<div class="side-e"></div>
+					<div class="side-f"></div>
+					<div class="birdfoot"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>  
+<script>
 
-    //Create jsColor object
-    var col = new jsColor("green");
+var elemCube = document.getElementById("cube-inner"),
+	elemPbar = document.getElementById("progressbar");
+var thi = -1;
 
-    //Create jsPen object
-    var pen = new jsPen(col,1);
+function onAlert(paramX, paramY, paramZ, trueHeading, totalTime, currentTime)
+{
+	var x  = paramX,
+    	y  = paramY,
+    	z  = paramZ,
+    	th = trueHeading,
+    	tt = totalTime,
+   		ct = currentTime;
 
-    //Draw a Line between 2 points
-    //first we need write three line to display as time
-    var pt1 = new jsPoint(10,100);
-    var pt2 = new jsPoint(300,100);
-    var pt3 = new jsPoint(10,200);
-    var pt4 = new jsPoint(300,200);
-    var pt5 = new jsPoint(10,300);
-    var pt6 = new jsPoint(300,300);
-    var pt7 = new jsPoint(10,450);
-    var pt8 = new jsPoint(300,450);
-    gr.drawLine(pen,pt1,pt2);
-    gr.drawLine(pen,pt3,pt4);
-    gr.drawLine(pen,pt5,pt6);
-    gr.drawLine(pen,pt7,pt8);
+	if ((th != void 0) && (thi == -1)) {
+   		thi = th;
+   	}
+   	
+   	var xradtemp = ( Math.atan2(y,z) + Math.PI/2);
+   	var yradtemp = (-Math.atan2(z,x) - Math.PI/2);
+   	var zradtemp = (-Math.atan2(y,x) - Math.PI/2);
+	
+	var xrad = ( Math.atan2(y * Math.abs(Math.cos(xradtemp)), z * Math.abs(Math.sin(xradtemp))) + Math.PI/2);
+	var yrad = (-Math.atan2(z * Math.abs(Math.cos(yradtemp)), x * Math.abs(Math.sin(yradtemp))) - Math.PI/2);
+	var zrad = (-Math.atan2(y * Math.abs(Math.cos(zradtemp)), x * Math.abs(Math.sin(zradtemp))) - Math.PI/2);
+ 	
+    // Radian-Degree Convert
+    var xdeg = xrad * 180 / Math.PI;
+    var ydeg = yrad * 180 / Math.PI;
+    var zdeg = zrad * 180 / Math.PI;
     
-    //start to draw line
-    var startPoint= 10;
-    var intervalPoint =3;
-    var count;
-    var initPoint1 = new jsPoint(10,100);
-    var initPoint2 = new jsPoint(10,200);
-    var initPoint3 = new jsPoint(10,300);
-    var initPoint4 = new jsPoint(10,450);
-    var count = 0;
-    //var iID = setInterval(lineDraw, 50);
+    // Axis Correction
+    xdeg += 45;
+    zdeg += thi - th;
     
-    function onAlert(paramX, paramY, paramZ)
-    {
-    var paramXScale = Math.floor(paramX*50);
-    var paramYScale = Math.floor(paramY*50);
-    var paramZScale = Math.floor(paramZ*50);
-    var paramSumScale = Math.floor(Math.sqrt(paramX*paramX+paramY*paramY+paramZ*paramZ)*50);
-    pointXX = startPoint+count*intervalPoint;
-    pointXY = 100-paramXScale;
-    var pointX = new jsPoint(pointXX, pointXY); 
-    pointYY = 200-paramYScale;
-    var pointY = new jsPoint(pointXX, pointYY);
-    pointZY = 300 - paramZScale;
-    var pointZ = new jsPoint(pointXX, pointZY);
-    pointSumY = 450-paramSumScale;
-    var pointSum = new jsPoint(pointXX,pointSumY);
-    gr.drawLine(pen, initPoint1, pointX);
-    gr.drawLine(pen, initPoint2, pointY);
-    gr.drawLine(pen, initPoint3, pointZ);
-    gr.drawLine(pen,initPoint4, pointSum);
-    initPoint1 = pointX;
-    initPoint2 = pointY;
-    initPoint3 = pointZ;
-    initPoint4 = pointSum;
-    count++;
-    }
+    // Overwrite CSS - Cube
+	elemCube.style.webkitTransform = "rotateX(" + xdeg + "deg) " +
+									 "rotateY(" + ydeg + "deg) " + 
+									 "rotateZ(" + zdeg + "deg)";
+	
+	// Overwrite CSS - Progress Bar
+	if (tt == -1) {
+		elemPbar.style.backgroundColor = "#6ac1ae";
+	} else {
+		elemPbar.style.backgroundColor = "red";
+		//elemPbar.style.width = (100 - ((ct / tt) * 100)) + "%";
+		elemPbar.style.width = (100 - ((ct / 7) * 100)) + "%";
+	}
+}
 
-    function lineDraw(){
-        point1 = startPoint+count*intervalPoint;
-        point2 = 100-Math.floor(Math.random()*100);
-        var line1 = new jsPoint(point1, point2);
-        point3 = 300-Math.floor(Math.random()*100);
-        var line2 = new jsPoint(point1,point3);
-        point4 = 500-Math.floor(Math.random()*100);
-        var line3 = new jsPoint(point1,point4);
-    	gr.drawLine(pen, initPoint1, line1);
-    	gr.drawLine(pen, initPoint2, line2);
-    	gr.drawLine(pen, initPoint3, line3);
-    	initPoint1 = line1;
-    	initPoint2 = line2;
-    	initPoint3 = line3;
-    	count++;
-    	if(count==800)
-    	{
-    	 clearInterval(iID);
-    	}
-    }
-
+function imageUrl(url)
+{
+    var i = 'url("'+ url +'")'; 
+    $(".side-a").css("background-image",i);
+}
 
 /*
-function onAlert(param1,param2,param3){
-   document.getElementById('myValue1').innerHTML = param1;
-   document.getElementById('myValue2').innerHTML = param2;
-   document.getElementById('myValue3').innerHTML = param3;   
+function checkVar() 
+{
+	alert(zi);
 }
+setInterval("checkVar()",1000);
 */
-</script>
-<!--<b align="center">hello test for my application</b></br>
-<div align="center"><b >x:</b></div><div id='myValue1' align="center"></div>
-<div align="center"><b >y:</b></div><div id='myValue2' align="center"></div>
-<div align="center"><b >z:</b></div><div id='myValue3' align="center"></div>-->
-</body>
-</html>
 
+</script></body></html>

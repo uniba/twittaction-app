@@ -24,6 +24,7 @@ var loginCheck = new OAuthAdapter(
 );
 
 loginCheck.loadAccessToken('twitter');
+
 if(loginCheck.isAuthorized() == false) {
 	var textusername = Ti.UI.createTextField({
 			left: 100,
@@ -31,17 +32,17 @@ if(loginCheck.isAuthorized() == false) {
 			keyboardType:Titanium.UI.KEYBOARD_DEFAULT
 	});
 }else{
-var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
-var contents = twitterConfig.read();
-var contentsJson = JSON.parse(contents.text);
-var screen_name = contentsJson['screen_name']
-//alert(contentsJson['screen_name']);
+	var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
+	var contents = twitterConfig.read();
+	var contentsJson = JSON.parse(contents.text);
+	var screen_name = contentsJson['screen_name']
+	//alert(contentsJson['screen_name']);
 
 	var textusername = Ti.UI.createTextField({
-			left: 100,
-			width: 200,  
-			keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
-			value:screen_name
+				left: 100,
+				width: 200,  
+				keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
+				value:screen_name
 	});
 }
 
@@ -254,7 +255,16 @@ if(loginCheck.isAuthorized() == true) {
 /*------ログイン情報の削除　終   --------------------------*/
 
 function cleateLogoutButton(settingWin,screen_name){
-
+var title=screen_name+'でログインしています。';
+var loginScreenNameLabel=Titanium.UI.createLabel({
+	//title:,
+	width:300,
+	top:20,
+	left:15,
+	color:'#336699',
+	textAlign:'left'
+});
+loginScreenNameLabel.text=title;
 var logoutButton = Ti.UI.createButton({
     title: 'ログアウト',
     height:50,
@@ -283,9 +293,12 @@ logoutButton.addEventListener('click', function(e){
         textusername.blur();
         textpassword.blur();
 				settingWin.remove(logoutButton);
+				settingWin.remove(loginScreenNameLabel);
 				//settingWin.remove(loginUserLabel);
 });
+
 settingWin.add(logoutButton);
+settingWin.add(loginScreenNameLabel);
 //settingWin.add(loginUserLabel);
 }
 

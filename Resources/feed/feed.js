@@ -65,6 +65,12 @@ if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false ))
     win1.add(tableView);
     socialGraph(); // feedFunctions.js
     //alert(5);
+		if( reference[1] < 0 ){
+			reference[1] = 0 ;
+		}
+		if( reference[0] < 0 ){
+			reference[0] = 0 ;
+		}
     followData(reference[0],tableView);
 
 }

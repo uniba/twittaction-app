@@ -3,10 +3,6 @@
   padding: 0;
 }
 
-body {
-  background-image: url("../paper_uniba_rdd.png");
- }
-
 header h1 {
   padding: 10px 0;
   background-color: #000000;
@@ -26,14 +22,8 @@ header h1 {
   width: 100%;
   height: 100%;
   position: fixed;
-  -webkit-perspective: 1000px;
-  -webkit-perspective-origin: 50% 50%;
-}
-
-#progressbar {
-  width: 0%;
-  height: 5px;
-  background-color: #ddd;
+  -webkit-perspective: 10000px;
+  -webkit-perspective-origin: 50% -4000px;
 }
 
 #stage > .inner {
@@ -47,7 +37,7 @@ header h1 {
   position: relative;
   top: 50%;  
   -webkit-transform-style: preserve-3d;
-  /* -webkit-transform: rotateY(30deg); */
+  -webkit-transform: rotateY(30deg);
 }
 
 #cube > .inner {
@@ -64,44 +54,41 @@ header h1 {
   width: 100px;
   height: 100px;
   position: absolute;
+  background-image: url("../images/twitter_icon01.png");
   background-size: 100px 100px;
 }
 
 .side-a {
+  background-color: #F1BFFF;
   -webkit-transform: translateZ(50px);
 }
 
 .side-b {
   left: 50px;
-  background-image: url("../images/twittaction_bird_left.png");
-  -webkit-transform: rotateY(90deg);
+  background-color: #BFCFFF;
+  -webkit-transform: rotateY(-90deg);
 }
 
 .side-c {
-  background-image: url("../images/twittaction_bird_back.png");
+  background-color: #BFFFEF;
   -webkit-transform: rotateX(90deg);
   -webkit-transform: translateZ(-50px);
 }
 
 .side-d {
   left: -50px;
-  background-image: url("../images/twittaction_bird_right.png");
-  -webkit-transform: rotateY(-90deg);
+  background-color: #EFFFBF;
+  -webkit-transform: rotateY(90deg);
 }
 
 .side-e {
   top: -50px;
-  background-image: url("../images/twittaction_bird_over.png");
+  background-color: #FFBFBF;
   -webkit-transform: rotateX(90deg);
 }
 
 .side-f {
   top: 50px;
-  background-image: url("../images/twittaction_bird_under.png");
+  background-color: #F5D5FF;
   -webkit-transform: rotateX(90deg);
-}
-
-.birdfoot {
-  top: 90px;
-  background-image: url("../images/twittaction_bird_foot.png");
 }

@@ -73,7 +73,7 @@ var UA_tweetComment = Titanium.UI.createTextArea({
     borderColor:'#bbb',
     borderRadius:5,
 		suppressReturn: false,
-    value:' '+config.shortUrl+' #twitt_dev_action'
+    value:' '+config.shortUrl+' #twittaction'
 
 });
 //}else{

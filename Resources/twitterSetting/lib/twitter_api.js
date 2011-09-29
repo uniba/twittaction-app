@@ -521,6 +521,62 @@ var TwitterApi = function(params){
     // url は呼び出し側で対応
     //params.url = 'http://api.twitter.com/1/friends/ids.json?user_id='+;
     params.method = 'GET';
-    return self.callApi(params);
+    return self.friends_idsCallApi(params);
   };
+	
+	
+	  this.friends_idsCallApi = function(params){
+    if (!params){
+      Ti.API.error('twitter api params error. no params.');
+      return;
+    }
+    if (!params.url){
+      Ti.API.error('twitter api params error. no params.url.');
+      return;
+    };
+    // replace :var in url to params.var 
+    var match = params.url.match(/:[^\/\.]+/g);
+    if (match){
+      for(var i=0;i<match.length;i++){
+        var index = match[i].replace(':','');
+        if (params[index]){
+          params.url = params.url.replace( match[i],params[index] );
+          delete params[index];
+        };
+      };
+      Ti.API.debug('replaced');   
+      Ti.API.debug(params);
+    };
+
+    var parameters =[];
+    if (params.parameters){
+      for(var key in params.parameters){
+        parameters.push( [key, params.parameters[key]] );
+      };
+    };
+
+    var oAuthAdapter = this.oAuthAdapter;
+    oAuthAdapter.loadAccessToken('twitter');
+    var response = oAuthAdapter.send({
+      url:params.url,
+      parameters:parameters,
+      method:params.method,
+      //callback関数
+      onSuccess:function(response){
+       // response = JSON.parse(response);
+        if (params && params.onSuccess){
+          params.onSuccess(response);
+        }
+      },
+      onError:function(error){
+        if (params.onError){
+          params.onError(error);
+        }else{
+          Ti.API.error(error);
+        }
+      }
+    });
+  };
+
 };
+

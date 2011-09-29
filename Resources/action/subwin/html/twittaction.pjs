@@ -1,0 +1,80 @@
+/* @pjs preload="masason.jpeg"; */
+PImage icon;
+
+float xPosStd = 0;
+float yPosStd = 0;
+float rectSizeStd = 100;
+
+float xPos = xPosStd;
+float yPos = yPosStd;
+float rectSize = rectSizeStd;
+
+float xPosTarget = xPos;
+float yPosTarget = yPos;
+
+float xPosMaxOffset = 50;
+float yPosMaxOffset = 50;
+float rectSizeMaxOffset = 100;
+
+float rotation = 0;
+float rotationTarget = rotation;
+
+float paramXScaleOld;
+float paramYScaleOld;
+float paramZScaleOld;
+
+void setup()
+{
+  processingInitComplete();
+
+  icon = loadImage("masason.jpeg");
+  
+  size(300,400);
+  background(220);
+  smooth();
+  noFill();
+  frameRate(30);
+}
+
+void draw()
+{
+  rotation = rotation + (rotationTarget-rotation)/1.2;
+  xPos = xPos + (xPosTarget-xPos)/1.2;
+  yPos = yPos + (yPosTarget-yPos)/1.2;
+
+  background(220);
+  translate(150,200);
+  line(0, -200, 0, 200);
+  line(-150, 0, 150, 0);
+  rotate(rotation);
+
+  stroke(50);
+  strokeWeight(1);
+  //rectMode(CENTER);
+  //rect(xPos, yPos, rectSize, rectSize);
+  imageMode(CENTER);
+  image(icon, xPos, yPos);
+}
+
+void move(float paramXScale, float paramYScale, float paramZScale)
+{
+  rotationTarget = -atan2(paramYScale, paramXScale) - HALF_PI;
+  
+  if (abs(paramXScale) > 1.1) {
+  	xPosTarget = xPosStd + paramXScale * xPosMaxOffset;
+  } else {
+    xPosTarget = xPosStd;
+  }
+  
+  if (abs(paramYScale) > 1.1) {
+    yPosTarget = yPosStd + paramYScale * yPosMaxOffset;
+  } else {
+  	yPosTarget = yPosStd;
+  }
+  
+  paramXScaleOld = paramXScale;
+  paramYScaleOld = paramYScale;
+  paramZScaleOld = paramZScale;
+  
+  //rectSize = rectSizeStd - paramZScale * rectSizeMaxOffset;
+}

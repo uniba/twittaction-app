@@ -41,11 +41,22 @@ button.addEventListener('click', function(e){
 
 
 var UA_webView = Titanium.UI.createWebView({
-		//url: "html/testevaljs.html",
-        url: "http://twittaction.preview.dev.uniba.jp/test/rec/testevaljs.html",
+		url: "html/testevaljs.html",
+		//url: "http://twittaction.preview.dev.uniba.jp/test/rec/testevaljs.html",
         zindex:1,
-        touchEnabled:false
+        //touchEnabled:false
 });
+/*
+Titanium.UI.currentWindow.addEventListener('reloadWebView', function(e){
+    //alert(JSON.stringify(e));
+		UA_webView.reload();
+});
+*/
+win.addEventListener('focus', function(e){
+    UA_webView.reload();
+		//alert('focus');
+});
+
 UA_webView.addEventListener('load', function(e){
 	 // ロード完了後に実行される
 	var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
@@ -53,7 +64,8 @@ UA_webView.addEventListener('load', function(e){
 	var imageFile = Titanium.Filesystem.getFile(newDir.nativePath, 'profile_image_url_https.json');
 	var imageFileContents = imageFile.read();
 	var imageFileJson = JSON.parse(imageFileContents.text);
-	SaveWebView.evalJS('changeIcon("'+imageFileJson.profile_image_url_https+'")');
+	//alert(imageFileJson.profile_image_url_https);
+	UA_webView.evalJS('imageUrl("'+imageFileJson.profile_image_url_https+'")');
 });
 //create directory 
 var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
@@ -212,6 +224,14 @@ UA_startButton.addEventListener('click',function(e){
 //win.rightNavButton = recstartrightlabel;
 //win.add(UA_recCancelButton);
 win.add(UA_webView);
+
+
+var coverView2 = Titanium.UI.createView({
+
+});
+// coverView2は webViewをtouchEnabled:false とすると、imageが書き換わらないので、透明なviewでカバーする
+
+win.add(coverView2);
 //Titanium.UI.currentWindow.setRightNavButton(UA_startButton);
 win.add(UA_startButton);
 /*
@@ -379,7 +399,7 @@ function emptyJson()
 function playMove(win){
     var playWin = Titanium.UI.createWindow({  
         url:'../action_2.js',
-        title:'play',
+        title:'Replay',
         backgroundColor:'#fff',
         //barColor:'black'
     });
@@ -418,8 +438,8 @@ function endWindow(){
 
 function endAlert(win){
     var alertDialog = Titanium.UI.createAlertDialog({
-        title: '録画完了',
-        message: 'OKを押すと再生',
+        title: '完了',
+        message: 'アクションが記録されました！',
         buttonNames: ['OK'],
     });
     alertDialog.addEventListener('click',function(event){

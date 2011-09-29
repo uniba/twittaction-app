@@ -1,9 +1,9 @@
 var win = Ti.UI.currentWindow;
 var recStartWin = win.win;
-var playWin = Ti.UI.createWindow({title:'play',backgroundColor:'#fff',
+var playWin = Ti.UI.createWindow({title:'Replay',backgroundColor:'#fff',
               //barColor:'black'
 							});
-              
+
 /*
 var UA_recWin = Titanium.UI.createWindow({  
     url:'subwin/recStartWin.js',
@@ -22,8 +22,8 @@ var coverWin = Titanium.UI.createWindow({
 
 //create webview for actionWin(A1 image)
 var SaveWebView = Titanium.UI.createWebView({
-		url: "http://twittaction.preview.dev.uniba.jp/test/actionHtml/action.html",
-        //url: "actionHtml/action.html",
+		//url: "http://twittaction.preview.dev.uniba.jp/test/actionHtml/action.html",
+		url: "actionHtml/action.html",
         //touchEnabled:false
 });
 
@@ -60,7 +60,7 @@ SaveWebView.addEventListener('load', function(e){
 var tweetButton = Titanium.UI.createButton({
     //backgroundImage:'pic/rec01.png',
     //backgroundSelectedImage:'pic/rec01.png',
-    title:'投稿',
+    title:'ツイート',
 	//top:325,
 	//right: 35,
 	//width: 105,
