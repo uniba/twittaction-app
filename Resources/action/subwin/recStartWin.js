@@ -196,7 +196,9 @@ UA_startButton.addEventListener('click',function(e){
 //win.rightNavButton = recstartrightlabel;
 //win.add(UA_recCancelButton);
 win.add(UA_webView);
-
+var coverView2 = Titanium.UI.createView({
+});
+win.add(coverView2);
 
 
 var button = Titanium.UI.createButton({
@@ -204,9 +206,7 @@ var button = Titanium.UI.createButton({
 });
 
 Titanium.UI.currentWindow.leftNavButton = button;
-var coverView2 = Titanium.UI.createView({
-});
-//win.add(coverView2);
+
 // coverView2は webViewをtouchEnabled:false とすると、imageが書き換わらないので、透明なviewでカバーする
 button.addEventListener('click', function(e){
 	//	win.remove(coverView2);
