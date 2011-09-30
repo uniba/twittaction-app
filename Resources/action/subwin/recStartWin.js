@@ -1,33 +1,5 @@
 var win = Ti.UI.currentWindow;
 
-var button = Titanium.UI.createButton({
-    systemButton:Titanium.UI.iPhone.SystemButton.INFO_LIGHT
-});
-
-Titanium.UI.currentWindow.leftNavButton = button;
-
-button.addEventListener('click', function(e){
-		var infoWin = Titanium.UI.createWindow({  
-        //url:'html/webview2.html',
-        title:'information',
-				backgroundColor:'purple'
-    });
-		var closeButton = Ti.UI.createButton({
-			title:'Close'		
-		});
-		infoWin.leftNavButton = closeButton ;
-		closeButton.addEventListener('click', function(e){
-		infoWin.close();
-		
-		});
-		
-		
-		infoWin.open({
-			modal:true,
-			modalTransitionStyle: Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL
-		})
-});
-
 
 
 //var saveWebview = win.SaveWebView;
@@ -226,12 +198,66 @@ UA_startButton.addEventListener('click',function(e){
 win.add(UA_webView);
 
 
-var coverView2 = Titanium.UI.createView({
 
+var button = Titanium.UI.createButton({
+    systemButton:Titanium.UI.iPhone.SystemButton.INFO_LIGHT
 });
-// coverView2は webViewをtouchEnabled:false とすると、imageが書き換わらないので、透明なviewでカバーする
 
-win.add(coverView2);
+Titanium.UI.currentWindow.leftNavButton = button;
+var coverView2 = Titanium.UI.createView({
+});
+//win.add(coverView2);
+// coverView2は webViewをtouchEnabled:false とすると、imageが書き換わらないので、透明なviewでカバーする
+button.addEventListener('click', function(e){
+	//	win.remove(coverView2);
+		var infoWin = Titanium.UI.createWindow({  
+        //url:'html/webview2.html',
+        title:'information',
+			//backgroundColor:'purple'
+    });
+		var closeButton = Ti.UI.createButton({
+			title:'Close'		
+		});
+		
+		infoWin.leftNavButton = closeButton ;
+		closeButton.addEventListener('click', function(e){
+			infoWin.close();
+		//	win.add(coverView2);
+		});
+		var imageView = Titanium.UI.createImageView({
+			image:'../pic/twittaction_howtouse.png',
+			width:320,
+			height:800,
+			top:0
+		});
+var scrollView = Titanium.UI.createScrollView({
+	contentWidth:'auto',
+	contentHeight:'auto',
+	top:0,
+	showVerticalScrollIndicator:true,
+	showHorizontalScrollIndicator:true
+});
+
+
+var view = Ti.UI.createView({
+	backgroundColor:'#336699',
+	borderRadius:10,
+	width:300,
+	height:2000,
+	top:10
+});
+
+		scrollView.add(imageView);
+		infoWin.add(scrollView);
+		
+		infoWin.open({
+			modal:true,
+			modalTransitionStyle: Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL
+		})
+});
+
+
+
 //Titanium.UI.currentWindow.setRightNavButton(UA_startButton);
 win.add(UA_startButton);
 /*

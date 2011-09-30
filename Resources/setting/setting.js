@@ -35,7 +35,7 @@ if(loginCheck.isAuthorized() == false) {
 	var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
 	var contents = twitterConfig.read();
 	var contentsJson = JSON.parse(contents.text);
-	var screen_name = contentsJson['screen_name']
+	var screen_name = contentsJson['screen_name'];
 	//alert(contentsJson['screen_name']);
 
 	var textusername = Ti.UI.createTextField({
@@ -125,7 +125,7 @@ rightbutton.addEventListener('click',function()
     
     if (config.user_id){ 
        var user_id = config.user_id;
-			 cleateLogoutButton(settingWin,screen_name); // ログインに成功したら、ログアウトボタンを作成
+			 cleateLogoutButton(settingWin,config["screen_name"]); // ログインに成功したら、ログアウトボタンを作成
 			 
         //alert(user_id);
     }
@@ -255,7 +255,7 @@ if(loginCheck.isAuthorized() == true) {
 /*------ログイン情報の削除　終   --------------------------*/
 
 function cleateLogoutButton(settingWin,screen_name){
-var title=screen_name+'でログインしています。';
+var title = screen_name+'でログインしています。';
 var loginScreenNameLabel=Titanium.UI.createLabel({
 	//title:,
 	width:300,
@@ -287,7 +287,20 @@ logoutButton.addEventListener('click', function(e){
 
         var twitterApi = Ti.App.twitterApi;
         twitterApi.deleteAccessToken();
-        
+        var mydir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+				//var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');
+				//newDir.createDirectory();
+				var newFile = Titanium.Filesystem.getFile(mydir.nativePath,'acce.json');
+				newFile.deleteFile();
+				var newFile = Titanium.Filesystem.getFile(mydir.nativePath,'postInfomation.json');
+				newFile.deleteFile();
+				var newFile = Titanium.Filesystem.getFile(mydir.nativePath,'profile_image_url_https.json');
+				newFile.deleteFile();
+				var newFile = Titanium.Filesystem.getFile(mydir.nativePath,'shortUrl.json');
+				newFile.deleteFile();
+				mydir.deleteDirectory();
+				
+				
         textusername.value='';
         textpassword.value='';
         textusername.blur();

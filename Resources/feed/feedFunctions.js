@@ -1,7 +1,7 @@
 // twitter から取得だったのを twittactionのサーバーからデータを収録するようにした。
 var cleckReference = [];
 cleckReference[0] = 0 ;
-function twittactionAllUser(json,followORall,tableView){
+function twittactionAllUser(json,tableView){
 
     var win = Ti.UI.currentWindow;
     //win.backgroundColor = 'red';
@@ -168,13 +168,14 @@ function twittactionAllUser(json,followORall,tableView){
             // Add the tweet to the row
     row.add(newFeed);      
     UA_tableViewData.push(row);
-        
+		
 
 
     tableView.setData(UA_tableViewData,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.UP});
     //tableView.removeEventListener('click',tableViewClick);
     //tableViewClickEvient(tableView,followORall,UA_tableViewData);
-    var tableViewClick = function(e){ tableViewClickEvient(e,tableView,followORall,UA_tableViewData);};
+    var tableViewClick = function(e){ tableViewClickEvient(e,tableView,UA_tableViewData);};
+		//alert(followORall);
     tableView.addEventListener('click',tableViewClick);
     if(cleckReference[0]!=0){
         tableView.removeEventListener('click',tableViewClick);
@@ -187,12 +188,14 @@ function test(hoge){
     alert(hoge);
 }
 
-function tableViewClickEvient(e,tableView,followORall,UA_tableViewData){
-
+function tableViewClickEvient(e,tableView,UA_tableViewData){
+//alert("tableViewClickEvient:"+refarenceFollowOrAll[0]);
      //alert('クリック行'+e.index);
         if(e.index==0){
         //alert(11);
-            if(followORall=='follow'){
+				//alert(followORall);
+            if(refarenceFollowOrAll[0]=='follow'){
+						
                 reference[0] = reference[0] - 1 ;
                 if( reference[0] < 0 ){
                     reference[0] = 0 ;
@@ -200,6 +203,7 @@ function tableViewClickEvient(e,tableView,followORall,UA_tableViewData){
                 //alert(1);
                 followData(reference[0],tableView);
             }else{
+
                 reference[1] = reference[1] - 1 ;
                 if( reference[1] < 0 ){
                     reference[1] = 0 ;
@@ -208,7 +212,8 @@ function tableViewClickEvient(e,tableView,followORall,UA_tableViewData){
                 allTwittaction(reference[1],tableView);
             }
         }else if(e.index == UA_tableViewData.length -1 ){
-                if(followORall=='follow'){
+
+                if(refarenceFollowOrAll[0]=='follow'){
                     reference[0] = reference[0] + 1 ;
                     //alert(3);
                     followData(reference[0],tableView);
@@ -391,6 +396,7 @@ function socialGraph(){
     }
 }
 
+var refarenceFollowOrAll = [];
 
 
 function followData(page,tableView){
@@ -406,7 +412,8 @@ function followData(page,tableView){
             var allJson = JSON.parse(this.responseText);
               //alert(allJson[0].key);
               //alert(this.responseText);
-            twittactionAllUser(allJson,'follow',tableView);
+						refarenceFollowOrAll[0] = 'follow';
+            twittactionAllUser(allJson,tableView);
           }
         };
         
@@ -446,7 +453,8 @@ function allTwittaction(page,tableView){
         }else{
           var allJson = JSON.parse(this.responseText);
           //alert(allJson[0].key);
-          twittactionAllUser(allJson,'all',tableView);
+					refarenceFollowOrAll[0] = 'all';
+          twittactionAllUser(allJson,tableView);
          } 
         };
         xhr.open('POST','http://twittaction.com/all');
