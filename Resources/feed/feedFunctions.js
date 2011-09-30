@@ -179,6 +179,7 @@ function twittactionAllUser(json,tableView){
     tableView.addEventListener('click',tableViewClick);
     if(cleckReference[0]!=0){
         tableView.removeEventListener('click',tableViewClick);
+				// event をリムーブしないと、tableviewにクリックイベントがいっぱいになって、連続してしまう。
     }
     cleckReference[0] = cleckReference[0] + 1 ;
 
@@ -215,6 +216,9 @@ function tableViewClickEvient(e,tableView,UA_tableViewData){
 
                 if(refarenceFollowOrAll[0]=='follow'){
                     reference[0] = reference[0] + 1 ;
+										if( reference[1] < 0 ){
+                        reference[1] = 0 ;
+                    }
                     //alert(3);
                     followData(reference[0],tableView);
                 }else{
@@ -406,17 +410,22 @@ function followData(page,tableView){
         xhr.onload = function(){
           //alert(this.responseText);
           if(this.responseText=='[]'){
-            alert('これより古いデータはありません');
+            //alert('データがありません。\n投稿してみましょう！');
+						var dialog = Titanium.UI.createAlertDialog();
+						//dialog.setTitle('');
+						dialog.setMessage('データがありません。\n投稿してみましょう！'); 
+						dialog.show();
             reference[0] = reference[0] - 1 ;
-          }else{
-            var allJson = JSON.parse(this.responseText);
-              //alert(allJson[0].key);
-              //alert(this.responseText);
-						refarenceFollowOrAll[0] = 'follow';
-            twittactionAllUser(allJson,tableView);
+
           }
+					var allJson = JSON.parse(this.responseText);
+					//alert(allJson[0].key);
+					//alert(this.responseText);
+					refarenceFollowOrAll[0] = 'follow';
+					twittactionAllUser(allJson,tableView);
         };
         
+				
         var twitterConfig = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'twitter.config');
         if(twitterConfig.exists()){
             var  twitterConfigJson = JSON.parse(twitterConfig.read());

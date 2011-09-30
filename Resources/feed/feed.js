@@ -5,7 +5,7 @@ var win1 = Ti.UI.currentWindow;
 win1.backgroundImage = 'paper_uniba_rdd.png' ;
 var tabbar1 = Titanium.UI.createTabbedBar({
     labels: ['follow', 'all'],
-    index:0,
+    index:1,
 		//backgroundColor:'black'
 });
 win1.rightNavButton = tabbar1;
@@ -39,11 +39,23 @@ tabbar1.addEventListener('click', function(e){
             recommendLogin(win1); //feedFunctions.js 内にある関数
         }else{
         //alert(7);
-            followData(reference[0],tableView);
+					if( reference[1] < 0 ){
+						reference[1] = 0 ;
+					}
+					if( reference[0] < 0 ){
+						reference[0] = 0 ;
+					}
+					followData(reference[0],tableView);
         }
             
    }else if(e.index == 1){
     //alert(6);
+		if( reference[1] < 0 ){
+			reference[1] = 0 ;
+		}
+		if( reference[0] < 0 ){
+			reference[0] = 0 ;
+		}
     allTwittaction(reference[1],tableView);
 
    }
@@ -71,6 +83,7 @@ if((loginCheck.isAuthorized() == false) || ( Titanium.Network.online == false ))
 		if( reference[0] < 0 ){
 			reference[0] = 0 ;
 		}
-    followData(reference[0],tableView);
+    //followData(reference[0],tableView);
+		 allTwittaction(reference[1],tableView);
 
 }
